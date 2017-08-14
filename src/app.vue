@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <v-header/>
+    <!-- <v-header/> -->
     <loading v-model="isLoading" />
     <router-view/>
-    <v-foot/>
+     <!-- <v-foot/>  -->
   </div>
 </template>
 
@@ -89,8 +89,8 @@
       initWxShare() {
         this.$wechat.ready(() => {
           let option = {
-            title: '现金使用情况有奖调查', // 分享标题
-            desc: '现金使用情况有奖调查',
+            title: '成本月微信答题活动', // 分享标题
+            desc: '成本月微信答题活动',
             link: this.shareUrl,
             imgUrl: 'http://cbpm.sinaapp.com/cdn/logo/cbc.jpg',
             type: '',
@@ -197,65 +197,6 @@
 
 <style lang="less">
   @import '~vux/src/styles/reset.less';
-
-  body {
-    background-color: #f9f9f9;
-  }
-
-  .weui-cells__title {
-    color: #444!important;
-    font-size: 16px!important;
-    margin-top: 0!important;
-  }
-
-  .weui-cells_radio .weui-cell__hd {
-    padding-right: 0.35em;
-  }
-
-  [class^="weui-icon-"]:before,
-  [class*=" weui-icon-"]:before {
-    margin: 0!important;
-  }
-
-  .weui-cells_radio .weui-check:checked+.weui-icon-checked:before {
-    display: none!important;
-  }
-
-  .weui-cells_radio .weui-check:checked+.weui-icon-checked:after {
-    content: '\EA06';
-    color: #09BB07;
-    font-size: 23px;
-    display: block;
-  }
-
-  .weui-cells_radio .weui-icon-checked:before {
-    content: '\EA01';
-    color: #C9C9C9;
-    font-size: 23px;
-    display: block;
-  }
-
-  .weui-cells_radio .weui-check:checked+.weui-icon-checked:before {
-    content: '\EA06';
-    color: #09BB07;
-  }
-
-  .weui-cells_radio .weui-check:checked+.vux-checklist-icon-checked:before {
-    color: #09BB07;
-  }
-
-  .weui-cells_radio>label>* {
-    pointer-events: none;
-  }
-
-  footer {
-    font-size: 14px;
-    color: #999;
-    text-align: center;
-  }
-
-  .weui-media-box__thumb {
-    border-radius: 50% !important;
-  }
-
+  @import 'assets/css/reset.css';
+  @import 'assets/css/slider.less';
 </style>

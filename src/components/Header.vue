@@ -1,8 +1,8 @@
 <template>
   <div class="head">
-    <img class="logo" src="http://cbpm.sinaapp.com/cdn/201708/static/img/bg.jpg">
+    <img class="logo" src="/static/img/bg.jpg">
     <div class="title">
-      现金使用情况问卷调查
+      成本月微信答题活动
     </div>
   </div>
 </template>

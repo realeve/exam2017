@@ -8,22 +8,22 @@ export default new Router({
     routes: [{
         path: '/',
         component: function(resolve) {
-            require(['../components/Home.vue'], resolve)
+            require(['../pages/Home.vue'], resolve)
         }
     }, {
-        path: '/address',
+        path: '/paper',
         component: function(resolve) {
-            require(['../components/MyInfo.vue'], resolve)
+            require(['../pages/Paper.vue'], resolve)
         }
     }, {
-        path: '/lucker',
+        path: '/info',
         component: function(resolve) {
-            require(['../components/LuckyList.vue'], resolve)
+            require(['../pages/Info.vue'], resolve)
         }
     }, {
         path: '/setting',
         component: function(resolve) {
-            require(['../components/Setting.vue'], resolve)
+            require(['../pages/Setting.vue'], resolve)
         }
     }]
 })
