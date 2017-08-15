@@ -11,6 +11,11 @@ export default new Router({
             require(['../pages/Home.vue'], resolve)
         }
     }, {
+        path: '/doc',
+        component: function(resolve) {
+            require(['../pages/Doc.vue'], resolve)
+        }
+    }, {
         path: '/paper',
         component: function(resolve) {
             require(['../pages/Paper.vue'], resolve)

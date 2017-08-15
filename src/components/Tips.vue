@@ -11,7 +11,7 @@
 export default {
   computed: {
     playAudio() {
-      return process.env.NODE_ENV !== 'mobile';
+      return false ;//process.env.NODE_ENV !== 'mobile';
     },
     tips: {
       get() {

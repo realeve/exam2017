@@ -3,9 +3,9 @@
     <div ref='fp'>
       <div class="section content" v-for="(question,i) of questionList" :key="question.title">
         <checklist v-if="question.multiply" label-position="left" :title="`${i+1}.${question.title}`" required :options="question.option"
-          v-model="answerList[i]" @on-change="change"></checklist>
+          v-model="answerList[i]"></checklist>
         <group v-else :title="`${i+1}.${question.title}`">
-          <radio :options="question.option" v-model="answerList[i]" @on-change="change"></radio>
+          <radio :options="question.option" v-model="answerList[i]"></radio>
         </group>
         <div class="submit" v-if="i == questionList.length-1">
           <x-button :disabled="!isCompleted" type="primary" @click.native="submit">提交</x-button>
@@ -32,9 +32,14 @@
     dateFormat
   } from 'vux'
 
+  import {
+    mapState
+  } from 'vuex'
+
   import questionList from '../assets/data/question.json';
 
   import Tips from '../components/Tips.vue';
+  import util from '../lib/common';
 
   export default {
     name: 'page',
@@ -52,12 +57,15 @@
           show: false,
           msg: ''
         },
-        questionList,
         answerList: [],
         isCompleted: false
       }
     },
     computed: {
+      ...mapState(['userInfo', 'cdnUrl']),
+      url() {
+        return window.location.href.split('#')[0];
+      },
       el() {
         return $(this.$refs.fp);
       },
@@ -69,6 +77,33 @@
           this.$store.commit('setTips', val);
         }
       },
+      questionList() {
+        let questions = util.randomArr(questionList);
+        questions = util.randomAnswer(questions);
+        
+        return questions.map(item => {
+          let option = item.option.map((value, key) => {
+            return {
+              key,
+              value
+            }
+          });
+          Object.assign(item, {
+            option
+          });
+          return item;
+        })
+      },
+      subScore() {
+        let score = 0;
+        this.answerList.forEach((item, i) => {
+          let rightAnswer = this.questionList[i];
+          if (item == rightAnswer.answer) {
+            score += rightAnswer.score;
+          }
+        });
+        return score;
+      }
     },
     watch: {
       answerList(val) {
@@ -80,14 +115,11 @@
         let flag = true;
         for (let i = 0; flag && i < this.answerList.length; i++) {
           let item = this.answerList[i];
-          if (item == '') {
+          if (item == -1) {
             flag = false;
           }
         }
         this.isCompleted = flag;
-      },
-      change() {
-        console.log(this.answerList);
       },
       getSubmitData() {
         return {
@@ -99,7 +131,7 @@
           country: this.userInfo.country,
           headimgurl: this.userInfo.headimgurl,
           rec_time: dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-          answer: this.answerList
+          score: this.subScore
         };
       },
       setCurIdx(slideIdx) {
@@ -107,10 +139,9 @@
         this.tips = slideNum > 1 ? `${slideIdx}/${slideNum}` : '';
       },
       submit() {
-        this.$router.push('info');
-        return;
         let params = this.getSubmitData();
-
+        console.log(params);
+        return;
         params.s = '/addon/Api/Api/setResearch';
 
         this.$http.jsonp(this.cdnUrl, {
@@ -137,11 +168,14 @@
         };
 
         this.el.fullpage(params);
+      },
+      prepareData() {
+        document.title = '成本月微信答题活动';
+        this.answerList = this.questionList.map(item => item.multiply ? [] : -1);
       }
     },
     mounted() {
-      document.title = '成本月微信答题活动';
-      this.answerList = this.questionList.map(item => item.multiply ? [] : '');
+      this.prepareData();
       this.init();
     }
   }
