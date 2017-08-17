@@ -10,6 +10,12 @@ let mutations = {
     setTips(state,val){
         state.tips = val;
     },
+    setSport(state,val){
+        Object.assign(state.sport,val);
+    },
+    setPaperInit(state,val){
+        state.paperInit = val;
+    }
 }
 
 export default mutations

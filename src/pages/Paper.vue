@@ -58,11 +58,22 @@
           msg: ''
         },
         answerList: [],
-        isCompleted: false
+        isCompleted: false,
+        startTime: dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+        errorQuestion: [],
+        srcArrOrder: []
       }
     },
     computed: {
       ...mapState(['userInfo', 'cdnUrl']),
+      sport: {
+        get() {
+          return this.$store.state.sport;
+        },
+        set(val) {
+          this.$store.commit('setSport', val);
+        }
+      },
       url() {
         return window.location.href.split('#')[0];
       },
@@ -77,10 +88,21 @@
           this.$store.commit('setTips', val);
         }
       },
+      paperInit: {
+        get() {
+          return this.$store.state.paperInit;
+        },
+        set(val) {
+          this.$store.commit('setPaperInit', val);
+        }
+      },
       questionList() {
         let questions = util.randomArr(questionList);
         questions = util.randomAnswer(questions);
-        
+
+        if (typeof questions[0].option[0] != 'string') {
+          return questions;
+        }
         return questions.map(item => {
           let option = item.option.map((value, key) => {
             return {
@@ -96,10 +118,13 @@
       },
       subScore() {
         let score = 0;
+        this.errorQuestion = [];
         this.answerList.forEach((item, i) => {
           let rightAnswer = this.questionList[i];
           if (item == rightAnswer.answer) {
             score += rightAnswer.score;
+          } else {
+            this.errorQuestion.push(this.questionList[i].questionId);
           }
         });
         return score;
@@ -123,15 +148,21 @@
       },
       getSubmitData() {
         return {
-          nickname: this.userInfo.nickname,
-          openid: this.userInfo.openid,
-          sex: this.userInfo.sex,
-          city: this.userInfo.city,
-          province: this.userInfo.province,
-          country: this.userInfo.country,
-          headimgurl: this.userInfo.headimgurl,
+          // nickname: this.userInfo.nickname,
+          // openid: this.userInfo.openid,
+          // sex: this.userInfo.sex,
+          // city: this.userInfo.city,
+          // province: this.userInfo.province,
+          // country: this.userInfo.country,
+          // headimgurl: this.userInfo.headimgurl,
           rec_time: dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-          score: this.subScore
+          score: this.subScore,
+          errors: this.errorQuestion.join(','),
+          sportid: this.sport.id,
+          start_time: this.startTime,
+          uid: this.sport.uid,
+          iTimes: this.sport.curTimes,
+          oldScore: this.sport.curScore
         };
       },
       setCurIdx(slideIdx) {
@@ -141,21 +172,27 @@
       submit() {
         let params = this.getSubmitData();
         console.log(params);
-        return;
-        params.s = '/addon/Api/Api/setResearch';
+        params.s = '/addon/GoodVoice/GoodVoice/setSafeExamData';
 
         this.$http.jsonp(this.cdnUrl, {
           params
         }).then(res => {
           this.toast.show = true;
           this.toast.msg = res.data.msg;
-          if (res.data.id > 0) {
+          console.log(res.data);
+          if (res.data.status > 0) {
             // 感谢参与
+            this.sport.curTimes++;
+            this.sport.curScore = Math.max(this.sport.curScore, params.score);
             this.$router.push('info');
           }
         });
       },
       init() {
+        if (this.paperInit) {
+          // 如果载入过，需要删除重载
+          $.fn.fullpage.destroy('all');
+        }
         let params = {
           verticalCentered: true,
           css3: true,
@@ -168,6 +205,8 @@
         };
 
         this.el.fullpage(params);
+
+        this.paperInit = true;
       },
       prepareData() {
         document.title = '成本月微信答题活动';
@@ -175,8 +214,16 @@
       }
     },
     mounted() {
-      this.prepareData();
-      this.init();
+      if (!this.sport.isLogin) {
+        this.$router.push('/');
+      } else {
+        // 如果答题次数超标，跳转至信息(防止按返回键继续答题)
+        if (this.sport.curTimes > this.sport.maxTimes) {
+          this.$router.push('info');
+        }
+        this.prepareData();
+        this.init();
+      }
     }
   }
 

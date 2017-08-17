@@ -204,6 +204,7 @@
     },
     mounted() {
       this.animateCanvas();
+      document.title = '知识学习';
     }
   }
 

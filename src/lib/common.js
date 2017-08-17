@@ -14,7 +14,8 @@ function getRandomArr (len) {
 function randomArr (arr) {
   let rdmArr = getRandomArr(arr.length)
   let newArr = []
-  rdmArr.forEach(item => {
+  rdmArr.forEach((item,i) => {
+    arr[item].questionId = rdmArr[i];
     newArr.push(arr[item])
   })
   return newArr

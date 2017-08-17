@@ -30,5 +30,10 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/Setting.vue'], resolve)
         }
+    }, {
+        path: '/login',
+        component: function(resolve) {
+            require(['../pages/Login.vue'], resolve)
+        }
     }]
 })

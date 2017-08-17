@@ -3,7 +3,7 @@
     <!-- <v-header/> -->
     <loading v-model="isLoading" />
     <router-view/>
-     <!-- <v-foot/>  -->
+    <!-- <v-foot/>  -->
   </div>
 </template>
 
@@ -28,10 +28,12 @@
       return {
         code: '',
         apiId: 'wx762c9153df774440',
+        title: '成本月微信答题活动',
+        shouldShare: false
       }
     },
     computed: {
-      ...mapState(['cdnUrl']),
+      ...mapState(['cdnUrl', 'sport']),
       isLoading: {
         get() {
           return this.$store.state.isLoading
@@ -59,6 +61,18 @@
       shareUrl() {
         // 被分享的链接必须在安全域名中，不能直接分享为 redirectUrl
         return window.location.href.split('#')[0].split('?')[0];
+      },
+      shouldInitShare() {
+        return (this.sport.isLogin && this.sport.curScore >= this.sport.minPrizeScore && this.shouldShare)
+      }
+    },
+    watch: {
+      shouldInitShare(val) {
+        if (!val) {
+          return;
+        }
+        this.title = `[${this.sport.uid}].我在${this.sport.name}微信答题活动中获得了${this.sport.curScore}分，你也来参与吧`;
+        this.initWxShare();
       }
     },
     methods: {
@@ -89,8 +103,8 @@
       initWxShare() {
         this.$wechat.ready(() => {
           let option = {
-            title: '成本月微信答题活动', // 分享标题
-            desc: '成本月微信答题活动',
+            title: this.title, // 分享标题
+            desc: this.title,
             link: this.shareUrl,
             imgUrl: 'http://cbpm.sinaapp.com/cdn/logo/cbc.jpg',
             type: '',
@@ -139,12 +153,13 @@
         });
       },
       wxInit() {
-        if (!this.needRedirect()) {
+        if (this.sport.loadWXInfo && !this.needRedirect()) {
           this.getWXUserInfo();
         }
         this.wxPermissionInit().then(res => {
+          this.shouldShare = true;
           this.wxReady(res);
-          this.initWxShare();
+          // this.initWxShare();
           this.recordReadNum();
         })
       },
@@ -199,4 +214,5 @@
   @import '~vux/src/styles/reset.less';
   @import 'assets/css/reset.css';
   @import 'assets/css/slider.less';
+
 </style>
