@@ -17,7 +17,7 @@ const state = {
     maxTimes: 2,
     curTimes: 0,
     // 最小抽奖得分
-    minPrizeScore: 20,
+    minPrizeScore: 80,
     loadWXInfo:false
   },
   paperInit: false
