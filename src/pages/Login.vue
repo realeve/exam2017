@@ -5,7 +5,7 @@
       <x-input title="卡号" required type="number" :max="7" name="cardNo" v-model="sport.cardNo" keyboard="number"></x-input>
       <x-input title="部门" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
       <picker :data='dptList' v-model='sport.dpt'></picker>
-      <div class="btn margin-top-60">
+      <div class="btn">
         <x-button :disabled="!shouldCommit" type="primary" @click.native="submit">登录</x-button>
       </div>
     </group>
@@ -141,7 +141,8 @@
   }
 
   .btn {
-    width: 90%;
+    width: 80%;
+    margin: 60px auto;
   }
 
 </style>

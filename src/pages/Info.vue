@@ -2,7 +2,7 @@
   <div class="home">
     <div class="content">
       <msg :title="'感谢参与调查'" :description="desc" :icon="icon"></msg>
-      <x-button class="wrapper" @click.native="jump('doc')">知识学习</x-button>
+      <!-- <x-button class="wrapper" @click.native="jump('doc')">知识学习</x-button> -->
     </div>
   </div>
 </template>
@@ -24,13 +24,15 @@
     },
     data() {
       return {
-        desc: '感谢您对本次活动的大力支持,活动目前已有0人完成集赞。',
         icon: 'success',
         completeNum: 0
       }
     },
     computed: {
-      ...mapState(['cdnUrl', 'sport'])
+      ...mapState(['cdnUrl', 'sport']),
+      desc(){
+        return `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分,活动目前已有${this.completeNum}人完成集赞。`;
+      }
     },
     methods: {
       jump(router) {
@@ -46,7 +48,7 @@
           params
         }).then(res => {
           let obj = res.data[0];
-          this.desc = `感谢您对本次活动的大力支持,活动目前已有${obj.nums}人完成集赞。`
+          this.completeNum = obj.nums;
         });
       },
     },

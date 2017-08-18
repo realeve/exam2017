@@ -103,11 +103,12 @@
         if (typeof questions[0].option[0] != 'string') {
           return questions;
         }
+        var alphaArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
         return questions.map(item => {
           let option = item.option.map((value, key) => {
             return {
               key,
-              value
+              value: alphaArr[key] + '.' + value
             }
           });
           Object.assign(item, {
@@ -179,7 +180,7 @@
         }).then(res => {
           this.toast.show = true;
           this.toast.msg = res.data.msg;
-          console.log(res.data);
+
           if (res.data.status > 0) {
             // 感谢参与
             this.sport.curTimes++;

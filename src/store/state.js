@@ -13,7 +13,7 @@ const state = {
     cardNo: '',
     dpt: ['技术质量部'],
     isLogin: false,
-    curScore: 0,
+    curScore: 0, // 上次答题得分
     maxTimes: 2,
     curTimes: 0,
     // 最小抽奖得分

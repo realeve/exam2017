@@ -187,6 +187,8 @@
             this.toast.show = true;
             this.toast.msg = '答题次数用完';
             this.haveAnswerTimes = false;
+            this.sport.uid = obj.id;
+            this.sport.curScore = obj.score;
             this.jump('info');
           } else {
             // 登录成功
