@@ -63,7 +63,7 @@
         return window.location.href.split('#')[0].split('?')[0];
       },
       shouldInitShare() {
-        return (this.sport.isLogin && this.sport.curScore >= this.sport.minPrizeScore && this.shouldShare)
+        return (this.sport.isLogin && this.shouldShare)
       }
     },
     watch: {

@@ -24,7 +24,7 @@
     },
     data() {
       return {
-        desc: '感谢您对本次活动的大力支持,活动目前已有0人完成集赞。',
+        desc: '感谢您对本次活动的大力支持。',
         icon: 'success',
         completeNum: 0
       }
@@ -36,22 +36,22 @@
       jump(router) {
         this.$router.push(router);
       },
-      loadShareNum() {
-        // 获取分享人数 shareNum
-        let params = {
-          s: '/addon/Api/Api/getSportSetting',
-          sid: this.sport.id
-        }
-        this.$http.jsonp(this.cdnUrl, {
-          params
-        }).then(res => {
-          let obj = res.data[0];
-          this.desc = `感谢您对本次活动的大力支持,活动目前已有${obj.nums}人完成集赞。`
-        });
-      },
+      // loadShareNum() {
+      //   // 获取分享人数 shareNum
+      //   let params = {
+      //     s: '/addon/Api/Api/getSportSetting',
+      //     sid: this.sport.id
+      //   }
+      //   this.$http.jsonp(this.cdnUrl, {
+      //     params
+      //   }).then(res => {
+      //     let obj = res.data[0];
+      //     this.desc = `感谢您对本次活动的大力支持,活动目前已有${obj.nums}人完成集赞。`
+      //   });
+      // },
     },
     mounted() {
-      this.loadShareNum();
+      // this.loadShareNum();
       document.title = '感谢参与';
     }
   }
