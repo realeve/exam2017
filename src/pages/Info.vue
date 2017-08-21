@@ -31,29 +31,29 @@
     computed: {
       ...mapState(['cdnUrl', 'sport']),
       desc(){
-        return `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分,活动目前已有${this.completeNum}人完成集赞。`;
+        return `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分。`;
       }
     },
     methods: {
       jump(router) {
         this.$router.push(router);
       },
-      loadShareNum() {
-        // 获取分享人数 shareNum
-        let params = {
-          s: '/addon/Api/Api/getSportSetting',
-          sid: this.sport.id
-        }
-        this.$http.jsonp(this.cdnUrl, {
-          params
-        }).then(res => {
-          let obj = res.data[0];
-          this.completeNum = obj.nums;
-        });
-      },
+      // loadShareNum() {
+      //   // 获取分享人数 shareNum
+      //   let params = {
+      //     s: '/addon/Api/Api/getSportSetting',
+      //     sid: this.sport.id
+      //   }
+      //   this.$http.jsonp(this.cdnUrl, {
+      //     params
+      //   }).then(res => {
+      //     let obj = res.data[0];
+      //     this.completeNum = obj.nums;
+      //   });
+      // },
     },
     mounted() {
-      this.loadShareNum();
+      // this.loadShareNum();
       document.title = '感谢参与';
     }
   }

@@ -71,7 +71,7 @@
         if (!val) {
           return;
         }
-        this.title = `[${this.sport.uid}].我在${this.sport.name}微信答题活动中获得了${this.sport.curScore}分，你也来参与吧`;
+        this.title = `我在2017年${this.sport.name}微信答题活动中获得了${this.sport.curScore}分，你也来参与吧`;
         this.initWxShare();
       }
     },
