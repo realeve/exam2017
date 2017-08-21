@@ -12,7 +12,7 @@
         <x-button @click.native="jump('doc')">{{sport.name}}知识学习</x-button>
         <template v-if="haveAnswerTimes">
           <x-button @click.native="jump('login')">登录</x-button>
-         <x-button type="primary" @click.native="jump('paper')">开始答题</x-button>
+          <x-button type="primary" @click.native="jump('paper')">开始答题</x-button>
         </template>
       </div>
       <div v-else class="btn-wrapper margin-top-60">
@@ -47,7 +47,7 @@
           msg: ''
         },
         showLoginfo: false,
-        haveAnswerTimes:true
+        haveAnswerTimes: true
       }
     },
     computed: {
@@ -183,18 +183,16 @@
             return;
           }
 
+          this.sport.uid = obj.id;
+          this.sport.curScore = obj.score;
           if (parseInt(obj.answer_times) > this.sport.maxTimes) {
             this.toast.show = true;
             this.toast.msg = '答题次数用完';
             this.haveAnswerTimes = false;
-            this.sport.uid = obj.id;
-            this.sport.curScore = obj.score;
             this.jump('info');
           } else {
             // 登录成功
             this.sport.isLogin = true;
-            this.sport.uid = obj.id;
-            this.sport.curScore = obj.score;
             this.sport.curTimes = parseInt(obj.answer_times) + 1;
             this.showLoginfo = true;
           }

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="content">
-      <msg :title="'感谢参与调查'" :description="desc" :icon="icon"></msg>
+      <msg :title="'感谢参与'" :description="desc" :icon="icon"></msg>
       <!-- <x-button class="wrapper" @click.native="jump('doc')">知识学习</x-button> -->
     </div>
   </div>

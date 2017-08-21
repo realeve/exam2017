@@ -63,7 +63,8 @@
         return window.location.href.split('#')[0].split('?')[0];
       },
       shouldInitShare() {
-        return (this.sport.isLogin && this.sport.curScore >= this.sport.minPrizeScore && this.shouldShare)
+        // && this.sport.curScore >= this.sport.minPrizeScore 
+        return (this.sport.isLogin && this.shouldShare)
       }
     },
     watch: {
@@ -93,9 +94,8 @@
           nonceStr: obj.nonceStr,
           signature: obj.signature,
           jsApiList: [
-            'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo',
-            'onMenuShareQZone', 'hideMenuItems'
-
+            'onMenuShareAppMessage', 'onMenuShareTimeline', 'hideMenuItems'
+            // 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 
           ]
         };
         this.$wechat.config(config);
