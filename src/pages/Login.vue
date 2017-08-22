@@ -110,7 +110,7 @@
             this.sport.uid = obj.id;
             this.sport.curScore = obj.score;
             localStorage.setItem('userInfo', userInfo);
-            this.jump('paper');
+            this.jump('doc');
           }
         });
       }
