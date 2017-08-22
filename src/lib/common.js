@@ -42,7 +42,7 @@ function randomAnswer (questions) {
       // 重新排序后的新答案
       rdmArr.forEach((item,i)=>{
         if(item == answer){
-          newAnswer = i;
+          newAnswer.push(i);
         }
       });
     }
