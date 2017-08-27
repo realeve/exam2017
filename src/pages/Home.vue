@@ -2,14 +2,14 @@
   <div class="wrapper">
     <p class="slogan">创新成本管理，实现转型升级</p>
     <div class="content">
-      <p class="title">中钞长城贵金属有限公司<br>{{year}}年{{sport.name}}活动</p>
+      <p class="title">成都印钞有限公司<br>{{year}}年{{sport.name}}活动</p>
       <div class="margin-top-20">
-        活动时间：{{year}}年8月28日至9月10日 
+        活动时间：{{year}}年8月22日至31日 
       </div>
       <div v-if="showLoginfo" class="btn-wrapper margin-top-60">
         <p>{{sport.userName}}您好,欢迎参加本次活动，若不是本人请点击按钮重新登录。
         </p>
-        <!-- <x-button @click.native="jump('doc')">{{sport.name}}知识学习</x-button> -->
+        <x-button @click.native="jump('doc')">{{sport.name}}知识学习</x-button>
         <template v-if="haveAnswerTimes">
           <x-button @click.native="jump('login')">登录</x-button>
           <x-button type="primary" @click.native="jump('paper')">开始答题</x-button>
@@ -165,7 +165,7 @@
           user_id: this.sport.cardNo,
           user_dpt: this.sport.dpt[0],
           sportid: this.sport.id,
-          s: '/addon/GoodVoice/GoodVoice/examGWLogin'
+          s: '/addon/GoodVoice/GoodVoice/examSafeLogin'
         }
         if (this.sport.userName == '' || this.sport.cardNo == '' || this.sport.dpt[0] == '') {
           return;
