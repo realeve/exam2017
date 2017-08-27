@@ -4,7 +4,7 @@
     <div class="content">
       <p class="title">成都印钞有限公司<br>{{year}}年{{sport.name}}活动</p>
       <div class="margin-top-20">
-        活动时间：{{year}}年8月21日至31日
+        活动时间：{{year}}年8月22日至31日 
       </div>
       <div v-if="showLoginfo" class="btn-wrapper margin-top-60">
         <p>{{sport.userName}}您好,欢迎参加本次活动，若不是本人请点击按钮重新登录。

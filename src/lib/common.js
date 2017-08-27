@@ -26,7 +26,7 @@ function randomAnswer (questions) {
   return questions.map((question, i) => {
     // 将题目选项乱序.
     let rdmArr = getRandomArr(question.option.length)
-
+    
     // 存储乱序后的选项数组
     let newArr = []
     rdmArr.forEach(item => {
@@ -40,7 +40,11 @@ function randomAnswer (questions) {
       newAnswer = answer.map(item => rdmArr[item])
     }else {
       // 重新排序后的新答案
-      newAnswer = rdmArr[answer]
+      rdmArr.forEach((item,i)=>{
+        if(item == answer){
+          newAnswer.push(i);
+        }
+      });
     }
     Object.assign(question, {
       option: newArr,
