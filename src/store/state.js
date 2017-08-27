@@ -6,12 +6,12 @@ const state = {
   cdnUrl: 'http://cbpc540.applinzi.com/index.php',
   tips: '',
   sport: {
-    name: '成本月',
-    id: 15,
+    name: '成本管理月',
+    id: 16,
     uid: 0,
     userName: '',
     cardNo: '',
-    dpt: ['技术质量部'],
+    dpt: ['办公室'],
     isLogin: false,
     curScore: 0, // 上次答题得分
     maxTimes: 2,

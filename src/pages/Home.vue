@@ -228,6 +228,7 @@
     justify-content: center;
     .title {
       font-size: 22pt;
+      text-align: center;
     }
     .btn-wrapper {
       width: 80%;
