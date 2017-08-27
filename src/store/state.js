@@ -7,11 +7,11 @@ const state = {
   tips: '',
   sport: {
     name: '成本管理月',
-    id: 16,
+    id: 15,
     uid: 0,
     userName: '',
     cardNo: '',
-    dpt: ['办公室'],
+    dpt: ['技术质量部'],
     isLogin: false,
     curScore: 0, // 上次答题得分
     maxTimes: 2,
