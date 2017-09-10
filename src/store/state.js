@@ -6,8 +6,12 @@ const state = {
   cdnUrl: 'http://cbpc540.applinzi.com/index.php',
   tips: '',
   sport: {
-    name: '成本管理月',
-    id: 15,
+    id: 17,
+    name: '质量月',
+    slogan:'大力提升质量 建设质量强国',
+    timeRange:'9月12日至24日',
+    questionNums:20,
+    
     uid: 0,
     userName: '',
     cardNo: '',

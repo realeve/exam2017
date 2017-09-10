@@ -39,9 +39,9 @@ function randomAnswer(questions) {
     let answer = question.answer
     // 如果答案有多个
     let newAnswer = []
-    if (typeof answer == 'object') {
+    if (answer.length > 1) {
       answer.forEach((rightAnswer, i) => rdmArr.forEach((item, i) => {
-        if (item == answer) {
+        if (item == rightAnswer) {
           newAnswer.push(i);
         }
       }));
@@ -56,7 +56,7 @@ function randomAnswer(questions) {
     newAnswer.sort((a, b) => a - b);
     Object.assign(question, {
       option: newQuestions,
-      answer: newAnswer.join(',')
+      answer: newAnswer
     })
     return question
   })
@@ -83,7 +83,10 @@ function getPaperData(json) {
     item.option = item
       .option
       .map((value, key) => {
-        return {key, value:alphaArr[key]+'、'+value}
+        return {
+          key,
+          value: alphaArr[key] + '、' + value
+        }
       });
     return item;
   });

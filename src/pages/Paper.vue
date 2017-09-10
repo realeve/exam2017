@@ -1,8 +1,9 @@
 <template>
   <div>
     <div ref='fp'>
-      <div class="section content" v-for="(question,i) of questionList" :key="question.title">
-        <checklist v-if="question.multiply" label-position="left" :title="`${i+1}.${question.title}`" required :options="question.option" v-model="answerList[i]"></checklist>
+      <div class="section content" v-for="(question,i) of questionList" :key="i">
+        <span>答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
+        <checklist v-if="question.answer.length>1" label-position="left" :title="`${i+1}.${question.title}`" required :options="question.option" v-model="answerList[i]"></checklist>
         <group v-else :title="`${i+1}.${question.title}`">
           <radio :options="question.option" v-model="answerList[i]"></radio>
         </group>
@@ -35,8 +36,8 @@ import {
   mapState
 } from 'vuex'
 
-import questionJSON from '../assets/data/question.json';
-// import questionJSON from '../assets/data/greatwall.json';
+import questionJSON from '../assets/data/quality.json';
+
 import Tips from '../components/Tips.vue';
 import util from '../lib/common';
 let questionList = util.getPaperData(questionJSON);
@@ -61,12 +62,14 @@ export default {
       isCompleted: false,
       startTime: dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss'),
       errorQuestion: [],
-      srcArrOrder: [],
-      questionList
+      srcArrOrder: []
     }
   },
   computed: {
     ...mapState(['userInfo', 'cdnUrl']),
+    questionList(){
+      return questionList.slice(0,this.sport.questionNums);
+    },
     sport: {
       get() {
         return this.$store.state.sport;
@@ -109,7 +112,7 @@ export default {
           item = item.sort((a, b) => a - b).join(',');
         }
 
-        if (item == curQuestion.answer) {
+        if (item == curQuestion.answer.join(',')) {
           score += curQuestion.score;
         } else {
           this.errorQuestion.push(this.questionList[i].questionId);
@@ -200,7 +203,7 @@ export default {
     prepareData() {
       document.title = '成本月微信答题活动';
 
-      this.answerList = this.questionList.map(item => item.multiply ? [] : -1);
+      this.answerList = this.questionList.map(item => item.answer.length > 1 ? [] : -1);
     }
   },
   mounted() {
