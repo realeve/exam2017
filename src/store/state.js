@@ -21,7 +21,7 @@ const state = {
     dpt: ['技术质量部'],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 2,
+    maxTimes: 5,
     curTimes: 0,
     // 最小抽奖得分
     minPrizeScore: 80,
