@@ -2,7 +2,7 @@
   <div>
     <div ref='fp'>
       <div class="section content" v-for="(question,i) of questionList" :key="i">
-        <span>答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
+        <!-- <span>答案:{{question.answer.join(',')}},得分:{{subScore}}</span> -->
         <checklist v-if="question.answer.length>1" label-position="left" :title="`${i+1}.${question.title}`" required :options="question.option" v-model="answerList[i]"></checklist>
         <group v-else :title="`${i+1}.${question.title}`">
           <radio :options="question.option" v-model="answerList[i]"></radio>

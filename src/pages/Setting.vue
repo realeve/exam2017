@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cdnUrl']),
+    ...mapState(['cdnUrl','sport']),
     list() {
       let luckRate = 0, newRate = 0;
       let newPeople = this.people_num - this.curPeople;
@@ -88,7 +88,8 @@ export default {
   methods: {
     loadCurLucker() {
       let params = {
-        s: '/addon/Api/Api/getResearchCurLucker'
+        s: '/addon/Api/Api/getExamCurLucker',
+        sportid:this.sport.id
       }
       this.$http.jsonp(this.cdnUrl, {
         params
@@ -100,7 +101,8 @@ export default {
     },
     loadDefaultData() {
       let params = {
-        s: '/addon/Api/Api/getResearchSettings'
+        s: '/addon/Api/Api/getExamSettings',
+        sportid:this.sport.id
       }
       this.$http.jsonp(this.cdnUrl, {
         params
@@ -116,7 +118,8 @@ export default {
     },
     submit() {
       let params = {
-        s: '/addon/Api/Api/setResearchSettings',
+        s: '/addon/Api/Api/setExamSettings',
+        sportid:this.sport.id,
         prize_num: this.prize_num,
         people_num: this.people_num,
         prize_name: this.prize_name
@@ -130,7 +133,8 @@ export default {
     },
     clear(){
        let params = {
-        s: '/addon/Api/Api/clearResearchData'
+        sportid:this.sport.id,
+        s: '/addon/Api/Api/clearExamData'
       }
       this.$http.jsonp(this.cdnUrl, {
         params

@@ -95,7 +95,6 @@
           signature: obj.signature,
           jsApiList: [
             'onMenuShareAppMessage', 'onMenuShareTimeline', 'hideMenuItems'
-            // 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 
           ]
         };
         this.$wechat.config(config);
@@ -159,7 +158,7 @@
         this.wxPermissionInit().then(res => {
           this.shouldShare = true;
           this.wxReady(res);
-          // this.initWxShare();
+          this.initWxShare();
           this.recordReadNum();
         })
       },
