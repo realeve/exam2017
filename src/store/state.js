@@ -8,8 +8,8 @@ const state = {
   sport: {
     id: 17,
     name: '质量月',
-    slogan:'大力提升质量 建设质量强国',
-    timeRange:'9月14日至24日',
+    slogan:'强化意识  对标一流  提升品质',
+    timeRange:'9月14日至25日',
     questionNums:20,
 
     doLottery:true, // 有抽奖活动
