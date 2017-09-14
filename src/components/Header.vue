@@ -2,10 +2,20 @@
   <div class="head">
     <img class="logo" src="/static/img/bg.jpg">
     <div class="title">
-      成本月微信答题活动
+      {{sportName}}微信答题活动
     </div>
   </div>
 </template>
+<script>
+export default {
+  computed:{
+    sportName(){
+      return this.$store.state.sport.name;
+    }
+  }
+}
+</script>
+
 <style scoped lang="less">
   .head {
     text-align: center;
