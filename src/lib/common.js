@@ -93,6 +93,7 @@ function getPaperData(json) {
 }
 
 export default {
+  getRandomArr,
   randomArr,
   randomAnswer,
   getPaperData
