@@ -94,7 +94,7 @@ export default {
           return;
         }
 
-        if (parseInt(obj.answer_times) > this.sport.maxTimes) {
+        if (!this.sport.isOnline && parseInt(obj.answer_times) > this.sport.maxTimes) {
           this.toast.show = true;
           this.toast.msg = '答题次数用完';
           this.jump('info');
@@ -110,11 +110,11 @@ export default {
           this.sport.uid = obj.id;
           this.sport.curScore = obj.score;
           localStorage.setItem('userInfo', userInfo);
-          if(this.sport.showDocument){
+          if (this.sport.showDocument) {
             this.jump('doc');
-          }else{
+          } else {
             this.jump('paper');
-          }          
+          }
         }
       });
     }
