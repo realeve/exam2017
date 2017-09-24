@@ -110,7 +110,11 @@ export default {
           this.sport.uid = obj.id;
           this.sport.curScore = obj.score;
           localStorage.setItem('userInfo', userInfo);
-          this.jump('doc');
+          if(this.sport.showDocument){
+            this.jump('doc');
+          }else{
+            this.jump('paper');
+          }          
         }
       });
     }

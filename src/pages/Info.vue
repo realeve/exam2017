@@ -2,7 +2,7 @@
   <div class="home">
     <div class="content">
       <msg :title="title" :description="desc" :icon="icon"></msg>
-      <x-button class="wrapper" type="primary" @click.native="viewLucky">查看中奖列表</x-button>
+      <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
     </div>
   </div>
 </template>
@@ -30,8 +30,8 @@ export default {
     return {
       icon: 'success',
       completeNum: 0,
-      desc:``,
-      title:'未中奖'
+      desc: ``,
+      title: '感谢参与'
     }
   },
   computed: {
@@ -57,8 +57,9 @@ export default {
         let obj = res.data;
         if (obj.id > 0) {
           this.isLucky = (obj.prize_level == 1);
-          
+
           if (!this.isLucky) {
+            this.title = '未中奖';
             this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分。`;
             return;
           }
@@ -74,7 +75,12 @@ export default {
     },
   },
   mounted() {
-    this.loadDefaultData();
+    if (this.sport.doLottery) {
+      this.loadDefaultData();
+    } else {
+      this.title = '感谢参与';
+      this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分。`;
+    }
     document.title = '感谢参与';
   }
 }

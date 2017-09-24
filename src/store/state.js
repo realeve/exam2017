@@ -6,15 +6,16 @@ const state = {
   cdnUrl: 'http://cbpc540.applinzi.com/index.php',
   tips: '',
   sport: {
-    id: 17,
-    name: '质量月',
-    slogan:'强化意识  对标一流  提升品质',
-    timeRange:'9月14日至25日',
-    questionNums:20,
-
-    doLottery:true, // 有抽奖活动
+    id: 18,
+    name: '党建知识竞答',
+    orgname:'管三党支部', // 机构名
+    slogan:'喜迎十九大，庆国庆', // 口号
+    timeRange:'9月26日', // 活动时间
+    questionNums:25, // 抽题数量
+    isOnline:true,
+    showDocument:false,
     loadWXInfo:true, // 抽奖活动将载入用户个人信息
-    
+    doLottery:false,// 是否参与抽奖
     uid: 0,
     userName: '',
     cardNo: '',

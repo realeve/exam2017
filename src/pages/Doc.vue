@@ -2,11 +2,11 @@
   <div class="wrapper">
     <div class="content">
       <div>
-        <p class="title">{{year}}公司{{sport.name}}微信知识问答</p>
+        <p class="title">{{sport.orgname}}<br>{{year}}{{sport.name}}</p>
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
           <article>
-            <p>本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿。</p>
+            <p>本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会<span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
           </article>
         </template>
 
