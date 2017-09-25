@@ -35,10 +35,15 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/Login.vue'], resolve)
         }
-    },{
-        path:'/lucker',
-        component:function(resolve){
-            require(['../pages/LuckyList.vue'],resolve)
+    }, {
+        path: '/lucker',
+        component: function(resolve) {
+            require(['../pages/LuckyList.vue'], resolve)
+        }
+    }, {
+        path: '/led',
+        component: function(resolve) {
+            require(['../pages/Led/Index.vue'], resolve)
         }
     }]
 })

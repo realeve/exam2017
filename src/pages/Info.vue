@@ -3,6 +3,7 @@
     <div class="content">
       <msg :title="title" :description="desc" :icon="icon"></msg>
       <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
+      <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
     </div>
   </div>
 </template>
@@ -40,6 +41,9 @@ export default {
   methods: {
     viewLucky() {
       this.$router.push('/lucker');
+    },
+    viewChart() {
+      this.$router.push('/led');
     },
     loadDefaultData() {
       let params = {

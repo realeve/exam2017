@@ -1,3 +1,19 @@
+let isMobile = () => {
+    if (navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i) ||
+        navigator.userAgent.match(/MicroMessenger/i)
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const state = {
     isLoading: false,
     userInfo: {},
@@ -25,7 +41,10 @@ const state = {
         // 最小抽奖得分
         minPrizeScore: 80
     },
-    paperInit: false
+    paperInit: false,
+    peopleCount: 0,
+    isPC: !isMobile(),
+    refreshInterval: 5 * 1000
 }
 
 export default state

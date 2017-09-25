@@ -9,6 +9,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "echarts": "^3.7.1",
     "fastclick": "^1.0.6",
     "fullpage.js": "^2.9.4",
     "vue": "^2.2.2",

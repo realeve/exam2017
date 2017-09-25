@@ -1,0 +1,56 @@
+.page-bg {
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    background-image: url('./img/led.jpg');
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.fixedcon .control {
+    position: fixed;
+    left: 0;
+    top: 17px;
+    width: 150px;
+    line-height: 0;
+    z-index: 12;
+    font-size: 0;
+    text-align: right
+}
+
+.fixedcon .control i {
+    display: none;
+    cursor: pointer;
+    -webkit-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    transform: scale(0.7)
+}
+
+.fixedcon .control .music {
+    width: 28px;
+    height: 28px;
+    background-image: url('./img/music_on.png');
+}
+
+.fixedcon .control .music.mute {
+    background-image: url('./img/music_off.png');
+}
+
+.fixedcon .control .fullsc {
+    background-image: url('./img/fullscreen.png');
+    width: 28px;
+    height: 28px
+}
+
+.fixedcon .control .fullsc.enabled {
+    background-image: url('./img/fullscreen_on.png');
+}
+
+.fixedcon .control i.show {
+    display: inline-block;
+    margin: 0 20px
+}
