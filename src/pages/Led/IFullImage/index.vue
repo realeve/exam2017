@@ -6,7 +6,7 @@
       <div class="control">
         <i class="fullsc show" :class="{'enabled':isFullScreen}" @click="fullScreen" title="全屏模式"></i>
         <i class="music show" :class="{mute}" title="背景音乐" @click="audioPlayer"></i>
-        <audio src="./static/bg.m4a" autoplay="autoplay" loop="loop" ref="audio"></audio>
+        <audio src="http://cbpm.sinaapp.com/bgm/bgm4.mp3" autoplay="autoplay" loop="loop" ref="audio"></audio>
       </div>
     </div>
   </div>
