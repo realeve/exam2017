@@ -76,7 +76,7 @@
 </style>
 
 <script>
-import paper from '../assets/data/quality.json';
+import paper from '../assets/data/paper.json';
 import util from '../lib/common';
 
 import {
