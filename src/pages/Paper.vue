@@ -36,7 +36,7 @@ import {
   mapState
 } from 'vuex'
 
-import questionJSON from '../assets/data/quality.json';
+import questionJSON from '../assets/data/paper.json';
 
 import Tips from '../components/Tips.vue';
 import util from '../lib/common';
