@@ -56,12 +56,12 @@ export default {
       this.$http.jsonp(this.cdnUrl, {
         params
       }).then(res => {
-        this.chart.setOption(this.refresh(res.data, 20));
+        this.chart.setOption(this.refresh(res.data));
       })
     },
-    refresh(srcData, nums) {
+    refresh(srcData) {
       let Data = JSON.parse(JSON.stringify(srcData)).sort((a, b) => a.value - b.value);
-      let xAxis = Data.map((item, i) => `${nums - i}.${item.name}(${item.user_dpt})`);
+      let xAxis = Data.map((item, i) => `${Data.length - i}.${item.name}(${item.user_dpt})`);
       let yAxis = Data.map(item => item.value);
       let timesArr = Data.map(item => item.iTimes);
       let stackData = yAxis.map(item => yAxis[yAxis.length - 1]);

@@ -1,5 +1,5 @@
 function init(Data) {
-    let center = ['50%', '55%'];
+    let center = ['60%', '55%'];
     let maxCircleRadius = 120;
     let series = {
         type: 'pie',

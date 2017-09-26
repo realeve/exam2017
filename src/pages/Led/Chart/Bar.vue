@@ -53,7 +53,7 @@ export default {
       this.$http.jsonp(this.cdnUrl, {
         params
       }).then(res => {
-        this.chart.setOption(barOption.refresh(res.data,25));
+        this.chart.setOption(barOption.refresh(res.data));
       })
 
     },

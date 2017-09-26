@@ -171,9 +171,9 @@ function initV(barWidth = 40) {
     return option;
 }
 
-let refresh = (srcData, nums) => {
+let refresh = (srcData) => {
     let Data = JSON.parse(JSON.stringify(srcData)).sort((a, b) => a.value - b.value);
-    let xAxis = Data.map((item, i) => `${nums-i}.${item.name}(${item.user_dpt})`);
+    let xAxis = Data.map((item, i) => `${Data.length-i}.${item.name}(${item.user_dpt})`);
     let yAxis = Data.map(item => item.value);
     let timesArr = Data.map(item => item.iTimes);
     let stackData = yAxis.map(item => yAxis[yAxis.length - 1]);
