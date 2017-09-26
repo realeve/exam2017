@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!isPC" class="wrap-title">准确率TOP 25</div>
+    <div v-if="!isPC" class="wrap-title">得分TOP 25</div>
     <div ref="chart" class="chart data-wrapper">
     </div>
   </div>
