@@ -98,7 +98,12 @@ export default {
     },
     refresh2(srcData) {
       let Data = JSON.parse(JSON.stringify(srcData)).sort((a, b) => a.score - b.score);
-      let xAxis = Data.map((item, i) => `${item.dpt}`);
+      let xAxis = Data.map((item, i) => {
+        if(item.dpt.length>=4){
+          return item.dpt.substr(0,2)+'\n'+item.dpt.substr(2,2)
+        }
+        return item.dpt;
+      });
       let yAxis = Data.map(item => item.score);
       let stackData = yAxis.map(item => yAxis[yAxis.length - 1]);
       let option = {
