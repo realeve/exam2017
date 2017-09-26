@@ -196,7 +196,7 @@ export default {
 
 <style scoped lang="less">
 .chart {
-  min-height: 30vh;
+  min-height: 26vh;
   width: 100%;
 }
 
