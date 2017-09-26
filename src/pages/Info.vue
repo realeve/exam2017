@@ -43,7 +43,7 @@ export default {
       this.$router.push('/lucker');
     },
     viewChart() {
-      this.$router.push('/led');
+      window.location.href = '?#/led';//this.$router.push('/led');
     },
     loadDefaultData() {
       let params = {

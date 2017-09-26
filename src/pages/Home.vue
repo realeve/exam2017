@@ -12,7 +12,7 @@
         <x-button v-if="sport.showDocument" type="primary" @click.native="jump('doc')">{{sport.name}}知识学习</x-button>
         <template v-if="haveAnswerTimes">
           <x-button @click.native="jump('login')">登录</x-button>
-          <!-- <x-button type="primary" @click.native="jump('paper')">开始答题</x-button> -->
+          <x-button v-if="sport.isLogin" @click.native="jump('paper')">开始答题</x-button>
         </template>
       </div>
       <div v-else class="btn-wrapper margin-top-60">
