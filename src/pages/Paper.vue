@@ -3,17 +3,23 @@
     <div ref='fp'>
       <div class="section content" v-for="(question,i) of questionList" :key="i">
         <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
-        <checklist v-if="question.answer.length>1" label-position="left" :title="`${i+1}.${question.title}`" required :options="question.option" v-model="answerList[i]"></checklist>
-        <group v-else :title="`${i+1}.${question.title}`">
-          <radio :options="question.option" v-model="answerList[i]"></radio>
-        </group>
+        <div style="position:relative;">
+            <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
+          <div class="qa-body">
+            <checklist v-if="question.answer.length>1" label-position="left" :title="`${question.title}`" required :options="question.option" v-model="answerList[i]">
+            </checklist>
+            <group v-else :title="`${question.title}`">
+              <radio :options="question.option" v-model="answerList[i]"></radio>
+            </group>            
+          </div>
+        </div>
         <div class="submit" v-if="i == questionList.length-1">
           <x-button :disabled="!isCompleted" type="primary" @click.native="submit(sport.questionNums)">提交</x-button>
         </div>
       </div>
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
-    <tips></tips>
+    <!-- <tips></tips> -->
   </div>
 </template>
 <script>
@@ -252,13 +258,47 @@ export default {
 @import "../assets/css/fullpage.css";
 @import "../assets/css/weui.css";
 .content {
-  margin: 20px 0;
+  margin: 0;
   padding: 10px;
-  color: #444;
-  background: #fff;
+  color: #785a32;
+  background: url(/static/main.jpg) 0 0 no-repeat;
+  background-size: 100% 110%;
 }
-
 .submit {
   margin: 20px;
+}
+.qa-num {
+  width: 100px;
+  height: 50px;
+  border: 1px solid #d2c7bb;
+  border-bottom: 0;
+  border-radius: 50px 50px 0 0;
+  overflow: hidden;
+  position: absolute;
+  top: -49px;
+  left: 50%;
+  margin-left: -50px;
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 2;
+  color: #c1af96;
+  font-size: 20px;
+  background: #faf5f0;
+  background-clip: padding-box;
+  padding-top: 14px;
+  font-family: "HiraginoSansGB-W3", "微软雅黑", "Microsoft Yahei", "宋体",
+    "Arial Narrow", "HELVETICA";
+  font-weight: 400;
+}
+.qa-body {
+  border: 1px solid #d2c7bb;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 2px rgba(210, 199, 187, 0.2);
+  background: #faf5f0;
+  background-clip: padding-box;
+  padding: 13px 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  min-height: 60vh;
 }
 </style>
