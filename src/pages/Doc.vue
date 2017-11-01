@@ -13,7 +13,7 @@
         <p class="subtitle">知识学习</p>
         <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
         <article>
-          <p class="item" v-for="(question,i) in questions" :key="i">{{i+1}}.{{question}}</p>
+          <p class="item" v-for="(question,i) in questions" :key="i" v-html="`${i+1}.${question}`"></p>
         </article>
       </div>
 
@@ -28,13 +28,12 @@
   </div>
 </template>
 <style lang="less" scoped>
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  font-weight: lighter;
-  height: 100%;
-}
-
+// .wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   font-weight: lighter;
+//   height: 100%;
+// }
 .content {
   font-size: 13pt;
   color: #444;
@@ -54,8 +53,8 @@
     p {
       line-height: 23pt;
     }
-    .item{
-      padding:10px 5px;
+    .item {
+      padding: 10px 5px;
     }
   }
   .subtitle {
@@ -76,16 +75,12 @@
 </style>
 
 <script>
-import paper from '../assets/data/paper.json';
-import util from '../lib/common';
+import paper from "../assets/data/question19.json";
+import util from "../lib/common";
 
-import {
-  XButton
-} from 'vux'
+import { XButton } from "vux";
 
-import {
-  mapState
-} from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -95,34 +90,55 @@ export default {
     return {
       questions: [],
       paper
-    }
+    };
   },
   computed: {
-    ...mapState(['sport']),
+    ...mapState(["sport"]),
     year() {
       let date = new Date();
-      return date.getFullYear() + '年';
-    },
+      return date.getFullYear() + "年";
+    }
   },
   methods: {
     jump(router) {
       this.$router.push(router);
     },
     init() {
-      this.questions = util.randomArr(paper).slice(0, this.sport.questionNums).map(item => {
-        let answer = item.option[item.answer[0]];
-        if (answer == '全对') {
-          answer = item.option.slice(0, 3).join('、');
-        }
-        let title = item.title.replace('（  ）', answer);
-        return title;
-      });
+      this.questions = util
+        .randomArr(paper)
+        .slice(0, this.sport.questionNums)
+        .map(item => {
+          let answer = item.option[item.answer[0]];
+          if (answer == "全对") {
+            answer = item.option.slice(0, 3).join("、");
+          }
+          let title = item.title;
+          if (item.title.split("（  ）").length > 2) {
+            answer.split(";").forEach(answerItem => {
+              title = title.replace(
+                "（  ）",
+                `<span class="right-answer">${answerItem}</span>`
+              );
+            });
+          } else {
+            title = title.replace(
+              "（  ）",
+              `<span class="right-answer">${answer}</span>`
+            );
+          }
+
+          return title;
+        });
+      // paper.forEach(item => {
+      //   if (item.title.split("（  ）").length > 2) {
+      //     console.log(item.title);
+      //   }
+      // });
     }
   },
   mounted() {
     this.init();
-    document.title = '知识学习';
+    document.title = "知识学习";
   }
-}
-
+};
 </script>
