@@ -261,7 +261,7 @@ export default {
   margin: 0;
   padding: 10px;
   color: #785a32;
-  background: url(/static/main.jpg) 0 0 no-repeat;
+  background: url(./static/main.jpg) 0 0 no-repeat;
   background-size: 100% 110%;
 }
 .submit {
