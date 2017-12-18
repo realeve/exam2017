@@ -7,22 +7,19 @@
 </template>
 
 <script>
-import echarts from 'echarts';
-import barOption from './js/baroption.js';
+import echarts from "echarts";
+import barOption from "./js/baroption.js";
 
-import {
-  mapState
-} from 'vuex'
-
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       cityData: []
-    }
+    };
   },
   computed: {
-    ...mapState(['cdnUrl', 'sport']),
+    ...mapState(["cdnUrl", "sport"]),
     chart() {
       return echarts.init(this.$refs.chart);
     }
@@ -34,28 +31,29 @@ export default {
     initEvent() {
       window.onresize = () => {
         this.initChart();
-      }
+      };
       setInterval(() => {
         this.refreshChart();
-      },this.$store.state.refreshInterval);
+      }, this.$store.state.refreshInterval);
     },
     initChart() {
       this.chart.setOption(barOption.init());
     },
     refreshChart() {
-      let url = 'http://cbpc540.applinzi.com/index.php';
+      // let url = 'http://cbpc540.applinzi.com/index.php';
       let params = {
-        s: '/addon/GoodVoice/GoodVoice/getRealScoreRate',
+        s: "/addon/GoodVoice/GoodVoice/getRealScoreRate",
         nums: 25,
         perscore: parseInt(100 / this.sport.questionNums),
         sportid: this.sport.id
-      }
-      this.$http.jsonp(this.cdnUrl, {
-        params
-      }).then(res => {
-        this.chart.setOption(barOption.refresh(res.data));
-      })
-
+      };
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params
+        })
+        .then(res => {
+          this.chart.setOption(barOption.refresh(res.data));
+        });
     },
     init() {
       this.initChart();
@@ -66,8 +64,7 @@ export default {
   mounted() {
     this.init();
   }
-}
-
+};
 </script>
 
 <style scoped lang="less">

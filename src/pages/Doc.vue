@@ -6,7 +6,8 @@
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
           <article>
-            <p>本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会<span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
+            <p>本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会
+              <span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
           </article>
         </template>
 
@@ -20,9 +21,12 @@
       <div class="btn margin-top-60">
         <x-button type="primary" @click.native="jump('paper')">开始答题</x-button>
         <x-button @click.native="init">刷新题目</x-button>
+        <x-button v-if="isAdmin" type="warn" @click.native="reset">清空得分</x-button>
         <x-button @click.native="jump('/')">返回首页</x-button>
       </div>
-
+      <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
+        <p style="text-align:center;">是否要清空活动数据?</p>
+      </confirm>
     </div>
     <v-foot/>
   </div>
@@ -78,30 +82,52 @@
 import paper from "../assets/data/question19.json";
 import util from "../lib/common";
 
-import { XButton } from "vux";
+import { XButton, Confirm } from "vux";
 
 import { mapState } from "vuex";
 
 export default {
   components: {
-    XButton
+    XButton,
+    Confirm
   },
   data() {
     return {
       questions: [],
-      paper
+      paper,
+      showConfirm: false
     };
   },
   computed: {
-    ...mapState(["sport"]),
+    ...mapState(["sport", "cdnUrl"]),
     year() {
       let date = new Date();
       return date.getFullYear() + "年";
+    },
+    isAdmin() {
+      return this.sport.userName == "陈勇";
     }
   },
   methods: {
     jump(router) {
       this.$router.push(router);
+    },
+    reset() {
+      this.showConfirm = true;
+    },
+    onConfirm() {
+      let params = {
+        s: "/addon/GoodVoice/GoodVoice/clearExamData",
+        sid: this.sport.id
+      };
+
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params
+        })
+        .then(res => {
+          this.$vux.toast.text("清空完毕", "default");
+        });
     },
     init() {
       this.questions = util

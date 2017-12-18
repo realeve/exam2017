@@ -7,22 +7,19 @@
 </template>
 
 <script>
-import echarts from 'echarts';
-import barOption from './Chart/js/baroption.js';
+import echarts from "echarts";
+import barOption from "./Chart/js/baroption.js";
 
-import {
-  mapState
-} from 'vuex'
-
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       cityData: []
-    }
+    };
   },
   computed: {
-    ...mapState(['cdnUrl', 'sport']),
+    ...mapState(["cdnUrl", "sport"]),
     isPC() {
       return this.$store.state.isPC;
     },
@@ -37,7 +34,7 @@ export default {
     initEvent() {
       window.onresize = () => {
         this.initChart();
-      }
+      };
       setInterval(() => {
         this.refreshChart();
       }, this.$store.state.refreshInterval);
@@ -46,22 +43,28 @@ export default {
       this.chart.setOption(barOption.init());
     },
     refreshChart() {
-      let url = 'http://cbpc540.applinzi.com/index.php';
+      // let url = 'http://cbpc540.applinzi.com/index.php';
       let params = {
-        s: '/addon/GoodVoice/GoodVoice/getRealScore',
+        s: "/addon/GoodVoice/GoodVoice/getRealScore",
         nums: 20,
         perscore: parseInt(100 / this.sport.questionNums),
         sportid: this.sport.id
-      }
-      this.$http.jsonp(this.cdnUrl, {
-        params
-      }).then(res => {
-        this.chart.setOption(this.refresh(res.data));
-      })
+      };
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params
+        })
+        .then(res => {
+          this.chart.setOption(this.refresh(res.data));
+        });
     },
     refresh(srcData) {
-      let Data = JSON.parse(JSON.stringify(srcData)).sort((a, b) => a.value - b.value);
-      let xAxis = Data.map((item, i) => `${Data.length - i}.${item.name}(${item.user_dpt})`);
+      let Data = JSON.parse(JSON.stringify(srcData)).sort(
+        (a, b) => a.value - b.value
+      );
+      let xAxis = Data.map(
+        (item, i) => `${Data.length - i}.${item.name}(${item.user_dpt})`
+      );
       let yAxis = Data.map(item => item.value);
       let timesArr = Data.map(item => item.iTimes);
       let stackData = yAxis.map(item => yAxis[yAxis.length - 1]);
@@ -69,17 +72,22 @@ export default {
         yAxis: {
           data: xAxis
         },
-        series: [{
-          id: 'bar',
-          data: yAxis,
-        }, {
-          id: 'stack',
-          data: stackData
-        }],
+        series: [
+          {
+            id: "bar",
+            data: yAxis
+          },
+          {
+            id: "stack",
+            data: stackData
+          }
+        ],
         tooltip: {
           formatter(param) {
             let times = timesArr[param.dataIndex];
-            return param.name + '<br>得分:' + param.value + '分<br>练习次数：' + times + '次';
+            return (
+              param.name + "<br>得分:" + param.value + "分<br>练习次数：" + times + "次"
+            );
           }
         }
       };
@@ -94,8 +102,7 @@ export default {
   mounted() {
     this.init();
   }
-}
-
+};
 </script>
 
 <style scoped lang="less">
