@@ -105,7 +105,8 @@ export default {
       return date.getFullYear() + "年";
     },
     isAdmin() {
-      return this.sport.userName == "陈勇";
+      const name = this.sport.userName;
+      return name == "李宾" || name == "孔宇芳" || name == "黄夏玢";
     }
   },
   methods: {

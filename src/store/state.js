@@ -22,7 +22,7 @@ const state = {
     tips: "",
     sport: {
         id: 20,
-        name: "十九大知识理论学习",
+        name: "十九大知识学习",
         orgname: "成都印钞有限公司团委", // 机构名
         slogan: "不忘初心 牢记使命", // 口号
         timeRange: "12月", // 活动时间

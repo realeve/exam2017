@@ -262,7 +262,7 @@ export default {
   width: 100%;
   justify-content: center;
   .title {
-    font-size: 19pt;
+    font-size: 17pt;
     text-align: center;
   }
   .btn-wrapper {
