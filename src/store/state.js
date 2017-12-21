@@ -21,12 +21,12 @@ const state = {
     cdnUrl: "http://cbpc540.applinzi.com/index.php",
     tips: "",
     sport: {
-        id: 19,
+        id: 20,
         name: "十九大知识理论学习",
-        orgname: "西安印钞有限公司凹印党支部", // 机构名
+        orgname: "成都印钞有限公司团委", // 机构名
         slogan: "不忘初心 牢记使命", // 口号
         timeRange: "12月", // 活动时间
-        questionNums: 50, // 抽题数量
+        questionNums: 25, // 抽题数量
         useDept: true,
         isOnline: true, //实际活动
         showDocument: true,
@@ -35,7 +35,7 @@ const state = {
         uid: 0,
         userName: "",
         cardNo: "",
-        dpt: ["西钞凹印党支部"],
+        dpt: ["技术质量部"],
         isLogin: false,
         curScore: 0, // 上次答题得分
         maxTimes: 20000,

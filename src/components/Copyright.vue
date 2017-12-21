@@ -1,6 +1,6 @@
 <template>
   <footer>
-    {{year}} &copy; 成钞公司 李宾
+    {{year}} &copy; 成都印钞有限公司
   </footer>
 </template>
 <style lang="less" scoped>
