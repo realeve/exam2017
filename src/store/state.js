@@ -28,7 +28,7 @@ const state = {
         timeRange: "12月", // 活动时间
         questionNums: 25, // 抽题数量
         useDept: true,
-        isOnline: true, //实际活动
+        isOnline: false, //实际活动
         showDocument: true,
         loadWXInfo: true, // 抽奖活动将载入用户个人信息
         doLottery: false, // 是否参与抽奖
