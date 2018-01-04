@@ -22,11 +22,11 @@ const state = {
     tips: "",
     sport: {
         id: 20,
-        name: "十九大知识学习",
+        name: "党的十九大知识答题",
         orgname: "成都印钞有限公司团委", // 机构名
-        slogan: "不忘初心 牢记使命", // 口号
-        timeRange: "12月", // 活动时间
-        questionNums: 25, // 抽题数量
+        slogan: "不忘初心 牢记使命 砥砺前行 青春奋进", // 口号
+        timeRange: "1月4日至19日", // 活动时间
+        questionNums: 20, // 抽题数量
         useDept: true,
         isOnline: false, //实际活动
         showDocument: true,
@@ -38,7 +38,7 @@ const state = {
         dpt: ["技术质量部"],
         isLogin: false,
         curScore: 0, // 上次答题得分
-        maxTimes: 20000,
+        maxTimes: 2,
         curTimes: 0,
         // 最小抽奖得分
         minPrizeScore: 80,
