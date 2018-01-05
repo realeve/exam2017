@@ -24,7 +24,7 @@ const state = {
         id: 20,
         name: "党的十九大知识答题",
         orgname: "成都印钞有限公司团委", // 机构名
-        slogan: "不忘初心 牢记使命 砥砺前行 青春奋进", // 口号
+        slogan: "不忘初心 牢记使命<br>砥砺前行 青春奋进", // 口号
         timeRange: "1月4日至19日", // 活动时间
         questionNums: 20, // 抽题数量
         useDept: true,
