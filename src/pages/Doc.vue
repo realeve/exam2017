@@ -141,6 +141,10 @@ export default {
           }
           let title = item.title;
           if (item.title.split("（  ）").length > 2) {
+            if (typeof answer == "object") {
+              answer = answer.value;
+            }
+            // console.log(answer);
             answer.split(";").forEach(answerItem => {
               title = title.replace(
                 "（  ）",

@@ -109,7 +109,7 @@ export default {
           title: this.title, // 分享标题
           desc: this.title,
           link: this.shareUrl,
-          imgUrl: "http://cbpm.sinaapp.com/cdn/logo/pbc.svg",
+          imgUrl: "http://cbpm.sinaapp.com/cdn/logo/pbc.jpg",
           type: "",
           dataUrl: "",
           success: function() {},
