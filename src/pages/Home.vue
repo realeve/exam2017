@@ -10,7 +10,7 @@
       <p class="title">
         <span class="sub-title">{{sport.orgname}}</span><br>{{year}}年{{sport.name}}活动</p>
       <div class="margin-top-20 time">
-        活动时间：{{year}}年{{sport.timeRange}}
+        活动时间：{{sportDate}}
       </div>
       <div v-if="showLoginfo" class="btn-wrapper margin-top-60">
         <p>{{sport.userName}}您好,欢迎参加本次活动，您当前最高得分为{{sport.curScore}}分，答题{{sport.curTimes-1}}次，若不是本人请点击按钮重新登录。
@@ -67,6 +67,33 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
+      }
+    },
+    sportDate() {
+      let { startDate, endDate } = this.sport;
+      let startInfo = startDate.split("-");
+      let endInfo = endDate.split("-");
+      startInfo[1] = parseInt(startInfo[1], 10);
+      startInfo[2] = parseInt(startInfo[2], 10);
+      endInfo[1] = parseInt(endInfo[1], 10);
+      endInfo[2] = parseInt(endInfo[2], 10);
+
+      // 不同年
+      if (startInfo[0] !== endInfo[0]) {
+        return `${startInfo[0]}年${startInfo[1]}月${startInfo[2]}日 至 ${
+          endInfo[0]
+        }年${endInfo[1]}月${endInfo[2]}日`;
+      }
+
+      // 同年同月
+      if (startInfo[0] === endInfo[1]) {
+        return `${startInfo[0]}年${startInfo[1]}月${startInfo[2]}日 至 ${
+          endInfo[2]
+        }日`;
+      } else {
+        return `${startInfo[0]}年${startInfo[1]}月${startInfo[2]}日 至 ${
+          endInfo[1]
+        }月${endInfo[2]}日`;
       }
     }
   },
@@ -140,7 +167,8 @@ export default {
         ctx.lineTo(i, a), ctx.closePath(), (r -= twoPi / -50);
         ctx.strokeStyle =
           "#" +
-          (((127 * cos(r) + 128) << 16) |
+          (
+            ((127 * cos(r) + 128) << 16) |
             ((127 * cos(r + twoPi / 3) + 128) << 8) |
             (127 * cos(r + twoPi / 3 * 2) + 128)
           ).toString(16);

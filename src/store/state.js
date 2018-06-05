@@ -21,33 +21,38 @@ const state = {
   cdnUrl: "http://cbpc540.applinzi.com/index.php",
   tips: "",
   sport: {
-    id: 21,
-    name: "党的十九大知识答题",
-    orgname: "某某公司", // 机构名
-    slogan: "不忘初心 牢记使命", // 口号
-    timeRange: "5月23日至6月15日", // 活动时间
+    id: 22,
+    name: "安全生产月有奖答题",
+    orgname: "成都印钞有限公司", // 机构名
+    slogan: "生产至上 安全发展", // 口号
+    // timeRange: "5月23日至6月15日", // 活动时间
     questionNums: 20, // 抽题数量
+    perScore: 1, // 每题得分
     useDept: true,
-    isOnline: false, //实际活动
+    isOnline: true, //实际活动
     showDocument: true,
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["测试"],
+    dpt: ["技术质量部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 2,
+    maxTimes: 10,
     curTimes: 0,
     // 最小抽奖得分
     minPrizeScore: 80,
-    testMode: false
+    testMode: false,
+    startDate: "2018-06-11",
+    endDate: "2018-06-18"
   },
   paperInit: false,
   peopleCount: 0,
   isPC: !isMobile(),
   refreshInterval: 5 * 1000
 };
+
+// state.sport.perScore = parseInt(100 / state.sport.questionNums);
 
 export default state;

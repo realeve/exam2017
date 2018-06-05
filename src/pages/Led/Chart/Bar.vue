@@ -44,7 +44,7 @@ export default {
       let params = {
         s: "/addon/GoodVoice/GoodVoice/getRealScoreRate",
         nums: 25,
-        perscore: parseInt(100 / this.sport.questionNums),
+        perscore: this.sport.perScore, // parseInt(100 / this.sport.questionNums),
         sportid: this.sport.id
       };
       this.$http
