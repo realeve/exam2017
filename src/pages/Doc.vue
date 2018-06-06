@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="content">
       <div>
-        <p class="title">{{sport.orgname}}<br>{{year}}{{sport.name}}</p>
+        <div class="title">{{sport.orgname}}<br>{{year}}{{sport.name}}</div>
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
           <article>
@@ -10,7 +10,6 @@
               <span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
           </article>
         </template>
-
         <p class="subtitle">知识学习</p>
         <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
         <article>
@@ -79,7 +78,7 @@
 </style>
 
 <script>
-import paper from "../assets/data/question19.json";
+import paper from "../assets/data/questionSafe.json";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";
@@ -94,7 +93,7 @@ export default {
   data() {
     return {
       questions: [],
-      paper,
+      paper: paper.slice(0, 50),
       showConfirm: false
     };
   },
@@ -106,7 +105,7 @@ export default {
     },
     isAdmin() {
       const name = this.sport.userName;
-      return name == "李宾" || name == "孔宇芳" || name == "黄夏玢";
+      return name == "李宾" || name == "徐文庆" || name == "黄夏玢";
     }
   },
   methods: {
@@ -130,41 +129,38 @@ export default {
           this.$vux.toast.text("清空完毕", "default");
         });
     },
+    handleQuestion(item) {
+      let answer = item.option[item.answer[0]];
+      if (answer == "全部选项都是") {
+        answer = item.option.slice(0, 3).join("、");
+      }
+      let title = item.title;
+      if (typeof answer == "object") {
+        answer = answer.value;
+        if (answer.includes("、")) {
+          answer = answer.split("、")[1];
+        }
+      }
+      if (item.title.split("（  ）").length > 2) {
+        answer.split(";").forEach(answerItem => {
+          title = title.replace(
+            "（  ）",
+            `<span class="right-answer">${answerItem}</span>`
+          );
+        });
+      } else {
+        title = title.replace(
+          "（  ）",
+          `<span class="right-answer">${answer}</span>`
+        );
+      }
+      return title;
+    },
     init() {
       this.questions = util
         .randomArr(paper)
         .slice(0, this.sport.questionNums)
-        .map(item => {
-          let answer = item.option[item.answer[0]];
-          if (answer == "全对") {
-            answer = item.option.slice(0, 3).join("、");
-          }
-          let title = item.title;
-          if (item.title.split("（  ）").length > 2) {
-            if (typeof answer == "object") {
-              answer = answer.value;
-            }
-            // console.log(answer);
-            answer.split(";").forEach(answerItem => {
-              title = title.replace(
-                "（  ）",
-                `<span class="right-answer">${answerItem}</span>`
-              );
-            });
-          } else {
-            title = title.replace(
-              "（  ）",
-              `<span class="right-answer">${answer}</span>`
-            );
-          }
-
-          return title;
-        });
-      // paper.forEach(item => {
-      //   if (item.title.split("（  ）").length > 2) {
-      //     console.log(item.title);
-      //   }
-      // });
+        .map(this.handleQuestion);
     }
   },
   mounted() {

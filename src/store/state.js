@@ -26,7 +26,7 @@ const state = {
     orgname: "成都印钞有限公司", // 机构名
     slogan: "生产至上 安全发展", // 口号
     // timeRange: "5月23日至6月15日", // 活动时间
-    questionNums: 20, // 抽题数量
+    questionNums: 25, // 抽题数量
     perScore: 1, // 每题得分
     useDept: true,
     isOnline: true, //实际活动
@@ -39,7 +39,7 @@ const state = {
     dpt: ["技术质量部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 10,
+    maxTimes: 4,
     curTimes: 0,
     // 最小抽奖得分
     minPrizeScore: 80,

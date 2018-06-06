@@ -1,6 +1,6 @@
 <template>
   <footer :style="{color}">
-    {{year}} &copy; 某公司
+    {{year}} &copy; 成都印钞有限公司
   </footer>
 </template>
 <style lang="less" scoped>

@@ -4,13 +4,13 @@
       <div class="section content" v-for="(question,i) of questionList" :key="i">
         <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
         <div style="position:relative;">
-            <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
+          <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
           <div class="qa-body">
             <checklist v-if="question.answer.length>1" label-position="left" :title="`${question.title}`" required :options="question.option" v-model="answerList[i]">
             </checklist>
             <group v-else :title="`${question.title}`">
               <radio :options="question.option" v-model="answerList[i]"></radio>
-            </group>            
+            </group>
           </div>
         </div>
         <div class="submit" v-if="i == questionList.length-1">
@@ -32,7 +32,7 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/question19.json";
+import questionJSON from "../assets/data/questionSafe.json";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
