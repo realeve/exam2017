@@ -28,9 +28,9 @@
 <script>
 import FullImage from "./IFullImage/index";
 import VHeader from "./Header/";
-import VCenter from "./Center.vue";
-import VLeft from "./Left.vue";
-import VRight from "./Right.vue";
+import VCenter from "./VCenter.vue";
+import VLeft from "./VLeft.vue";
+import VRight from "./VRight.vue";
 
 import { Flexbox, FlexboxItem } from "vux";
 

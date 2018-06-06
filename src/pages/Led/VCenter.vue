@@ -8,7 +8,7 @@
 
 <script>
 import echarts from "echarts";
-import barOption from "./Chart/js/baroption.js";
+import barOption from "./Chart/js/barOption.js";
 
 import { mapState } from "vuex";
 
@@ -86,7 +86,12 @@ export default {
           formatter(param) {
             let times = timesArr[param.dataIndex];
             return (
-              param.name + "<br>得分:" + param.value + "分<br>练习次数：" + times + "次"
+              param.name +
+              "<br>得分:" +
+              param.value +
+              "分<br>练习次数：" +
+              times +
+              "次"
             );
           }
         }

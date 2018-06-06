@@ -8,7 +8,7 @@
 
 <script>
 import echarts from "echarts";
-import barOption from "./js/baroption.js";
+import barOption from "./js/barOption.js";
 
 import { mapState } from "vuex";
 
