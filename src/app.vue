@@ -70,9 +70,10 @@ export default {
       if (!val) {
         return;
       }
-      this.title = `我在2017年${this.sport.name}微信答题活动中获得了${
-        this.sport.curScore
-      }分，你也来参与吧`;
+      // this.title = `我在2018年${this.sport.name}微信答题活动中获得了${
+      //   this.sport.curScore
+      // }分，你也来参与吧`;
+      this.title = `2018年${this.sport.name}活动中正在进行中，快来参与吧`;
       this.initWxShare();
     }
   },
@@ -109,7 +110,7 @@ export default {
           title: this.title, // 分享标题
           desc: this.title,
           link: this.shareUrl,
-          imgUrl: "http://cbpm.sinaapp.com/cdn/logo/pbc.jpg",
+          imgUrl: "http://cbpm.sinaapp.com/cdn/logo/cbpc.jpg",
           type: "",
           dataUrl: "",
           success: function() {},
@@ -199,7 +200,7 @@ export default {
     }
   },
   created() {
-    this.title = this.sport.name + "微信答题活动";
+    this.title = this.sport.name + "活动";
     // 开发模式下，初始化值
     if (process.env.NODE_ENV == "development") {
       this.userInfo = {

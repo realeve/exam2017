@@ -2,27 +2,22 @@
   <div>
     <v-header/>
     <div class="content">
-      <h3>1.各部门参与率</h3>
+      <h3>1.各部门平均分与参与率</h3>
       <ul class="dept-rate">
-        <li>
-          <span>部门1</span>
-          <span>45.3%</span>
+        <li v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
+          <span>{{i+1}}.{{user_dpt}}</span>
+          <span>{{avg_score}}分</span>
+          <span>{{rate}}%</span>
         </li>
-        <li>
-          <span>部门1</span>
-          <span>45.3%</span>
-        </li>
-        <li>
-          <span>部门1</span>
-          <span>45.3%</span>
-        </li>
-        <li>
-          <span>部门1</span>
-          <span>45.3%</span>
-        </li>
-        <li>
-          <span>部门1</span>
-          <span>45.3%</span>
+      </ul>
+
+      <h3 style="margin-top:30px;">2.得分排名</h3>
+      <ul class="dept-rate">
+        <li v-for="({user_name,user_dpt,score,time_length},i) in users" :key="i">
+          <span>{{i+1}}.{{user_name}}</span>
+          <span>{{user_dpt}}</span>
+          <span>{{score}}分</span>
+          <span>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</span>
         </li>
       </ul>
     </div>
@@ -32,10 +27,53 @@
 
 <script>
 import VHeader from "../components/Header";
+import { mapState } from "vuex";
 
 export default {
   components: {
     VHeader
+  },
+  data() {
+    return {
+      depts: [],
+      users: []
+    };
+  },
+  computed: {
+    ...mapState(["sport", "cdnUrl"])
+  },
+  methods: {
+    getDeptRatio() {
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params: {
+            s: "/addon/GoodVoice/GoodVoice/getScoreByDpts",
+            sid: this.sport.id
+          }
+        })
+        .then(({ data }) => {
+          this.depts = data;
+        });
+    },
+    getScoreList() {
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params: {
+            s: "/addon/GoodVoice/GoodVoice/getScoreList",
+            sid: this.sport.id
+          }
+        })
+        .then(({ data }) => {
+          this.users = data;
+        });
+    },
+    init() {
+      this.getDeptRatio();
+      this.getScoreList();
+    }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
@@ -48,6 +86,7 @@ export default {
     font-weight: bold;
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
+    // margin-top: 10px;
   }
   .dept-rate {
     li {

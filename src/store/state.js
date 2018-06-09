@@ -22,7 +22,7 @@ const state = {
   tips: "",
   sport: {
     id: 22,
-    name: "安全生产月有奖答题",
+    name: "安全生产月微信有奖答题",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "生产至上 安全发展", // 口号
     // timeRange: "5月23日至6月15日", // 活动时间
