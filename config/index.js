@@ -7,7 +7,7 @@ module.exports = {
     index: path.resolve(__dirname, "../dist/index.html"),
     assetsRoot: path.resolve(__dirname, "../dist"),
     assetsSubDirectory: "./static",
-    assetsPublicPath: "http://www.cbpc.ltd/public/topic/201806/",
+    assetsPublicPath: "http://www.cbpc.ltd/public/topic/2018safe/",
     productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

@@ -4,23 +4,17 @@
       <msg :title="title" :description="desc" :icon="icon"></msg>
       <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
       <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
+      <x-button class="wrapper" type="primary" @click.native="reload">再答一次</x-button>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  XButton,
-  Msg
-} from 'vux'
+import { XButton, Msg } from "vux";
 
-import {
-  dateFormat
-} from 'vux'
+import { dateFormat } from "vux";
 
-import {
-  mapState
-} from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -29,66 +23,73 @@ export default {
   },
   data() {
     return {
-      icon: 'success',
+      icon: "success",
       completeNum: 0,
       desc: ``,
-      title: '感谢参与'
-    }
+      title: "感谢参与"
+    };
   },
   computed: {
-    ...mapState(['cdnUrl', 'sport', 'userInfo']),
+    ...mapState(["cdnUrl", "sport", "userInfo"])
   },
   methods: {
     viewLucky() {
-      this.$router.push('/lucker');
+      this.$router.push("/lucker");
     },
     viewChart() {
-      window.location.href = '?#/led';//this.$router.push('/led');
+      window.location.href = "?#/led"; //this.$router.push('/led');
     },
     loadDefaultData() {
       let params = {
-        s: '/addon/Api/Api/setExamLuckyInfo',
+        s: "/addon/Api/Api/setExamLuckyInfo",
         uid: this.sport.uid,
         sportid: this.sport.id,
         headimgurl: this.userInfo.headimgurl,
         openid: this.userInfo.openid,
         nickname: this.userInfo.nickname,
-        rec_time: dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss')
-      }
-      this.$http.jsonp(this.cdnUrl, {
-        params
-      }).then(res => {
-        let obj = res.data;
-        if (obj.id > 0) {
-          this.isLucky = (obj.prize_level == 1);
-
-          if (!this.isLucky) {
-            this.title = '未中奖';
-            this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分。`;
+        rec_time: dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")
+      };
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params
+        })
+        .then(res => {
+          let obj = res.data;
+          if (obj.id > 0) {
+            this.isLucky = obj.prize_level == 1;
+            if (!this.isLucky) {
+              this.title = "未中奖";
+              this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${
+                this.sport.curScore
+              }分。`;
+              return;
+            }
+            this.title = "中奖了";
+            this.desc = "恭喜您成为本次活动的幸运用户。";
             return;
           }
-          this.title = '中奖了';
-          this.desc = '恭喜您成为本次活动的幸运用户。';
-          return;
-        }
 
-        this.title = '抽奖出错';
-        this.desc = '请返回后重新进入答题页面，系统将自动抽奖';
-
-      });
+          this.title = "抽奖出错";
+          this.desc = "请返回后重新进入答题页面，系统将自动抽奖";
+        });
     },
+    reload() {
+      window.location.href = window.location.href.split("#")[0];
+    }
   },
   mounted() {
     if (this.sport.doLottery) {
       this.loadDefaultData();
     } else {
-      this.title = '感谢参与';
-      this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${this.sport.curScore}分。`;
+      this.title = "感谢参与";
+      this.desc = `感谢您对本次活动的大力支持,你当前总分为${
+        this.sport.curScore
+      }分,<br>还有${this.sport.maxTimes -
+        (this.sport.curTimes - 1)}次答题机会。`;
     }
-    document.title = '感谢参与';
+    document.title = "感谢参与";
   }
-}
-
+};
 </script>
 
 <style scoped lang="less">

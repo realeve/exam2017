@@ -125,6 +125,18 @@ export default {
             return;
           }
 
+          // 登录成功
+          this.sport.isLogin = true;
+          this.sport.curTimes = parseInt(obj.answer_times) + 1;
+
+          delete params.sportid;
+          delete params.s;
+
+          var userInfo = JSON.stringify(params);
+          this.sport.uid = obj.id;
+          this.sport.curScore = obj.score;
+          localStorage.setItem("userInfo", userInfo);
+
           if (
             !this.sport.isOnline &&
             parseInt(obj.answer_times) > this.sport.maxTimes
@@ -132,23 +144,13 @@ export default {
             this.toast.show = true;
             this.toast.msg = "答题次数用完";
             this.jump("info");
+            return;
+          }
+
+          if (this.sport.showDocument) {
+            this.jump("doc");
           } else {
-            // 登录成功
-            this.sport.isLogin = true;
-            this.sport.curTimes = parseInt(obj.answer_times) + 1;
-
-            delete params.sportid;
-            delete params.s;
-
-            var userInfo = JSON.stringify(params);
-            this.sport.uid = obj.id;
-            this.sport.curScore = obj.score;
-            localStorage.setItem("userInfo", userInfo);
-            if (this.sport.showDocument) {
-              this.jump("doc");
-            } else {
-              this.jump("paper");
-            }
+            this.jump("paper");
           }
         });
     }

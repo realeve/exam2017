@@ -29,14 +29,14 @@ const state = {
     questionNums: 25, // 抽题数量
     perScore: 1, // 每题得分
     useDept: true,
-    isOnline: true, //实际活动
-    showDocument: true,
+    isOnline: false, //实际活动
+    showDocument: false,
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["技术质量部"],
+    dpt: ["印钞管理部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
     maxTimes: 4,
@@ -45,7 +45,9 @@ const state = {
     minPrizeScore: 80,
     testMode: false,
     startDate: "2018-06-11",
-    endDate: "2018-06-18"
+    endDate: "2018-06-18",
+    // 得分是否累加
+    stackMode: true
   },
   paperInit: false,
   peopleCount: 0,
@@ -53,6 +55,7 @@ const state = {
   refreshInterval: 5 * 1000
 };
 
+// 按题目数量总分100分
 // state.sport.perScore = parseInt(100 / state.sport.questionNums);
 
 export default state;

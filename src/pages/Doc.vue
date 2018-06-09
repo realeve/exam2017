@@ -18,10 +18,11 @@
       </div>
 
       <div class="btn margin-top-60">
-        <x-button type="primary" @click.native="jump('paper')">开始答题</x-button>
+        <x-button @click.native="jump('login')">登录</x-button>
+        <x-button type="primary" @click.native="jump('paper')" v-show="sport.isLogin">开始答题</x-button>
         <x-button @click.native="init">刷新题目</x-button>
-        <x-button v-if="isAdmin" type="warn" @click.native="reset">清空得分</x-button>
-        <x-button @click.native="jump('/')">返回首页</x-button>
+        <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
+        <x-button type="warn" @click.native="jump('/score')">排行榜</x-button>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?</p>

@@ -36,6 +36,8 @@ import questionJSON from "../assets/data/questionSafe.json";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
+import moment from "moment";
+
 let questionList = util.getPaperData(questionJSON);
 
 export default {
@@ -138,6 +140,8 @@ export default {
       this.isCompleted = flag;
     },
     getSubmitData(answer_nums) {
+      const now = moment().format("YYYY-MM-DD HH:mm:ss");
+      const timeLength = moment(now).diff(moment(this.startTime), "s");
       return {
         // nickname: this.userInfo.nickname,
         // openid: this.userInfo.openid,
@@ -146,7 +150,7 @@ export default {
         // province: this.userInfo.province,
         // country: this.userInfo.country,
         // headimgurl: this.userInfo.headimgurl,
-        rec_time: dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss"),
+        rec_time: now,
         score: this.subScore,
         errors: this.errorQuestion.join(","),
         sportid: this.sport.id,
@@ -155,7 +159,9 @@ export default {
         iTimes: this.sport.curTimes,
         oldScore: this.sport.curScore,
         bCheck: this.sport.isOnline ? 0 : 1,
-        answer_nums
+        answer_nums,
+        time_length: timeLength,
+        stackMode: this.sport.stackMode
       };
     },
     setCurIdx(slideIdx) {
