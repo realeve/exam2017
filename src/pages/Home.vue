@@ -12,19 +12,20 @@
       <div class="margin-top-20 time">
         活动时间：{{sportDate}}
       </div> -->
-      <div v-if="showLoginfo" class="btn-wrapper margin-top-60 login">
+      <div v-if="showLoginfo" class="btn-wrapper login">
         <!-- <p>{{sport.userName}}您好,欢迎参加本次活动，您当前得分为{{sport.curScore}}分，答题{{sport.curTimes-1}}次，若不是本人请点击按钮重新登录。
         </p> -->
         <x-button v-if="sport.showDocument" @click.native="jump('doc')">{{sport.name}}学习</x-button>
         <template v-if="haveAnswerTimes">
           <x-button @click.native="jump('doc')">安全知识学习</x-button>
           <x-button type="primary" v-if="sport.isLogin" @click.native="jump('paper')">开始答题</x-button>
+          <x-button @click.native="jump('score')">排行榜</x-button>
         </template>
       </div>
       <div v-else class="btn-wrapper margin-top-60 login">
-        <x-button @click.native="jump('login')">登录</x-button>
+        <x-button type="primary" @click.native="jump('login')">登录</x-button>
+        <x-button @click.native="jump('score')">排行榜</x-button>
       </div>
-
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
     <!-- <canvas ref="band"></canvas> -->
@@ -314,8 +315,8 @@ export default {
   }
   .btn-wrapper {
     position: absolute;
-    bottom: 10%;
-    width: 40%;
+    bottom: 7%;
+    width: 145px;
     font-size: 10pt;
     p {
       padding-bottom: 10px;
@@ -334,8 +335,11 @@ export default {
 }
 
 @red-color: #e83e21;
-
+.weui-btn + .weui-btn {
+  margin-top: 5px;
+}
 .weui-btn_default {
+  line-height: 2;
   background: transparent;
   color: #333;
 }
