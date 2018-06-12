@@ -99,6 +99,8 @@ export default {
       }
     },
     subScore() {
+      // return this.sport.questionNums - this.errorQuestion.length;
+
       let score = 0;
       this.errorQuestion = [];
       // 每题得分
@@ -120,7 +122,8 @@ export default {
           this.errorQuestion.push(this.questionList[i].questionId);
         }
       });
-      return score;
+      return this.sport.questionNums - this.errorQuestion.length;
+      // return score;
     }
   },
   watch: {
