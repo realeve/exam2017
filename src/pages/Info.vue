@@ -75,17 +75,35 @@ export default {
     },
     reload() {
       window.location.href = window.location.href.split("#")[0];
+    },
+    loadCurScore() {
+      if (!this.sport.cardNo) {
+        this.$router.push("/");
+        return;
+      }
+      let params = {
+        s: "/addon/GoodVoice/GoodVoice/getCurScore",
+        uid: this.sport.cardNo,
+        sid: this.sport.id
+      };
+      this.$http
+        .jsonp(this.cdnUrl, {
+          params
+        })
+        .then(res => {
+          this.title = "感谢参与";
+          this.desc = `感谢您对本次活动的大力支持,你当前总分为${
+            res.data[0].score
+          }分,<br>还有${this.sport.maxTimes -
+            (this.sport.curTimes - 1)}次答题机会。`;
+        });
     }
   },
   mounted() {
     if (this.sport.doLottery) {
       this.loadDefaultData();
     } else {
-      this.title = "感谢参与";
-      this.desc = `感谢您对本次活动的大力支持,你当前总分为${
-        this.sport.curScore
-      }分,<br>还有${this.sport.maxTimes -
-        (this.sport.curTimes - 1)}次答题机会。`;
+      this.loadCurScore();
     }
     document.title = "感谢参与";
   }
