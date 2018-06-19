@@ -12,9 +12,9 @@
       <div class="margin-top-20 time">
         活动时间：{{sportDate}}
       </div> -->
-      <div v-if="showLoginfo" class="btn-wrapper login">
-        <!-- <p>{{sport.userName}}您好,欢迎参加本次活动，您当前得分为{{sport.curScore}}分，答题{{sport.curTimes-1}}次，若不是本人请点击按钮重新登录。
+      <!-- <p>{{sport.userName}}您好,欢迎参加本次活动，您当前得分为{{sport.curScore}}分，答题{{sport.curTimes-1}}次，若不是本人请点击按钮重新登录。
         </p> -->
+      <!-- <div v-if="showLoginfo" class="btn-wrapper login">
         <x-button v-if="sport.showDocument" @click.native="jump('doc')">{{sport.name}}学习</x-button>
         <template v-if="haveAnswerTimes">
           <x-button @click.native="jump('doc')">安全知识学习</x-button>
@@ -25,7 +25,13 @@
       <div v-else class="btn-wrapper margin-top-60 login">
         <x-button type="primary" @click.native="jump('login')">登录</x-button>
         <x-button @click.native="jump('score')">排行榜</x-button>
+      </div> -->
+
+      <div class="btn-wrapper margin-top-60 login">
+        <x-button>活动已截止</x-button>
+        <x-button type="primary" @click.native="jump('score')">排行榜</x-button>
       </div>
+
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
     <!-- <canvas ref="band"></canvas> -->
