@@ -37,7 +37,7 @@ import questionJSON from "../assets/data/finance.json";
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
 import moment from "moment";
-
+import * as db from "../lib/db";
 let questionList = util.getPaperData(questionJSON);
 
 export default {
@@ -145,35 +145,51 @@ export default {
     getSubmitData(answer_nums) {
       const now = moment().format("YYYY-MM-DD HH:mm:ss");
       const timeLength = moment(now).diff(moment(this.startTime), "s");
+      // return {
+      //   // nickname: this.userInfo.nickname,
+      //   // openid: this.userInfo.openid,
+      //   // sex: this.userInfo.sex,
+      //   // city: this.userInfo.city,
+      //   // province: this.userInfo.province,
+      //   // country: this.userInfo.country,
+      //   // headimgurl: this.userInfo.headimgurl,
+
+      //   // rec_time: now,
+      //   // score: this.subScore,
+      //   // errors: this.errorQuestion.join(","),
+      //   // sportid: this.sport.id,
+      //   // start_time: this.startTime,
+      //   // uid: this.sport.uid,
+      //   // iTimes: this.sport.curTimes,
+      //   // oldScore: this.sport.curScore,
+      //   // bCheck: this.sport.isOnline ? 0 : 1,
+      //   // answer_nums,
+      //   // time_length: timeLength,
+      //   // stackMode: this.sport.stackMode
+      // };
+
+      // 未处理实时答题，未处理得分累加
       return {
-        // nickname: this.userInfo.nickname,
-        // openid: this.userInfo.openid,
-        // sex: this.userInfo.sex,
-        // city: this.userInfo.city,
-        // province: this.userInfo.province,
-        // country: this.userInfo.country,
-        // headimgurl: this.userInfo.headimgurl,
-        rec_time: now,
-        score: this.subScore,
-        errors: this.errorQuestion.join(","),
-        sportid: this.sport.id,
-        start_time: this.startTime,
         uid: this.sport.uid,
-        iTimes: this.sport.curTimes,
-        oldScore: this.sport.curScore,
-        bCheck: this.sport.isOnline ? 0 : 1,
+        sid: this.sport.id,
+        answer_times: this.sport.curTimes,
+        score: this.subScore,
+        error_detail: this.errorQuestion.join(","),
+        rec_time: now,
+        start_time: this.startTime,
         answer_nums,
-        time_length: timeLength,
-        stackMode: this.sport.stackMode
+        time_length: timeLength
       };
     },
     setCurIdx(slideIdx) {
       let slideNum = this.questionList.length;
       this.tips = slideNum > 1 ? `${slideIdx}/${slideNum}` : "";
     },
-    submit(answer_nums) {
+
+    submit: async function(answer_nums) {
       let params = this.getSubmitData(answer_nums);
-      params.s = "/addon/GoodVoice/GoodVoice/setSafeExamData";
+      console.log(params);
+      /*params.s = "/addon/GoodVoice/GoodVoice/setSafeExamData";
 
       this.$http
         .jsonp(this.cdnUrl, {
@@ -189,7 +205,29 @@ export default {
             this.sport.curTimes++;
             this.$router.push("info");
           }
-        });
+        });*/
+      let res;
+      if (params.answer_times == 1) {
+        res = await db.addCbpcSportMain(params);
+      } else {
+        // 得分更高时，全部更新
+        if (params.score >= this.sport.curScore) {
+          res = await db.setCbpcSportMain(params);
+        } else {
+          res = await db.setCbpcSportMainByTimes(params);
+        }
+      }
+      console.log(res);
+
+      this.sport.curScore = Math.max(this.sport.curScore, params.score);
+
+      // 如果到了最后一页点击按钮提交，跳转到提示页面
+      if (answer_nums == this.sport.questionNums) {
+        this.toast.show = true;
+        this.toast.msg = "提交成功";
+        this.sport.curTimes++;
+        this.$router.push("info");
+      }
     },
     init() {
       if (this.paperInit) {
