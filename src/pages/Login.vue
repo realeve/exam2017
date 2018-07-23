@@ -8,7 +8,7 @@
         <picker :data='dptList' v-model='sport.dpt'></picker>
       </template>
       <div class="btn">
-        <x-button :disabled="!shouldCommit" type="primary" @click.native="submit">登录</x-button>
+        <x-button :disabled="!shouldCommit" type="primary" @click.native="login">登录</x-button>
       </div>
     </group>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
@@ -19,6 +19,7 @@
 import { XButton, XInput, Group, Toast, Picker, GroupTitle } from "vux";
 
 import { mapState } from "vuex";
+import * as db from "../lib/db";
 
 export default {
   components: {
@@ -35,46 +36,11 @@ export default {
         show: false,
         msg: ""
       },
-      dptList: [
-        [
-          "董事会、经理部",
-          "办公室",
-          "企划信息部",
-          "计划财务部",
-          "印钞管理部",
-          "钞纸管理部",
-          "安全保卫部",
-          "设备管理部",
-          "物资管理部",
-          "技术中心",
-          "基建与行政事务部",
-          "人力资源部",
-          "企业文化部",
-          "纪检监察内审部",
-          "群工部",
-          "离退休工作部",
-          "印钞数管部",
-          "胶凹制作部",
-          "印码制作部",
-          "检封制作部",
-          "钞纸制作部",
-          "钞纸成品制作部",
-          "造币制作部",
-          "能源环保部",
-          "市场开发部",
-          "采购管理部",
-          "长城公司",
-          "物业公司",
-          "金鼎公司",
-          "中钞金服",
-          "成钞医院"
-        ]
-        //['办公室', '电商部', '粉体材料生产部', '计划财务部', '加工生产部', '精炼生产部', '科技质量部', '企划安保部', '生产管理部', '物资设备保障部', '营销部', '造币制作部', '成钞财务部']
-      ]
+      dptList: []
     };
   },
   computed: {
-    ...mapState(["cdnUrl"]),
+    ...mapState(["cdnUrl", "sport"]),
     shouldCommit() {
       return (
         this.sport.userName != "" &&
@@ -95,68 +61,138 @@ export default {
     jump(router) {
       this.$router.push(router);
     },
-    submit() {
+    loadUserInfo() {
+      let userInfo = localStorage.getItem("userInfo");
+      if (userInfo == null) {
+        return;
+      }
+      userInfo = JSON.parse(userInfo);
+      this.sport = {
+        userName: userInfo.user_name,
+        cardNo: userInfo.user_id,
+        dpt: [userInfo.user_dpt]
+      };
+    },
+    login: async function() {
       let params = {
-        user_name: this.sport.userName,
-        user_id: this.sport.cardNo,
-        // user_dpt: this.sport.dpt[0],
-        sportid: this.sport.id,
-        s: "/addon/GoodVoice/GoodVoice/examSafeLogin"
+        sid: this.sport.id,
+        card_no: this.sport.cardNo,
+        username: this.sport.userName,
+        dept_name: "%%"
       };
       if (this.sport.useDept) {
-        params.user_dpt = this.sport.dpt[0];
+        params.dept_name = `%${this.sport.dpt[0]}%`;
       }
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
-        })
-        .then(res => {
-          let obj = res.data;
-          // 卡号或部门输入错误
-          if (obj.id == 0) {
-            this.toast.show = true;
-            this.toast.msg = obj.msg;
-            return;
-          }
-          //校验姓氏
-          if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
-            this.toast.show = true;
-            this.toast.msg = "姓名填写错误";
-            return;
-          }
+      let { data } = await db.login(params);
+      if (data.length === 0) {
+        this.toast.show = true;
+        this.toast.msg = "登录失败";
+        return;
+      }
+      let obj = data[0];
+      // 登录成功
+      this.sport.isLogin = true;
+      this.sport.curTimes = parseInt(obj.answer_times) + 1;
 
-          // 登录成功
-          this.sport.isLogin = true;
-          this.sport.curTimes = parseInt(obj.answer_times) + 1;
+      var userInfo = JSON.stringify({
+        user_name: params.username,
+        user_id: params.card_no,
+        user_dpt: this.sport.dpt[0]
+      });
+      this.sport.uid = obj.uid;
+      this.sport.curScore = obj.score;
+      localStorage.setItem("userInfo", userInfo);
 
-          delete params.sportid;
-          delete params.s;
+      if (
+        !this.sport.isOnline &&
+        parseInt(obj.answer_times) > this.sport.maxTimes
+      ) {
+        this.toast.show = true;
+        this.toast.msg = "答题次数用完";
+        this.jump("info");
+        return;
+      }
 
-          var userInfo = JSON.stringify(params);
-          this.sport.uid = obj.id;
-          this.sport.curScore = obj.score;
-          localStorage.setItem("userInfo", userInfo);
+      if (this.sport.showDocument) {
+        this.jump("doc");
+      } else {
+        this.jump("paper");
+      }
+    },
+    // submit() {
+    //   let params = {
+    //     user_name: this.sport.userName,
+    //     user_id: this.sport.cardNo,
+    //     // user_dpt: this.sport.dpt[0],
+    //     sportid: this.sport.id,
+    //     s: "/addon/GoodVoice/GoodVoice/examSafeLogin"
+    //   };
+    //   if (this.sport.useDept) {
+    //     params.user_dpt = this.sport.dpt[0];
+    //   }
+    //   this.$http
+    //     .jsonp(this.cdnUrl, {
+    //       params
+    //     })
+    //     .then(res => {
+    //       let obj = res.data;
+    //       // 卡号或部门输入错误
+    //       if (obj.id == 0) {
+    //         this.toast.show = true;
+    //         this.toast.msg = obj.msg;
+    //         return;
+    //       }
+    //       //校验姓氏
+    //       if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
+    //         this.toast.show = true;
+    //         this.toast.msg = "姓名填写错误";
+    //         return;
+    //       }
 
-          if (
-            !this.sport.isOnline &&
-            parseInt(obj.answer_times) > this.sport.maxTimes
-          ) {
-            this.toast.show = true;
-            this.toast.msg = "答题次数用完";
-            this.jump("info");
-            return;
-          }
+    //       // 登录成功
+    //       this.sport.isLogin = true;
+    //       this.sport.curTimes = parseInt(obj.answer_times) + 1;
 
-          if (this.sport.showDocument) {
-            this.jump("doc");
-          } else {
-            this.jump("paper");
-          }
-        });
+    //       delete params.sportid;
+    //       delete params.s;
+
+    //       var userInfo = JSON.stringify(params);
+    //       this.sport.uid = obj.id;
+    //       this.sport.curScore = obj.score;
+    //       localStorage.setItem("userInfo", userInfo);
+
+    //       if (
+    //         !this.sport.isOnline &&
+    //         parseInt(obj.answer_times) > this.sport.maxTimes
+    //       ) {
+    //         this.toast.show = true;
+    //         this.toast.msg = "答题次数用完";
+    //         this.jump("info");
+    //         return;
+    //       }
+
+    //       if (this.sport.showDocument) {
+    //         this.jump("doc");
+    //       } else {
+    //         this.jump("paper");
+    //       }
+    //     });
+    // },
+    init: async function() {
+      if (!this.sport.useDept) {
+        this.loadUserInfo();
+        return;
+      }
+      this.sport.useDept = false;
+      let { data } = await db.getCbpcDeptList(this.sport.id);
+      this.dptList[0] = data.map(([dept]) => dept);
+      this.sport.useDept = true;
+      this.loadUserInfo();
     }
   },
   mounted() {
     document.title = "登录";
+    this.init();
   }
 };
 </script>

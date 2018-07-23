@@ -32,7 +32,7 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/questionSafe.json";
+import questionJSON from "../assets/data/finance.json";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
@@ -104,12 +104,12 @@ export default {
       let score = 0;
       this.errorQuestion = [];
       // 每题得分
-      let scorePerQuestion = !Reflect.has(this.questionList[0], "score")
-        ? 100 / this.answerList.length
-        : 0;
 
       this.answerList.forEach((item, i) => {
         let curQuestion = this.questionList[i];
+        let scorePerQuestion = !Reflect.has(curQuestion, "score")
+          ? this.state.sport.perScore
+          : curQuestion.score;
         // 多选答案校对
         let itemType = typeof item;
         if (itemType != "number" && itemType != "string") {
@@ -122,8 +122,8 @@ export default {
           this.errorQuestion.push(this.questionList[i].questionId);
         }
       });
-      return this.sport.questionNums - this.errorQuestion.length;
-      // return score;
+      // return this.sport.questionNums - this.errorQuestion.length
+      return score;
     }
   },
   watch: {
