@@ -4,6 +4,17 @@ import {
 
 /**
  *   @database: { 微信开发 }
+ *   @desc:     { 更新url阅读数 } 
+ */
+export const addCommonVisitCount = async url => await axios({
+    url: '/5/4c908bffac.json',
+    params: {
+        url
+    },
+}).then(res => res);
+
+/**
+ *   @database: { 微信开发 }
  *   @desc:     { 部门列表 } 
  */
 export const getCbpcDeptList = async sid => await axios({

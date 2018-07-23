@@ -13,6 +13,9 @@ import { Loading } from "vux";
 import { querystring } from "vux";
 
 import { mapState } from "vuex";
+import { axios } from "./lib/axios";
+import * as db from "./lib/db";
+
 export default {
   name: "app",
   components: {
@@ -79,15 +82,18 @@ export default {
   },
   methods: {
     wxPermissionInit() {
-      let params = {
-        s: "/addon/Api/Api/getSignature",
-        url: this.url
-      };
-      return this.$http
-        .jsonp(this.cdnUrl, {
-          params
-        })
-        .then(res => res.data);
+      axios({
+        baseURL: this.wxUrl,
+        url: "signature",
+        params: {
+          url: this.url
+        }
+      }).then(data => {
+        this.shouldShare = true;
+        this.wxReady(data);
+        this.initWxShare();
+        this.recordReadNum();
+      });
     },
     wxReady(obj) {
       let config = {
@@ -110,7 +116,7 @@ export default {
           title: this.title, // 分享标题
           desc: this.title,
           link: this.shareUrl,
-          imgUrl: "http://cbpm.sinaapp.com/cdn/logo/cbpc.jpg",
+          imgUrl: "http://cbpc.ltd/public/cdn/cbpc.jpg",
           type: "",
           dataUrl: "",
           success: function() {},
@@ -149,31 +155,24 @@ export default {
       this.getWXInfo();
     },
     getWXInfo() {
-      let params = {
-        s: "/addon/Api/Api/getUserInfo",
-        code: this.code
-      };
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
-        })
-        .then(res => {
-          this.userInfo = res.data;
-          if (Reflect.get(res.data, "nickname")) {
-            localStorage.setItem("wx_userinfo", JSON.stringify(res.data));
-          }
-        });
+      axios({
+        baseURL: this.wxUrl,
+        url: "user_info",
+        params: {
+          code: this.code
+        }
+      }).then(data => {
+        this.userInfo = data;
+        if (typeof data.nickname != "undefined") {
+          localStorage.setItem("wx_userinfo", JSON.stringify(data));
+        }
+      });
     },
     wxInit() {
       if (this.sport.loadWXInfo && !this.needRedirect()) {
         this.getWXUserInfo();
       }
-      this.wxPermissionInit().then(res => {
-        this.shouldShare = true;
-        this.wxReady(res);
-        this.initWxShare();
-        this.recordReadNum();
-      });
+      this.wxPermissionInit();
     },
     needRedirect() {
       let hrefArr = window.location.href.split("?");
@@ -186,17 +185,12 @@ export default {
       return false;
     },
     recordReadNum() {
+      // 创建唯一索引
+      // CREATE UNIQUE INDEX col_url ON tbl_common_visit_count(url);
       if (location.href.includes("localhost")) {
         return;
       }
-      let url = window.location.href.split("?")[0];
-      let params = {
-        s: "/addon/Api/Api/recordReadNum",
-        url
-      };
-      this.$http.jsonp(this.cdnUrl, {
-        params
-      });
+      db.addCommonVisitCount(window.location.href.split("?")[0]);
     }
   },
   created() {
