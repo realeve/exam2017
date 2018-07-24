@@ -123,12 +123,15 @@ export default {
     },
     // 更新头像信息
     updateUserInfo(uid, userInfo) {
-      let user = localStorage.getItem("userInfo");
-      if (user == null || JSON.parse(user).is_update) {
-        userInfo.is_update = true;
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        return;
-      }
+      // let user = localStorage.getItem("userInfo");
+      // if (user == null || JSON.parse(user).is_update) {
+      //   userInfo.is_update = true;
+      //   localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      //   return;
+      // }
+
+      userInfo.is_update = true;
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
       db
         .setCbpcUserList({

@@ -39,7 +39,7 @@ const state = {
         dpt: ["印钞管理部"],
         isLogin: false,
         curScore: 0, // 上次答题得分
-        maxTimes: 1,
+        maxTimes: 2,
         curTimes: 0,
         // 最小抽奖得分
         minPrizeScore: 80,

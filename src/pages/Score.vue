@@ -4,16 +4,23 @@
     <div class="content">
       <h3>1.得分排名</h3>
       <ul class="dept-rate">
-        <li v-for="({user_name,user_dpt,score,time_length},i) in users" :key="i">
-          <span>{{i+1}}.{{user_name}}</span>
-          <span>{{user_dpt}}</span>
-          <span>{{score}}分</span>
-          <span>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</span>
+        <li v-for="({user_name,user_dpt,score,time_length,avatar},i) in users" :key="i">
+          <img class="avatar" :src="avatar" alt="user_name">
+          <div class="detail">
+            <div class="text-left">
+              <p class="bold">{{i+1}}.{{user_name}}</p>
+              <p>{{user_dpt}}</p>
+            </div>
+            <div>
+              <p>{{score}}分</p>
+              <p>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
+            </div>
+          </div>
         </li>
       </ul>
       <h3 style="margin-top:30px;">2.各部门平均分与参与率</h3>
       <ul class="dept-rate">
-        <li v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
+        <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
           <span>{{i+1}}.{{user_dpt}}</span>
           <span>{{avg_score}}分</span>
           <span>{{rate}}%</span>
@@ -76,9 +83,38 @@ export default {
   }
   .dept-rate {
     li {
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      padding: 5px 0;
+      @avatar-size: 64px;
+      .avatar {
+        width: @avatar-size;
+        height: @avatar-size;
+        border-radius: 50%;
+        box-shadow: 1px 3px 3px #777;
+        border: solid 1px #fff3;
+      }
+      .detail {
+        padding-left: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .bold {
+          font-weight: bold;
+        }
+        p {
+          padding: 3px 0;
+        }
+        text-align: right;
+        .text-left {
+          text-align: left;
+        }
+      }
+    }
+
+    .dept-detail {
       display: flex;
       justify-content: space-between;
-      padding: 3px 0;
     }
   }
 }
