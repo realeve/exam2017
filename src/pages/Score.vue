@@ -27,6 +27,7 @@
 <script>
 import VHeader from "../components/Header";
 import { mapState } from "vuex";
+import * as db from "../lib/db";
 
 export default {
   components: {
@@ -43,24 +44,14 @@ export default {
   },
   methods: {
     getDeptRatio() {
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params: {
-            s: "/addon/GoodVoice/GoodVoice/getScoreByDpts",
-            sid: this.sport.id
-          }
-        })
-        .then(({ data }) => {
-          this.depts = data;
-        });
+      db.getCbpcSportMainByDept({ sid: this.sport.id }).then(({ data }) => {
+        this.depts = data;
+      });
     },
     getScoreList() {
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params: {
-            s: "/addon/GoodVoice/GoodVoice/getScoreList",
-            sid: this.sport.id
-          }
+      db
+        .getCbpcSportMainByUser({
+          sid: this.sport.id
         })
         .then(({ data }) => {
           this.users = data;
@@ -92,9 +83,6 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: 3px 0;
-      // span:nth-child(1) {
-      //   font-weight: bold;
-      // }
     }
   }
 }

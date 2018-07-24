@@ -94,14 +94,17 @@ export default {
       this.sport.isLogin = true;
       this.sport.curTimes = parseInt(obj.answer_times) + 1;
 
+      this.sport.uid = obj.uid;
+      this.sport.curScore = obj.score;
+
+      // 更新微信用户信息
       var userInfo = JSON.stringify({
         user_name: params.username,
         user_id: params.card_no,
         user_dpt: this.sport.dpt[0]
       });
-      this.sport.uid = obj.uid;
-      this.sport.curScore = obj.score;
       localStorage.setItem("userInfo", userInfo);
+      this.updateUserInfo(obj.uid, userInfo);
 
       if (
         !this.sport.isOnline &&
@@ -119,65 +122,26 @@ export default {
         this.jump("paper");
       }
     },
-    // submit() {
-    //   let params = {
-    //     user_name: this.sport.userName,
-    //     user_id: this.sport.cardNo,
-    //     // user_dpt: this.sport.dpt[0],
-    //     sportid: this.sport.id,
-    //     s: "/addon/GoodVoice/GoodVoice/examSafeLogin"
-    //   };
-    //   if (this.sport.useDept) {
-    //     params.user_dpt = this.sport.dpt[0];
-    //   }
-    //   this.$http
-    //     .jsonp(this.cdnUrl, {
-    //       params
-    //     })
-    //     .then(res => {
-    //       let obj = res.data;
-    //       // 卡号或部门输入错误
-    //       if (obj.id == 0) {
-    //         this.toast.show = true;
-    //         this.toast.msg = obj.msg;
-    //         return;
-    //       }
-    //       //校验姓氏
-    //       if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
-    //         this.toast.show = true;
-    //         this.toast.msg = "姓名填写错误";
-    //         return;
-    //       }
-
-    //       // 登录成功
-    //       this.sport.isLogin = true;
-    //       this.sport.curTimes = parseInt(obj.answer_times) + 1;
-
-    //       delete params.sportid;
-    //       delete params.s;
-
-    //       var userInfo = JSON.stringify(params);
-    //       this.sport.uid = obj.id;
-    //       this.sport.curScore = obj.score;
-    //       localStorage.setItem("userInfo", userInfo);
-
-    //       if (
-    //         !this.sport.isOnline &&
-    //         parseInt(obj.answer_times) > this.sport.maxTimes
-    //       ) {
-    //         this.toast.show = true;
-    //         this.toast.msg = "答题次数用完";
-    //         this.jump("info");
-    //         return;
-    //       }
-
-    //       if (this.sport.showDocument) {
-    //         this.jump("doc");
-    //       } else {
-    //         this.jump("paper");
-    //       }
-    //     });
-    // },
+    // 更新头像信息
+    updateUserInfo(uid, userInfo) {
+      let user = localStorage.getItem("userInfo");
+      user = JSON.parse(user);
+      if (user.is_update) {
+        return;
+      }
+      db
+        .setCbpcUserList({
+          nickname: this.userInfo.nickname,
+          openid: this.userInfo.openid,
+          sex: this.userInfo.sex,
+          headimgurl: this.userInfo.headimgurl,
+          uid
+        })
+        .then(res => {
+          userInfo.is_update = true;
+          localStorage.setItem("userInfo", userInfo);
+        });
+    },
     init: async function() {
       if (!this.sport.useDept) {
         this.loadUserInfo();

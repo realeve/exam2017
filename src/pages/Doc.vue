@@ -85,6 +85,7 @@ import util from "../lib/common";
 import { XButton, Confirm } from "vux";
 
 import { mapState } from "vuex";
+import * as db from "../lib/db";
 
 export default {
   components: {
@@ -117,14 +118,9 @@ export default {
       this.showConfirm = true;
     },
     onConfirm() {
-      let params = {
-        s: "/addon/GoodVoice/GoodVoice/clearExamData",
-        sid: this.sport.id
-      };
-
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
+      db
+        .delCbpcSportMain({
+          sid: this.sport.id
         })
         .then(res => {
           this.$vux.toast.text("清空完毕", "default");

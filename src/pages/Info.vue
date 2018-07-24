@@ -15,7 +15,7 @@ import { XButton, Msg } from "vux";
 import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
-
+import * as db from "../lib/db";
 export default {
   components: {
     XButton,
@@ -40,35 +40,28 @@ export default {
       window.location.href = "?#/led"; //this.$router.push('/led');
     },
     loadDefaultData() {
-      let params = {
-        s: "/addon/Api/Api/setExamLuckyInfo",
-        uid: this.sport.uid,
-        sportid: this.sport.id,
-        headimgurl: this.userInfo.headimgurl,
-        openid: this.userInfo.openid,
-        nickname: this.userInfo.nickname,
-        rec_time: dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")
-      };
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
+      let uid = this.sport.uid,
+        sid = this.sport.id;
+
+      db
+        .getCbpcSportLuckyusers({
+          uid,
+          sid
         })
-        .then(res => {
-          let obj = res.data;
-          if (obj.id > 0) {
-            this.isLucky = obj.prize_level == 1;
-            if (!this.isLucky) {
-              this.title = "未中奖";
-              this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${
-                this.sport.curScore
-              }分。`;
-              return;
-            }
-            this.title = "中奖了";
-            this.desc = "恭喜您成为本次活动的幸运用户。";
+        .then(({ data }) => {
+          let obj = data[0];
+          this.isLucky = obj.prize_id > 0;
+          if (!this.isLucky) {
+            this.title = "未中奖";
+            this.desc = `感谢您对本次活动的大力支持,你当前最高得分为${
+              this.sport.curScore
+            }分。`;
             return;
           }
-
+          this.title = "中奖了";
+          this.desc = "恭喜您成为本次活动的幸运用户。";
+        })
+        .catch(res => {
           this.title = "抽奖出错";
           this.desc = "请返回后重新进入答题页面，系统将自动抽奖";
         });
@@ -76,24 +69,20 @@ export default {
     reload() {
       window.location.href = window.location.href.split("#")[0];
     },
-    loadCurScore() {
+    loadCurScore: async function() {
       if (!this.sport.cardNo) {
         this.$router.push("/");
         return;
       }
-      let params = {
-        s: "/addon/GoodVoice/GoodVoice/getCurScore",
-        uid: this.sport.cardNo,
-        sid: this.sport.id
-      };
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
+      await db
+        .getCbpcSportMain({
+          uid: this.sport.uid,
+          sid: this.sport.id
         })
-        .then(res => {
+        .then(({ data }) => {
           this.title = "感谢参与";
           this.desc = `感谢您对本次活动的大力支持,你当前总分为${
-            res.data[0].score
+            data[0].score
           }分,<br>还有${this.sport.maxTimes -
             (this.sport.curTimes - 1)}次答题机会。`;
         });

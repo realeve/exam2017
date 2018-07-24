@@ -47,6 +47,7 @@ import particlesSetting from "../lib/particlesSetting";
 import { XButton, Toast } from "vux";
 
 import { mapState } from "vuex";
+import * as db from "../lib/db";
 
 export default {
   components: {
@@ -234,53 +235,59 @@ export default {
       this.login();
     },
     login() {
-      let params = {
-        user_name: this.sport.userName,
-        user_id: this.sport.cardNo,
-        user_dpt: this.sport.dpt[0],
-        sportid: this.sport.id,
-        s: "/addon/GoodVoice/GoodVoice/examSafeLogin"
-      };
       if (
         this.sport.userName == "" ||
-        this.sport.cardNo == "" ||
-        this.sport.dpt[0] == ""
+        this.sport.cardNo == ""
       ) {
         return;
       }
-      this.$http
-        .jsonp(this.cdnUrl, {
-          params
-        })
-        .then(res => {
-          let obj = res.data;
-          // 卡号或部门输入错误
-          if (obj.id == 0) {
-            return;
-          }
-          //校验姓氏
-          if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
-            return;
-          }
 
-          // 登录成功
-          this.sport.isLogin = true;
-          this.showLoginfo = true;
+       let params = {
+        sid: this.sport.id,
+        card_no: this.sport.cardNo,
+        username: this.sport.userName,
+        dept_name: "%%"
+      };
 
-          this.sport.uid = obj.id;
-          this.sport.curScore = obj.score;
-          this.sport.curTimes = parseInt(obj.answer_times) + 1;
+      if (this.sport.useDept) {
+        params.dept_name = `%${this.sport.dpt[0]}%`;
+      }
+      
+      let { data } = await db.login(params);
+      if (data.length === 0) {
+        this.toast.show = true;
+        this.toast.msg = "登录失败";
+        return;
+      }
 
-          if (
-            !this.sport.isOnline &&
-            parseInt(obj.answer_times) > this.sport.maxTimes
-          ) {
-            this.toast.show = true;
-            this.toast.msg = "答题次数用完";
-            this.haveAnswerTimes = false;
-            this.jump("info");
-          }
-        });
+      let obj = data[0];
+  
+      // 卡号或部门输入错误
+      if (obj.uid == 0) {
+        return;
+      }
+      //校验姓氏
+      if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
+        return;
+      }
+
+      // 登录成功
+      this.sport.isLogin = true;
+      this.showLoginfo = true;
+
+      this.sport.uid = obj.uid;
+      this.sport.curScore = obj.score;
+      this.sport.curTimes = parseInt(obj.answer_times) + 1;
+
+      if (
+        !this.sport.isOnline &&
+        parseInt(obj.answer_times) > this.sport.maxTimes
+      ) {
+        this.toast.show = true;
+        this.toast.msg = "答题次数用完";
+        this.haveAnswerTimes = false;
+        this.jump("info");
+      }
     }
   },
   mounted() {
