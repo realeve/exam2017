@@ -158,7 +158,7 @@ export const getCbpcSportMainByUser = async sid => await axios({
  *   @database: { 微信开发 }
  *   @desc:     { 活动参与人数及中奖人数 } 
  */
-export const getCbpcSportLuckyusers = async sid => await axios({
+export const getCbpcSportLuckyusersNum = async sid => await axios({
     url: '/19/55b787922f.json',
     params: {
         sid

@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     loadCurLucker() {
-      db.getCbpcSportLuckyusers({ sid: this.sport.id }).then(res => {
+      db.getCbpcSportLuckyusersNum({ sid: this.sport.id }).then(res => {
         let obj = res.data[0];
         this.curPeople = obj.people_num;
         this.curLucker = obj.prize_num;

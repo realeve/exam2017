@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-header/>
+    <!-- <v-header/> -->
     <div class="content">
       <h3>1.得分排名</h3>
       <ul class="dept-rate">
@@ -44,18 +44,14 @@ export default {
   },
   methods: {
     getDeptRatio() {
-      db.getCbpcSportMainByDept({ sid: this.sport.id }).then(({ data }) => {
+      db.getCbpcSportMainByDept(this.sport.id).then(({ data }) => {
         this.depts = data;
       });
     },
     getScoreList() {
-      db
-        .getCbpcSportMainByUser({
-          sid: this.sport.id
-        })
-        .then(({ data }) => {
-          this.users = data;
-        });
+      db.getCbpcSportMainByUser(this.sport.id).then(({ data }) => {
+        this.users = data;
+      });
     },
     init() {
       this.getDeptRatio();

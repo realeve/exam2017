@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport"]),
+    ...mapState(["cdnUrl", "sport", "userInfo"]),
     shouldCommit() {
       return (
         this.sport.userName != "" &&
@@ -98,12 +98,11 @@ export default {
       this.sport.curScore = obj.score;
 
       // 更新微信用户信息
-      var userInfo = JSON.stringify({
+      var userInfo = {
         user_name: params.username,
         user_id: params.card_no,
         user_dpt: this.sport.dpt[0]
-      });
-      localStorage.setItem("userInfo", userInfo);
+      };
       this.updateUserInfo(obj.uid, userInfo);
 
       if (
@@ -125,10 +124,12 @@ export default {
     // 更新头像信息
     updateUserInfo(uid, userInfo) {
       let user = localStorage.getItem("userInfo");
-      user = JSON.parse(user);
-      if (user.is_update) {
+      if (user == null || JSON.parse(user).is_update) {
+        userInfo.is_update = true;
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         return;
       }
+
       db
         .setCbpcUserList({
           nickname: this.userInfo.nickname,

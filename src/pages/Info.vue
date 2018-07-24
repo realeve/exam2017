@@ -4,7 +4,7 @@
       <msg :title="title" :description="desc" :icon="icon"></msg>
       <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
       <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
-      <x-button class="wrapper" type="primary" @click.native="reload">再答一次</x-button>
+      <x-button class="wrapper" type="primary" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
     </div>
   </div>
 </template>
@@ -30,7 +30,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport", "userInfo"])
+    ...mapState(["cdnUrl", "sport", "userInfo"]),
+    answer_times() {
+      return this.sport.maxTimes - (this.sport.curTimes - 1);
+    }
   },
   methods: {
     viewLucky() {
@@ -67,6 +70,10 @@ export default {
         });
     },
     reload() {
+      if (this.answer_times == 0) {
+        this.$router.push("/score");
+        return;
+      }
       window.location.href = window.location.href.split("#")[0];
     },
     loadCurScore: async function() {
@@ -83,8 +90,7 @@ export default {
           this.title = "感谢参与";
           this.desc = `感谢您对本次活动的大力支持,你当前总分为${
             data[0].score
-          }分,<br>还有${this.sport.maxTimes -
-            (this.sport.curTimes - 1)}次答题机会。`;
+          }分,<br>还有${this.answer_times}次答题机会。`;
         });
     }
   },

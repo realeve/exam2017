@@ -79,7 +79,7 @@
 </style>
 
 <script>
-import paper from "../assets/data/questionSafe.json";
+import paper from "../assets/data/finance.json";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";
