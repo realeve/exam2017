@@ -41,6 +41,7 @@ const state = {
         curScore: 0, // 上次答题得分
         maxTimes: 2,
         curTimes: 0,
+        curTimeLength: 0, //当前答题时间
         // 最小抽奖得分
         minPrizeScore: 80,
         testMode: false,

@@ -73,10 +73,15 @@ export const submitPaper = async(params, sport) => {
         return await addCbpcSportMain(params);
     }
     // 得分更高时或在线答题模式，全部更新
-    if (params.score >= sport.curScore || sport.isOnline) {
+    if (params.score > sport.curScore || sport.isOnline) {
+        return await setCbpcSportMain(params);
+    } else if (params.score == sport.curScore) {
+        // 得分相同时，更新时间
+        params.time_length = Math.min(sport.curTimeLength, params.time_length);
         return await setCbpcSportMain(params);
     }
 
+    // 得分低于上一次，仅更新时间
     return await setCbpcSportMainByTimes(params);
 }
 

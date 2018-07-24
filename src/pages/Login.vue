@@ -96,6 +96,7 @@ export default {
 
       this.sport.uid = obj.uid;
       this.sport.curScore = obj.score;
+      this.sport.curTimeLength = obj.time_length;
 
       // 更新微信用户信息
       var userInfo = {
