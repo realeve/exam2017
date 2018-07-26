@@ -30,7 +30,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport"]),
+    ...mapState(["cdnUrl", "sport", "wxUrl"]),
     isLoading: {
       get() {
         return this.$store.state.isLoading;
@@ -83,8 +83,8 @@ export default {
   methods: {
     wxPermissionInit() {
       axios({
-        baseURL: this.wxUrl,
-        url: "signature",
+        // baseURL: this.wxUrl,
+        url: this.wxUrl + "signature",
         params: {
           url: this.url
         }
@@ -156,8 +156,8 @@ export default {
     },
     getWXInfo() {
       axios({
-        baseURL: this.wxUrl,
-        url: "user_info",
+        // baseURL: this.wxUrl,
+        url: this.wxUrl + "user_info",
         params: {
           code: this.code
         }

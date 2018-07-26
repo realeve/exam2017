@@ -144,7 +144,7 @@ export default {
         })
         .then(res => {
           userInfo.is_update = true;
-          localStorage.setItem("userInfo", userInfo);
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
         });
     },
     init: async function() {
