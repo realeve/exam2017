@@ -6,7 +6,7 @@ import qs from "qs";
 // let host = process.env.NODE_ENV ? "http://localhost:90/api/" : state.cdnUrl;
 // host = state.cdnUrl;
 
-let host = '//api.cbpc.ltd/'
+let host = '//www.cbpc.ltd/api/'
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
 let getType = data =>
