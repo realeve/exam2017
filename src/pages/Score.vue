@@ -75,6 +75,7 @@ export default {
 .content {
   text-align: left;
   padding: 10px;
+  height: 100%;
   h3 {
     font-weight: bold;
     padding-bottom: 5px;

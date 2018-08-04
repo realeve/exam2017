@@ -26,7 +26,7 @@ const state = {
         name: "成本月微信有奖答题",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
-        questionNums: 10, // 抽题数量
+        questionNums: 20, // 抽题数量
         perScore: 1, // 每题得分
         useDept: true,
         isOnline: false, //实际活动
