@@ -83,9 +83,8 @@ export default {
   methods: {
     wxPermissionInit() {
       axios({
-        // baseURL: this.wxUrl,
-        url: this.wxUrl + "signature",
         params: {
+          s: "/weixin/signature",
           url: this.url
         }
       }).then(data => {
@@ -156,9 +155,8 @@ export default {
     },
     getWXInfo() {
       axios({
-        // baseURL: this.wxUrl,
-        url: this.wxUrl + "user_info",
         params: {
+          s: "/weixin/user_info",
           code: this.code
         }
       }).then(data => {
