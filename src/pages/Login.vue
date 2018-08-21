@@ -83,13 +83,17 @@ export default {
       if (this.sport.useDept) {
         params.dept_name = `%${this.sport.dpt[0]}%`;
       }
-      let { data } = await db.login(params);
+      let { data } = await db[
+        !this.sport.alwaysRecordScore ? "login" : "login2"
+      ](params);
+
       if (data.length === 0) {
         this.toast.show = true;
         this.toast.msg = "登录失败";
         return;
       }
       let obj = data[0];
+      console.log(obj.answer_times);
       // 登录成功
       this.sport.isLogin = true;
       this.sport.curTimes = parseInt(obj.answer_times) + 1;
@@ -105,7 +109,7 @@ export default {
         user_dpt: this.sport.dpt[0]
       };
       this.updateUserInfo(obj.uid, userInfo);
-      console.log(obj);
+      // console.log(obj);
       if (
         !this.sport.isOnline &&
         parseInt(obj.answer_times) >= this.sport.maxTimes

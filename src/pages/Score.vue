@@ -4,7 +4,7 @@
     <div class="content">
       <h3>1.得分排名</h3>
       <ul class="dept-rate">
-        <li v-for="({user_name,user_dpt,score,time_length,avatar},i) in users" :key="i">
+        <li v-for="({user_name,user_dpt,score,time_length,avatar,answer_times},i) in users" :key="i">
           <img class="avatar" :src="avatar" alt="user_name">
           <div class="detail">
             <div class="text-left">
@@ -12,7 +12,8 @@
               <p>{{user_dpt}}</p>
             </div>
             <div>
-              <p>{{score}}分</p>
+              <p>{{score}}分(
+                <span class="bold">{{answer_times}}</span>次)</p>
               <p>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
             </div>
           </div>

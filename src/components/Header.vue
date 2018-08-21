@@ -22,7 +22,7 @@ export default {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-image: url("../assets/img/main.jpg");
+  background-image: url("../assets/img/main2.jpg");
   height: 232px;
   background-size: cover;
   background-position: center top;

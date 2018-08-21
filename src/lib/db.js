@@ -28,13 +28,22 @@ export const getCbpcDeptList = async sid => await axios({
 /**
 *   @database: { 微信开发 }
 *   @desc:     { 用户登录 } 
-    const { sid, card_no, username } = params;
+    const { sid, card_no, username,dept_name } = params;
 */
 export const login = async params => await axios({
     url: '/8/230cba0823.json',
     params,
 }).then(res => res);
 
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 用户登录(累计积分模式) } 
+    const { sid, card_no, username, dept_name } = params;
+*/
+export const login2 = async params => await axios({
+    url: '/39/836f66bd88.json',
+    params,
+}).then(res => res);
 
 /**
 *   @database: { 微信开发 }
@@ -68,8 +77,9 @@ const setCbpcSportMainByTimes = async params => await axios({
 
 export const submitPaper = async(params, sport) => {
     // 首次提交
-    let isFirstSubmit = params.answer_times == 1 && (params.answer_nums == 1 || params.answer_nums == sport.questionNums)
-    if (isFirstSubmit) {
+    let isFirstSubmit = params.answer_times == 1 && (params.answer_nums == 1 || params.answer_nums == sport.questionNums);
+    // 安全履职能力评价，采用练习模式，每次都需提交数据
+    if (sport.alwaysRecordScore || isFirstSubmit) {
         return await addCbpcSportMain(params);
     }
     // 得分更高时或在线答题模式，全部更新
@@ -92,6 +102,16 @@ export const submitPaper = async(params, sport) => {
 */
 export const getCbpcSportMain = async params => await axios({
     url: '/12/e71eb4f0a1.json',
+    params,
+}).then(res => res);
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 用户得分查询(累积模式) } 
+    const { uid, sid } = params;
+*/
+export const getCbpcSportMain2 = async params => await axios({
+    url: '/40/f0db845c49.json',
     params,
 }).then(res => res);
 

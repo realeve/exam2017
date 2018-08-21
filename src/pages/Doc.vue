@@ -79,7 +79,8 @@
 </style>
 
 <script>
-import paper from "../assets/data/finance.json";
+// import paper from "../assets/data/finance.json";
+import questionJSON from "../assets/data/safe2018.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";

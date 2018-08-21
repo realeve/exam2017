@@ -31,6 +31,7 @@
         <x-button type="primary" @click.native="jump('login')">登录</x-button>
         <!-- <x-button>活动已截止</x-button> -->
         <x-button @click.native="jump('score')">排行榜</x-button>
+        <x-button type="primary" v-if="error_detail.length" @click.native="jump('answer')">查看正确答案</x-button>
       </div>
 
     </div>
@@ -65,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl"]),
+    ...mapState(["cdnUrl", "error_detail"]),
     year() {
       let date = new Date();
       return date.getFullYear();
@@ -234,15 +235,12 @@ export default {
       };
       this.login();
     },
-    login() {
-      if (
-        this.sport.userName == "" ||
-        this.sport.cardNo == ""
-      ) {
+    login: async function() {
+      if (this.sport.userName == "" || this.sport.cardNo == "") {
         return;
       }
 
-       let params = {
+      let params = {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
         username: this.sport.userName,
@@ -252,24 +250,24 @@ export default {
       if (this.sport.useDept) {
         params.dept_name = `%${this.sport.dpt[0]}%`;
       }
-      
-      let { data } = await db.login(params);
+
+      let { data } = await db[
+        !this.sport.alwaysRecordScore ? "login" : "login2"
+      ](params);
       if (data.length === 0) {
         this.toast.show = true;
         this.toast.msg = "登录失败";
         return;
       }
 
-      let obj = data[0];
-  
+      let obj = data[data.length - 1];
+
       // 卡号或部门输入错误
       if (obj.uid == 0) {
         return;
       }
       //校验姓氏
-      if (obj.first_name.trim() != params.user_name.substr(0, 1)) {
-        return;
-      }
+      // console.log(obj);
 
       // 登录成功
       this.sport.isLogin = true;
@@ -288,6 +286,14 @@ export default {
         this.haveAnswerTimes = false;
         this.jump("info");
       }
+    },
+    getErrDetail() {
+      let e = window.localStorage.getItem("error_detail");
+      if (e != null) {
+        this.$store.commit("setStore", {
+          error_detail: e.split(",").map(item => parseInt(item))
+        });
+      }
     }
   },
   mounted() {
@@ -295,6 +301,7 @@ export default {
     this.loadUserInfo();
     particlesJS("home", particlesSetting);
     document.title = this.sport.name + "微信答题";
+    this.getErrDetail();
   }
 };
 </script>
@@ -306,7 +313,7 @@ export default {
   height: 100vh;
   width: 100%;
   // background-color: #e33e3e;
-  background-image: url("../assets/img/main.jpg");
+  background-image: url("../assets/img/main2.jpg");
   background-size: cover;
   background-position: center;
 }

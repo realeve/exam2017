@@ -22,11 +22,11 @@ const state = {
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {
-        id: 23,
-        name: "成本月微信有奖答题",
+        id: 24,
+        name: "安全履职能力评价微信有奖答题",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
-        questionNums: 20, // 抽题数量
+        questionNums: 30, // 抽题数量
         perScore: 1, // 每题得分
         useDept: true,
         isOnline: false, //实际活动
@@ -39,21 +39,24 @@ const state = {
         dpt: ["印钞管理部"],
         isLogin: false,
         curScore: 0, // 上次答题得分
-        maxTimes: 2,
+        maxTimes: 100000,
         curTimes: 0,
         curTimeLength: 0, //当前答题时间
         // 最小抽奖得分
         minPrizeScore: 80,
         testMode: false,
-        startDate: "2018-07-23",
-        endDate: "2018-07-31",
+        startDate: "2018-08-23",
+        endDate: "2018-10-23",
         // 得分是否累加
-        stackMode: false
+        stackMode: false,
+        // 记录每次答题得分
+        alwaysRecordScore: true
     },
     paperInit: false,
     peopleCount: 0,
     isPC: !isMobile(),
-    refreshInterval: 5 * 1000
+    refreshInterval: 5 * 1000,
+    error_detail: []
 };
 
 // 按题目数量总分100分

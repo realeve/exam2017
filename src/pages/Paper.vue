@@ -32,13 +32,19 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/finance.json";
+// import questionJSON from "../assets/data/finance.json";
+import questionJSON from "../assets/data/safe2018.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
 import moment from "moment";
 import * as db from "../lib/db";
-let questionList = util.getPaperData(questionJSON);
+
+// 是否需要随机选项数据
+let questionList = util.getPaperData(questionJSON, {
+  randomAnswer: false,
+  randomQuestion: true
+});
 
 export default {
   name: "page",
@@ -116,7 +122,13 @@ export default {
           item = item.sort((a, b) => a - b).join(",");
         }
 
-        if (item == curQuestion.answer.join(",")) {
+        let standardAnswer = ["number", "string"].includes(
+          typeof curQuestion.answer
+        )
+          ? curQuestion.answer
+          : curQuestion.answer.join(",");
+
+        if (item == standardAnswer) {
           score += scorePerQuestion > 0 ? scorePerQuestion : curQuestion.score;
         } else {
           this.errorQuestion.push(this.questionList[i].questionId);
@@ -166,6 +178,12 @@ export default {
 
     submit: async function(answer_nums) {
       let params = this.getSubmitData(answer_nums);
+
+      // 存储当前错误题目
+      let { error_detail } = params;
+      window.localStorage.setItem("error_detail", error_detail);
+      this.$store.commit("setStore", { error_detail: this.errorQuestion });
+
       let res = await db.submitPaper(params, this.sport);
       if (res.rows == 0 || res.data[0].affected_rows == 0) {
         this.toast.show = true;
@@ -257,6 +275,7 @@ export default {
     }
   },
   mounted() {
+    window.localStorage.removeItem("error_detail");
     if (!this.sport.isLogin) {
       this.$router.push("/");
     } else {
@@ -277,8 +296,7 @@ export default {
   margin: 0;
   padding: 10px;
   color: #785a32;
-  background: url(http://www.cbpc.ltd/public/topic/201711/static/main.jpg) 0 0
-    no-repeat;
+  background: url(../assets/img/bg.jpg) 0 0 no-repeat;
   background-size: 100% 110%;
 }
 .submit {

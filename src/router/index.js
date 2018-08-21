@@ -8,7 +8,7 @@ export default new Router({
     routes: [{
         path: '/',
         component: function(resolve) {
-            require(['../pages/Login.vue'], resolve) // Home
+            require(['../pages/Home.vue'], resolve) // Home
         }
     }, {
         path: '/doc',
@@ -49,6 +49,11 @@ export default new Router({
         path: '/score',
         component: function(resolve) {
             require(['../pages/Score.vue'], resolve)
+        }
+    }, {
+        path: '/answer',
+        component: function(resolve) {
+            require(['../pages/Answer.vue'], resolve)
         }
     }]
 })

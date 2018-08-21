@@ -5,6 +5,7 @@
       <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
       <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
       <x-button class="wrapper" type="primary" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
+      <x-button class="wrapper" v-show="error_detail.length>0" @click.native="showAnswer">查看正确答案</x-button>
     </div>
   </div>
 </template>
@@ -30,7 +31,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport", "userInfo"]),
+    ...mapState(["cdnUrl", "sport", "userInfo", "error_detail"]),
     answer_times() {
       return this.sport.maxTimes - (this.sport.curTimes - 1);
     }
@@ -41,6 +42,9 @@ export default {
     },
     viewChart() {
       window.location.href = "?#/led"; //this.$router.push('/led');
+    },
+    showAnswer() {
+      this.$router.push("/answer");
     },
     loadDefaultData() {
       let uid = this.sport.uid,
@@ -81,17 +85,22 @@ export default {
         this.$router.push("/");
         return;
       }
-      await db
-        .getCbpcSportMain({
-          uid: this.sport.uid,
-          sid: this.sport.id
-        })
-        .then(({ data }) => {
-          this.title = "感谢参与";
-          this.desc = `感谢您对本次活动的大力支持,你当前总分为${
-            data[0].score
-          }分,<br>还有${this.answer_times}次答题机会。`;
-        });
+
+      let action = this.sport.alwaysRecordScore
+        ? "getCbpcSportMain2"
+        : "getCbpcSportMain";
+
+      await db[action]({
+        uid: this.sport.uid,
+        sid: this.sport.id
+      }).then(({ data }) => {
+        this.title = "感谢参与";
+        this.desc = `感谢您对本次活动的大力支持,你当前总分为${
+          data[0].score
+        }分(答题${data[0].answer_times}次),<br>还有${
+          this.answer_times
+        }次答题机会。`;
+      });
     }
   },
   mounted() {

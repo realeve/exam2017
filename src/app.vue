@@ -192,6 +192,8 @@ export default {
     }
   },
   created() {
+    // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });
+
     this.title = this.sport.name + "活动";
     // 开发模式下，初始化值
     if (process.env.NODE_ENV == "development") {
