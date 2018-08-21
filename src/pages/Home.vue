@@ -66,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "error_detail"]),
+    ...mapState(["error_detail"]),
     year() {
       let date = new Date();
       return date.getFullYear();

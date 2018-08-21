@@ -18,7 +18,6 @@ let isMobile = () => {
 const state = {
     isLoading: false,
     userInfo: {},
-    cdnUrl: "http://cbpc540.applinzi.com/index.php",
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {

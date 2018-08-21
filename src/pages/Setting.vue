@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport"]),
+    ...mapState(["sport"]),
     list() {
       let luckRate = 0,
         newRate = 0;

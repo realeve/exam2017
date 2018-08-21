@@ -115,7 +115,7 @@ export default {
           title: this.title, // 分享标题
           desc: this.title,
           link: this.shareUrl,
-          imgUrl: "http://cbpc.ltd/public/cdn/cbpc.jpg",
+          imgUrl: "https://www.cbpc.ltd/public/cdn/cbpc.jpg",
           type: "",
           dataUrl: "",
           success: function() {},

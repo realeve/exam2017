@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport", "userInfo"]),
+    ...mapState(["sport", "userInfo"]),
     shouldCommit() {
       return (
         this.sport.userName != "" &&

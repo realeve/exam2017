@@ -50,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo", "cdnUrl", "error_detail"]),
+    ...mapState(["userInfo", "error_detail"]),
     sport: {
       get() {
         return this.$store.state.sport;

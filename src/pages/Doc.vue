@@ -101,7 +101,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sport", "cdnUrl"]),
+    ...mapState(["sport"]),
     year() {
       let date = new Date();
       return date.getFullYear() + "年";

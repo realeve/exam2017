@@ -19,7 +19,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport"]),
+    ...mapState(["sport"]),
     isPC() {
       return this.$store.state.isPC;
     },

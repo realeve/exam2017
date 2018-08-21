@@ -19,7 +19,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cdnUrl", "sport"]),
+    ...mapState(["sport"]),
     chart() {
       return echarts.init(this.$refs.chart);
     }

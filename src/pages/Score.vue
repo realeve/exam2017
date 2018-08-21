@@ -48,7 +48,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sport", "cdnUrl"])
+    ...mapState(["sport"])
   },
   methods: {
     getDeptRatio() {

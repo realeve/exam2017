@@ -70,7 +70,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo", "cdnUrl"]),
+    ...mapState(["userInfo"]),
     questionList() {
       return questionList.slice(0, this.sport.questionNums);
     },

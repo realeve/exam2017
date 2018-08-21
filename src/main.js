@@ -45,8 +45,8 @@ router.afterEach(function(to) {
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$baseurl = 'http://cbpc540.applinzi.com/index.php'
-    // "https://bank.wenjuan.com/report/s8/59ad0ffec976d857cb4121fb/";
+// Vue.prototype.$baseurl = 'http://cbpc540.applinzi.com/index.php'
+// "https://bank.wenjuan.com/report/s8/59ad0ffec976d857cb4121fb/";
 
 /* eslint-disable no-new */
 new Vue({
