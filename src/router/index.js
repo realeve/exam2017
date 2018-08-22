@@ -55,5 +55,10 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/Answer.vue'], resolve)
         }
+    }, {
+        path: '/study',
+        component: function(resolve) {
+            require(['../pages/Study.vue'], resolve)
+        }
     }]
 })

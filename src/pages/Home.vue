@@ -28,10 +28,10 @@
       </div> -->
 
       <div class="btn-wrapper margin-top-60 login">
-        <x-button type="primary" @click.native="jump('login')">登录</x-button>
+        <x-button @click.native="jump('login')">登录</x-button>
         <!-- <x-button>活动已截止</x-button> -->
         <x-button @click.native="jump('score')">排行榜</x-button>
-        <x-button type="primary" v-if="error_detail.length" @click.native="jump('answer')">查看正确答案</x-button>
+        <x-button type="primary" v-if="error_detail.length" @click.native="jump('study')">知识学习</x-button>
       </div>
 
     </div>

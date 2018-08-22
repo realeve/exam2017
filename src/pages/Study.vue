@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="submit" v-if="i==questionList.length-1">
-        <x-button type="primary" @click.native="reload">重新答题</x-button>
+        <x-button type="primary" @click.native="reload">更新题目</x-button>
       </div>
     </div>
   </div>
@@ -26,6 +26,7 @@ import questionJSON from "../assets/data/safe2018.js";
 
 import util from "../lib/common";
 
+const R = require("ramda");
 // 是否需要随机选项数据
 
 export default {
@@ -42,13 +43,13 @@ export default {
         show: false,
         msg: ""
       },
-      answerList: [],
+      error_detail: [],
       isCompleted: false,
       questionList: []
     };
   },
   computed: {
-    ...mapState(["userInfo", "error_detail"]),
+    ...mapState(["userInfo"]),
     sport: {
       get() {
         return this.$store.state.sport;
@@ -65,9 +66,11 @@ export default {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
 
+      let paperData = R.clone(questionJSON);
+
       this.questionList = util
         .getPaperData(
-          questionJSON.filter((item, id) => this.error_detail.includes(id)),
+          paperData.filter((item, id) => this.error_detail.includes(id)),
           { randomAnswer: false, randomQuestion: false }
         )
         .map(item => {
@@ -80,22 +83,14 @@ export default {
     reload() {
       window.location.href = window.location.href.split("#")[0];
     },
-    getErrDetail() {
-      let e = window.localStorage.getItem("error_detail");
-      if (e != null) {
-        this.$store.commit("setStore", {
-          error_detail: e.split(",").map(item => parseInt(item))
-        });
-      }
+    reload() {
+      this.error_detail = util.getRandomArr(questionJSON.length).slice(0, 20);
+      this.prepareData();
     }
   },
   mounted() {
-    // if (!this.sport.isLogin) {
-    //   this.$router.push("/");
-    // }
-    this.getErrDetail();
+    this.reload();
     document.title = this.sport.name + "微信答题活动";
-    this.prepareData();
   }
 };
 </script>
