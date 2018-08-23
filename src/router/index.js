@@ -60,5 +60,10 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/Study.vue'], resolve)
         }
+    }, {
+        path: '/user',
+        component: function(resolve) {
+            require(['../pages/UserInfo.vue'], resolve)
+        }
     }]
 })

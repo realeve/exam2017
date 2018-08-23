@@ -210,3 +210,54 @@ export const setCbpcPrize = async params => await axios({
     url: '/21/e9d9991bad.json',
     params,
 }).then(res => res);
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 用户登录信息查询 } 
+    const { card_no, user_name } = params;
+*/
+export const getViewCbpcUserList = async params => await axios({
+    url: '/41/bdcb547de9.json',
+    params,
+}).then(res => res);
+
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 部门列表 } 
+ */
+export const getCbpcDepts = async sid => await axios({
+    url: '/42/a7290ee4fd.json',
+    params: {
+        sid
+    },
+}).then(res => res);
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 卡号改部门 } 
+    const { dept_id, card_no } = params;
+*/
+export const updateDeptInfo = async params => await axios({
+    url: '/43/0265840c3d.json',
+    params,
+}).then(res => res);
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 姓名及部门改卡号 } 
+    const { card_no, username, dept_id } = params;
+*/
+export const updateCardInfo = async params => await axios({
+    url: '/44/ebe393408a.json',
+    params,
+}).then(res => res);
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 新增人员信息 } 
+    const { card_no, user_name, dept_id } = params;
+*/
+export const addCbpcUserList = async params => await axios({
+    url: '/45/7a5fa288f5.json',
+    params,
+}).then(res => res);
