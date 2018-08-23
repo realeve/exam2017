@@ -31,7 +31,7 @@
         <x-button @click.native="jump('login')">登录</x-button>
         <!-- <x-button>活动已截止</x-button> -->
         <x-button @click.native="jump('score')">排行榜</x-button>
-        <x-button type="primary" v-if="error_detail.length" @click.native="jump('study')">知识学习</x-button>
+        <x-button type="primary" @click.native="jump('study')">知识学习</x-button>
       </div>
 
     </div>
@@ -286,14 +286,6 @@ export default {
         this.haveAnswerTimes = false;
         this.jump("info");
       }
-    },
-    getErrDetail() {
-      let e = window.localStorage.getItem("error_detail");
-      if (e != null) {
-        this.$store.commit("setStore", {
-          error_detail: e.split(",").map(item => parseInt(item))
-        });
-      }
     }
   },
   mounted() {
@@ -301,7 +293,6 @@ export default {
     this.loadUserInfo();
     particlesJS("home", particlesSetting);
     document.title = this.sport.name + "微信答题";
-    this.getErrDetail();
   }
 };
 </script>

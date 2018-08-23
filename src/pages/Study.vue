@@ -78,6 +78,9 @@ export default {
           item.answer =
             typeof item.answer == "number" ? [item.answer] : item.answer;
           item.answerText = item.answer.map(getAnswer);
+          item.title =
+            (item.type && item.type == "fill_blank" ? "【填空题】" : "") +
+            item.title;
           return item;
         });
     },
