@@ -286,6 +286,9 @@ export default {
       this.prepareData();
       this.init();
     }
+  },
+  destroyed() {
+    $.fn.fullpage.destroy("all");
   }
 };
 </script>

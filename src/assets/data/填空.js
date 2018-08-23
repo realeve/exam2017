@@ -173,6 +173,7 @@ questions = questions.map(({
     let option = answers[id];
     let answer = [];
     for (let i = 0; i < option.length; i++) {
+        title = title.replace(option[i], '  ');
         answer.push(i)
     };
     return {

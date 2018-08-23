@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="section content" v-for="(question,i) of questionList" :key="question.id">
+    <div class="content" v-for="(question,i) of questionList" :key="question.id">
       <div style="position:relative;margin-top:50px;">
         <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
         <div class="qa-body">
@@ -22,6 +22,7 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
+import fillBlank from "../assets/data/fillBlank.js";
 import questionJSON from "../assets/data/safe2018.js";
 
 import util from "../lib/common";
@@ -66,7 +67,7 @@ export default {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
 
-      let paperData = R.clone(questionJSON);
+      let paperData = [...questionJSON, ...fillBlank];
 
       this.questionList = util
         .getPaperData(
