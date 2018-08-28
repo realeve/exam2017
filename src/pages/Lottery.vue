@@ -21,6 +21,13 @@
         </ul>
       </div>
     </div>
+    <div class="userList">
+      <p class="item" v-for="(item,id) in luckers" :key="item.card_no">
+        <span>{{id+1}}.{{item.dept}}</span>
+        <span>{{item.card_no}}</span>
+        <span>{{item.user_name}}</span>
+      </p>
+    </div>
   </div>
 </template>
 <script>
@@ -30,6 +37,15 @@ import * as db from "../lib/db";
 export default {
   components: {
     XButton
+  },
+  computed: {
+    luckers() {
+      let userList = [];
+      this.dptList.forEach(({ users }) => {
+        userList = [...userList, ...users];
+      });
+      return userList;
+    }
   },
   data() {
     return {
@@ -84,12 +100,14 @@ export default {
 .main {
   width: 100%;
   margin: 10px;
+  display: flex;
+  justify-content: center;
   .dpt {
     width: 90%;
     margin-left: 5%;
   }
   .lucky-list {
-    width: 90%;
+    width: 800px;
     margin-left: 5%;
     margin-top: 30px;
     .title {
@@ -106,6 +124,8 @@ export default {
       display: flex;
       flex-wrap: wrap;
       margin: 20px auto;
+      justify-content: center;
+      width: 800px;
       li {
         width: 140px;
         height: 140px;
@@ -125,6 +145,14 @@ export default {
   }
   .margin-top-20 {
     margin-top: 20px;
+  }
+  .userList {
+    margin-top: 30px;
+    width: 300px;
+    .item {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 </style>
