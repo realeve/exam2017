@@ -261,3 +261,13 @@ export const addCbpcUserList = async params => await axios({
     url: '/45/7a5fa288f5.json',
     params,
 }).then(res => res);
+
+/**
+*   @database: { 会议管理 }
+*   @desc:     {  根据用户数对各部门抽奖 } 
+    const { sid, dpt, limit } = params;
+*/
+export const getViewCbpcSportScoreList = async params => await axios({
+    url: '/71/3fd15fe0c1.json',
+    params,
+}).then(res => res);

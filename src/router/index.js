@@ -65,5 +65,10 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/UserInfo.vue'], resolve)
         }
+    }, {
+        path: '/lottery',
+        component: function(resolve) {
+            require(['../pages/Lottery.vue'], resolve)
+        }
     }]
 })

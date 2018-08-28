@@ -21,7 +21,7 @@ const state = {
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {
-        id: 24,
+        id: 23,
         name: "安全履职能力评价微信有奖答题",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
