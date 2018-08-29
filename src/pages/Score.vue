@@ -2,9 +2,9 @@
   <div>
     <!-- <v-header/> -->
     <div class="content">
-      <h3>1.得分排名</h3>
+      <h3>1.得分排名(总人数:{{total}})</h3>
       <ul class="dept-rate">
-        <li v-for="({user_name,user_dpt,score,time_length,avatar,answer_times},i) in users" :key="i">
+        <li v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users" :key="i">
           <img class="avatar" :src="avatar" alt="user_name">
           <div class="detail">
             <div class="text-left">
@@ -14,6 +14,7 @@
             <div>
               <p>{{score}}分(
                 <span class="bold">{{answer_times}}</span>次)</p>
+              <p>练习时长:{{total_time}}</p>
               <p>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
             </div>
           </div>
@@ -44,7 +45,8 @@ export default {
   data() {
     return {
       depts: [],
-      users: []
+      users: [],
+      total: ""
     };
   },
   computed: {
@@ -58,12 +60,31 @@ export default {
     },
     getScoreList() {
       db.getCbpcSportMainByUser(this.sport.id).then(({ data }) => {
-        this.users = data;
+        this.users = data.map(item => {
+          let { total_time } = item;
+          total_time = parseInt(total_time, 10);
+          let h = Math.floor(total_time / 3600);
+          let m = Math.floor((total_time % 3600) / 60);
+          let s = Math.floor(total_time % 60);
+          if (h > 0) {
+            h += "时";
+          } else {
+            h = "";
+          }
+          item.total_time = `${h}${m}分${s}秒`;
+          return item;
+        });
+      });
+    },
+    getTotal() {
+      db.getCbpcSportTotalPeople(this.sport.id).then(({ data }) => {
+        this.total = data[0].value;
       });
     },
     init() {
       this.getDeptRatio();
       this.getScoreList();
+      this.getTotal();
     }
   },
   mounted() {

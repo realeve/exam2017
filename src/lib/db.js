@@ -271,3 +271,14 @@ export const getViewCbpcSportScoreList = async params => await axios({
     url: '/71/3fd15fe0c1.json',
     params,
 }).then(res => res);
+
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 微信答题活动参与总人数 } 
+ */
+export const getCbpcSportTotalPeople = async sid => await axios({
+    url: '/77/6dbb189f56.json',
+    params: {
+        sid
+    },
+}).then(res => res);

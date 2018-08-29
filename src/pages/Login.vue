@@ -87,7 +87,7 @@ export default {
         !this.sport.alwaysRecordScore ? "login" : "login2"
       ](params);
 
-      if (data.length === 0) {
+      if (data.length === 0 || data[0].uid == null) {
         this.toast.show = true;
         this.toast.msg = "登录失败";
         return;

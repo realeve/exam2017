@@ -28,8 +28,8 @@
       </template>
     </group>
     <div class="btn">
-      <x-button type="primary" @click.native="query">{{editTitle}}</x-button>
-      <x-button @click.native="query">新增</x-button>
+      <x-button type="primary" @click.native="update">{{editTitle}}</x-button>
+      <x-button @click.native="add">新增</x-button>
     </div>
 
     <toast v-model="toast.show">{{ toast.msg }}</toast>
@@ -75,19 +75,31 @@ export default {
       this.userList = [];
       const { data } = await db.getViewCbpcUserList({
         card_no: this.userName,
-        username: this.userName
+        user_name: this.userName
       });
+      if (typeof data == "undefined") {
+        return;
+      }
       this.userList = data;
     },
     add: async function() {
+      let dept_id = this.depts.find(
+        item => item.dept_name == this.dept_name[0]
+      );
       let params = {
         dept_id,
-        card_no,
+        card_no: this.card_no,
         user_name: this.userName
       };
       let { data } = await db.addCbpcUserList(params);
+      if (data.length == 0) {
+        return;
+      }
+
+      this.showToast(data);
     },
     showToast() {
+      this.card_no = "";
       if (data.length > 0) {
         this.toast.show = true;
         this.toast.msg = "修改成功";
@@ -107,6 +119,9 @@ export default {
       let { data } = await db[edidDept ? "updateDeptInfo" : "updateCardInfo"](
         params
       );
+      if (data.length == 0) {
+        return;
+      }
       this.showToast(data);
     },
     init: async function() {
