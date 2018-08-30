@@ -93,14 +93,11 @@ export default {
         user_name: this.userName
       };
       let { data } = await db.addCbpcUserList(params);
-      if (data.length == 0) {
-        return;
-      }
-
       this.showToast(data);
     },
-    showToast() {
+    showToast(data) {
       this.card_no = "";
+      this.userName = "";
       if (data.length > 0) {
         this.toast.show = true;
         this.toast.msg = "修改成功";
