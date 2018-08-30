@@ -63,7 +63,7 @@ function randomAnswer(questions) {
 }
 
 function getPaperData(json, {
-    randomAnswer,
+    randAnswer,
     randomQuestion
 }) {
     if (json.length == 0) {
@@ -82,7 +82,7 @@ function getPaperData(json, {
             return item;
         })
         // 用户可选择是否随机选项
-    let randomQuestions = !randomAnswer ? questions : randomAnswer(questions);
+    let randomQuestions = !randAnswer ? questions : randomAnswer(questions);
 
     var alphaArr = [
         'A',

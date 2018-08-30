@@ -282,3 +282,25 @@ export const getCbpcSportTotalPeople = async sid => await axios({
         sid
     },
 }).then(res => res);
+
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 用户得分排名(最高得分模式) } 
+    const { sid, limit } = params;
+*/
+export const getCbpcSportMainByMaxScore = async params => await axios({
+    url: '/81/aefff097ac.json',
+    params,
+}).then(res => res);
+
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 各部门平均最高得分排名 } 
+ */
+export const getCbpcSportDeptByMaxScore = async sid => await axios({
+    url: '/82/778700f89d.json',
+    params: {
+        sid
+    },
+}).then(res => res);

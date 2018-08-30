@@ -12,20 +12,20 @@
               <p>{{user_dpt}}</p>
             </div>
             <div>
-              <p>{{score}}分(
+              <p>最高得分:{{score}}分(
                 <span class="bold">{{answer_times}}</span>次)</p>
               <p>练习时长:{{total_time}}</p>
-              <p>{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
+              <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
             </div>
           </div>
         </li>
       </ul>
-      <h3 style="margin-top:30px;">2.各部门平均分与参与率</h3>
+      <h3 style="margin-top:30px;">2.各部门平均最高分与人与人数</h3>
       <ul class="dept-rate">
         <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
           <span>{{i+1}}.{{user_dpt}}</span>
           <span>{{avg_score}}分</span>
-          <span>{{rate}}%</span>
+          <span>{{rate}}人次</span>
         </li>
       </ul>
     </div>
@@ -54,27 +54,29 @@ export default {
   },
   methods: {
     getDeptRatio() {
-      db.getCbpcSportMainByDept(this.sport.id).then(({ data }) => {
+      db.getCbpcSportDeptByMaxScore(this.sport.id).then(({ data }) => {
         this.depts = data;
       });
     },
     getScoreList() {
-      db.getCbpcSportMainByUser(this.sport.id).then(({ data }) => {
-        this.users = data.map(item => {
-          let { total_time } = item;
-          total_time = parseInt(total_time, 10);
-          let h = Math.floor(total_time / 3600);
-          let m = Math.floor((total_time % 3600) / 60);
-          let s = Math.floor(total_time % 60);
-          if (h > 0) {
-            h += "时";
-          } else {
-            h = "";
-          }
-          item.total_time = `${h}${m}分${s}秒`;
-          return item;
+      db
+        .getCbpcSportMainByMaxScore({ sid: this.sport.id, limit: 200 })
+        .then(({ data }) => {
+          this.users = data.map(item => {
+            let { total_time } = item;
+            total_time = parseInt(total_time, 10);
+            let h = Math.floor(total_time / 3600);
+            let m = Math.floor((total_time % 3600) / 60);
+            let s = Math.floor(total_time % 60);
+            if (h > 0) {
+              h += "时";
+            } else {
+              h = "";
+            }
+            item.total_time = `${h}${m}分${s}秒`;
+            return item;
+          });
         });
-      });
     },
     getTotal() {
       db.getCbpcSportTotalPeople(this.sport.id).then(({ data }) => {

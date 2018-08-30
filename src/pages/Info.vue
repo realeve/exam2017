@@ -6,6 +6,7 @@
       <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
       <x-button class="wrapper" type="primary" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
       <x-button class="wrapper" v-show="error_detail.length>0" @click.native="showAnswer">查看正确答案</x-button>
+      <x-button class="wrapper" type="primary" @click.native="scoreList">得分排行榜</x-button>
     </div>
   </div>
 </template>
@@ -42,6 +43,9 @@ export default {
     },
     viewChart() {
       window.location.href = "?#/led"; //this.$router.push('/led');
+    },
+    scoreList() {
+      this.$router.push("/score");
     },
     showAnswer() {
       this.$router.push("/answer");
@@ -86,7 +90,8 @@ export default {
         return;
       }
 
-      let action = this.sport.alwaysRecordScore
+      //alwaysRecordScore
+      let action = this.sport.stackMode
         ? "getCbpcSportMain2"
         : "getCbpcSportMain";
 
@@ -94,12 +99,11 @@ export default {
         uid: this.sport.uid,
         sid: this.sport.id
       }).then(({ data }) => {
-        this.title = "感谢参与";
-        this.desc = `感谢您对本次活动的大力支持,你当前总分为${
-          data[0].score
-        }分(答题${data[0].answer_times}次),<br>还有${
-          this.answer_times
-        }次答题机会。`;
+        let maxScore = Math.max(data[0].score, this.sport.curScore);
+        this.title = maxScore >= 90 ? "恭喜你过关了" : "哎呀，差一点就过了";
+        this.desc = `感谢您对本次活动的大力支持,你当前最高分为${maxScore}分(答题${
+          data[0].answer_times
+        }次),<br>还有${this.answer_times}次答题机会。`;
       });
     }
   },

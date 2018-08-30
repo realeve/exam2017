@@ -8,9 +8,14 @@ export default new Router({
     routes: [{
         path: '/',
         component: function(resolve) {
-            require(['../pages/Home.vue'], resolve) // Home
+            require(['../pages/Login.vue'], resolve)
         }
     }, {
+        //     path: '/home',
+        //     component: function(resolve) {
+        //         require(['../pages/Home.vue'], resolve) // Home
+        //     }
+        // }, {
         path: '/doc',
         component: function(resolve) {
             require(['../pages/Doc.vue'], resolve)

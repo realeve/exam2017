@@ -33,7 +33,8 @@ import { dateFormat } from "vux";
 import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
-import questionJSON from "../assets/data/safe2018.js";
+// import questionJSON from "../assets/data/safe2018.js";
+import questionJSON from "../assets/data/honest.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
@@ -42,7 +43,7 @@ import * as db from "../lib/db";
 
 // 是否需要随机选项数据
 let questionList = util.getPaperData(questionJSON, {
-  randomAnswer: false,
+  randAnswer: true,
   randomQuestion: true
 });
 
@@ -113,9 +114,15 @@ export default {
 
       this.answerList.forEach((item, i) => {
         let curQuestion = this.questionList[i];
-        let scorePerQuestion = !Reflect.has(curQuestion, "score")
-          ? this.state.sport.perScore
-          : curQuestion.score;
+        // let scorePerQuestion = !Reflect.has(curQuestion, "score")
+        //   ? this.$store.state.sport.perScore
+        //   : curQuestion.score;
+
+        let scorePerQuestion =
+          this.$store.state.sport.perScore > 0
+            ? this.$store.state.sport.perScore
+            : curQuestion.score;
+
         // 多选答案校对
         let itemType = typeof item;
         if (itemType != "number" && itemType != "string") {
@@ -288,7 +295,10 @@ export default {
     }
   },
   destroyed() {
-    $.fn.fullpage.destroy("all");
+    if (this.paperInit) {
+      // 如果载入过，需要删除重载
+      $.fn.fullpage.destroy("all");
+    }
   }
 };
 </script>

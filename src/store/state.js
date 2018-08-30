@@ -21,12 +21,12 @@ const state = {
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {
-        id: 24,
-        name: "安全履职能力评价微信有奖答题",
+        id: 25,
+        name: "廉政月微信答题活动",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
-        questionNums: 30, // 抽题数量
-        perScore: 1, // 每题得分
+        questionNums: 25, // 抽题数量
+        perScore: 0, // 每题得分
         useDept: true,
         isOnline: false, //实际活动
         showDocument: false,
@@ -43,13 +43,14 @@ const state = {
         curTimeLength: 0, //当前答题时间
         // 最小抽奖得分
         minPrizeScore: 80,
-        testMode: false,
-        startDate: "2018-08-23",
-        endDate: "2018-10-23",
+        testMode: true,
+        startDate: "2018-08-31",
+        endDate: "2018-09-30",
         // 得分是否累加
         stackMode: false,
         // 记录每次答题得分
-        alwaysRecordScore: true
+        alwaysRecordScore: true,
+        readMaxScore: true,
     },
     paperInit: false,
     peopleCount: 0,
