@@ -83,9 +83,10 @@ export default {
       this.userList = data;
     },
     add: async function() {
-      let dept_id = this.depts.find(
+      let { dept_id } = this.depts.find(
         item => item.dept_name == this.dept_name[0]
       );
+
       let params = {
         dept_id,
         card_no: this.card_no,
