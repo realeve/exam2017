@@ -60,7 +60,7 @@ export default {
     },
     getScoreList() {
       db
-        .getCbpcSportMainByMaxScore({ sid: this.sport.id, limit: 200 })
+        .getCbpcSportMainByMaxScore({ sid: this.sport.id, limit: 500 })
         .then(({ data }) => {
           this.users = data.map(item => {
             let { total_time } = item;

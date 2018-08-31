@@ -2,11 +2,11 @@
   <div class="home">
     <div class="content">
       <msg :title="title" :description="desc" :icon="icon"></msg>
-      <x-button class="wrapper" type="primary" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
-      <x-button class="wrapper" type="primary" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
-      <x-button class="wrapper" type="primary" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
-      <x-button class="wrapper" v-show="error_detail.length>0" @click.native="showAnswer">查看正确答案</x-button>
-      <x-button class="wrapper" type="primary" @click.native="scoreList">得分排行榜</x-button>
+      <x-button class="wrapper" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
+      <x-button class="wrapper" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
+      <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
+      <x-button class="wrapper" type="primary" v-show="error_detail.length>0" @click.native="showAnswer">查看正确答案</x-button>
+      <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button>
     </div>
   </div>
 </template>
