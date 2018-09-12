@@ -20,12 +20,12 @@
           </div>
         </li>
       </ul>
-      <h3 style="margin-top:30px;">2.各部门平均最高分与人与人数</h3>
+      <h3 style="margin-top:30px;">2.各部门平均最高分及参与率</h3>
       <ul class="dept-rate">
         <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
           <span>{{i+1}}.{{user_dpt}}</span>
           <span>{{avg_score}}分</span>
-          <span>{{rate}}人次</span>
+          <span>{{rate}}%</span>
         </li>
       </ul>
     </div>
@@ -54,29 +54,35 @@ export default {
   },
   methods: {
     getDeptRatio() {
-      db.getCbpcSportDeptByMaxScore(this.sport.id).then(({ data }) => {
+      db[
+        this.sport.stackMode
+          ? "getCbpcSportMainByDept"
+          : "getCbpcSportDeptByMaxScore"
+      ](this.sport.id).then(({ data }) => {
         this.depts = data;
       });
     },
     getScoreList() {
-      db
-        .getCbpcSportMainByMaxScore({ sid: this.sport.id, limit: 500 })
-        .then(({ data }) => {
-          this.users = data.map(item => {
-            let { total_time } = item;
-            total_time = parseInt(total_time, 10);
-            let h = Math.floor(total_time / 3600);
-            let m = Math.floor((total_time % 3600) / 60);
-            let s = Math.floor(total_time % 60);
-            if (h > 0) {
-              h += "时";
-            } else {
-              h = "";
-            }
-            item.total_time = `${h}${m}分${s}秒`;
-            return item;
-          });
+      db[
+        this.sport.stackMode
+          ? "getCbpcSportMainByUser"
+          : "getCbpcSportMainByMaxScore"
+      ]({ sid: this.sport.id, limit: 500 }).then(({ data }) => {
+        this.users = data.map(item => {
+          let { total_time } = item;
+          total_time = parseInt(total_time, 10);
+          let h = Math.floor(total_time / 3600);
+          let m = Math.floor((total_time % 3600) / 60);
+          let s = Math.floor(total_time % 60);
+          if (h > 0) {
+            h += "时";
+          } else {
+            h = "";
+          }
+          item.total_time = `${h}${m}分${s}秒`;
+          return item;
         });
+      });
     },
     getTotal() {
       db.getCbpcSportTotalPeople(this.sport.id).then(({ data }) => {

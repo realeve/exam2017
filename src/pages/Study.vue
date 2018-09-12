@@ -24,7 +24,7 @@ import { mapState } from "vuex";
 
 import fillBlank from "../assets/data/fillBlank.js";
 // import questionJSON from "../assets/data/safe2018.js";
-import questionJSON from "../assets/data/honest.js";
+import questionJSON from "../assets/data/safePrint.js";
 
 import util from "../lib/common";
 
@@ -89,7 +89,7 @@ export default {
       window.location.href = window.location.href.split("#")[0];
     },
     reload() {
-      this.error_detail = util.getRandomArr(questionJSON.length).slice(0, 20);
+      this.error_detail = util.getRandomArr(questionJSON.length); //.slice(0, 50);
       this.prepareData();
     }
   },

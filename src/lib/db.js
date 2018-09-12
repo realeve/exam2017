@@ -172,11 +172,9 @@ export const getCbpcSportMainByDept = async sid => await axios({
  *   @database: { 微信开发 }
  *   @desc:     { 用户得分排名 } 
  */
-export const getCbpcSportMainByUser = async sid => await axios({
+export const getCbpcSportMainByUser = async params => await axios({
     url: '/18/a13ae161c1.json',
-    params: {
-        sid
-    },
+    params
 }).then(res => res);
 
 /**

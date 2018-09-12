@@ -21,12 +21,12 @@ const state = {
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {
-        id: 25,
-        name: "廉政月微信答题活动",
+        id: 26,
+        name: "印钞管理部安全履职能力评价",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
-        questionNums: 25, // 抽题数量
-        perScore: 0, // 每题得分
+        questionNums: 30, // 抽题数量
+        perScore: 1, // 每题得分
         useDept: true,
         isOnline: false, //实际活动
         showDocument: false,
@@ -44,10 +44,10 @@ const state = {
         // 最小抽奖得分
         minPrizeScore: 80,
         testMode: false,
-        startDate: "2018-08-31",
+        startDate: "2018-09-13",
         endDate: "2018-09-30",
         // 得分是否累加
-        stackMode: false,
+        stackMode: true,
         // 记录每次答题得分
         alwaysRecordScore: true,
         readMaxScore: true,
@@ -60,6 +60,6 @@ const state = {
 };
 
 // 按题目数量总分100分
-state.sport.perScore = parseInt(100 / state.sport.questionNums);
+state.sport.perScore = state.sport.perScore == 0 ? parseInt(100 / state.sport.questionNums) : state.sport.perScore;
 
 export default state;

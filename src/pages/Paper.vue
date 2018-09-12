@@ -34,7 +34,7 @@ import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
 // import questionJSON from "../assets/data/safe2018.js";
-import questionJSON from "../assets/data/honest.js";
+import questionJSON from "../assets/data/safePrint.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
