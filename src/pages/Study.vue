@@ -26,7 +26,7 @@ import fillBlank from "../assets/data/fillBlank.js";
 // import questionJSON from "../assets/data/safe2018.js";
 // import questionJSON from "../assets/data/safePrint.js";
 
-import questionJSON from "../assets/data/safeMarker.js";
+import questionJSON from "../assets/data/safeMarket.js";
 
 import util from "../lib/common";
 

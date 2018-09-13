@@ -25,7 +25,7 @@ import { mapState } from "vuex";
 // import questionJSON from "../assets/data/safe2018.js";
 // import questionJSON from "../assets/data/safePrint.js";
 
-import questionJSON from "../assets/data/safeMarker.js";
+import questionJSON from "../assets/data/safeMarket.js";
 
 import util from "../lib/common";
 import * as db from "../lib/db";
