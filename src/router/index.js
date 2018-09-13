@@ -75,5 +75,10 @@ export default new Router({
         component: function(resolve) {
             require(['../pages/Lottery.vue'], resolve)
         }
+    }, {
+        path: '/errlist',
+        component: function(resolve) {
+            require(['../pages/Errlist.vue'], resolve)
+        }
     }]
 })

@@ -34,7 +34,9 @@ import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
 // import questionJSON from "../assets/data/safe2018.js";
-import questionJSON from "../assets/data/safePrint.js";
+// import questionJSON from "../assets/data/safePrint.js";
+
+import questionJSON from "../assets/data/safeMarker.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
@@ -164,7 +166,7 @@ export default {
     getSubmitData(answer_nums) {
       const now = moment().format("YYYY-MM-DD HH:mm:ss");
       const timeLength = moment(now).diff(moment(this.startTime), "s");
-
+      this.sport.curScore = this.subScore;
       // 未处理实时答题，未处理得分累加
       return {
         uid: this.sport.uid,

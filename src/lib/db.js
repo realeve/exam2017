@@ -302,3 +302,14 @@ export const getCbpcSportDeptByMaxScore = async sid => await axios({
         sid
     },
 }).then(res => res);
+
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 我的错集 } 
+    const { sid, uid } = params;
+*/
+export const getErrList = async params => await axios({
+    url: '/101/3605f99e4a/array.json',
+    params,
+}).then(res => res);

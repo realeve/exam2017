@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="content" v-for="(question,i) of questionList" :key="question.id">
+    <div class="section content" v-for="(question,i) of questionList" :key="question.id">
       <div style="position:relative;margin-top:50px;">
         <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
         <div class="qa-body">
-          <checklist v-if="question.answer.length>1" label-position="left" :title="`${question.title}(正确答案:${question.answerText.join('、')})`" required disabled :options="question.option" v-model="question.answer">
+          <checklist v-if="question.answer.length>1" label-position="left" :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`" required disabled :options="question.option" v-model="question.answer">
           </checklist>
-          <group v-else :title="`${question.title}(正确答案:${question.answerText.join('、')})`">
+          <group v-else :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`">
             <radio :options="question.option" disabled v-model="question.answer[0]"></radio>
           </group>
         </div>
       </div>
       <div class="submit" v-if="i==questionList.length-1">
-        <x-button type="primary" @click.native="reload">更新题目</x-button>
+        <x-button type="primary" @click.native="reload">重新答题</x-button>
       </div>
     </div>
   </div>
@@ -22,15 +22,14 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
-import fillBlank from "../assets/data/fillBlank.js";
 // import questionJSON from "../assets/data/safe2018.js";
 // import questionJSON from "../assets/data/safePrint.js";
 
 import questionJSON from "../assets/data/safeMarker.js";
 
 import util from "../lib/common";
+import * as db from "../lib/db";
 
-const R = require("ramda");
 // 是否需要随机选项数据
 
 export default {
@@ -47,9 +46,10 @@ export default {
         show: false,
         msg: ""
       },
-      error_detail: [],
+      answerList: [],
       isCompleted: false,
-      questionList: []
+      questionList: [],
+      error_detail: []
     };
   },
   computed: {
@@ -66,38 +66,61 @@ export default {
       return window.location.href.split("#")[0];
     }
   },
+  watch: {
+    "sport.uid"(val) {
+      console.log(val);
+      this.getErrList();
+    }
+  },
   methods: {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
+      let err_detail = this.error_detail.map(({ id }) => id);
+      console.log(err_detail, questionJSON);
+      let questionList = err_detail.map(i => questionJSON[i]);
 
-      let paperData = [...questionJSON, ...fillBlank];
-
-      this.questionList = util
-        .getPaperData(
-          paperData.filter((item, id) => this.error_detail.includes(id)),
-          { randomAnswer: false, randomQuestion: false }
-        )
-        .map(item => {
+      console.log(questionList);
+      this.questionList = questionList
+        .map((item, id) => {
           item.answer =
             typeof item.answer == "number" ? [item.answer] : item.answer;
           item.answerText = item.answer.map(getAnswer);
-          item.title =
-            (item.type && item.type == "fill_blank" ? "【填空题】" : "") +
-            item.title;
+          item.id = id;
+          item.err_num = this.error_detail[id].num;
           return item;
-        });
+        })
+        .sort((a, b) => b.err_num - a.err_num);
     },
     reload() {
       window.location.href = window.location.href.split("#")[0];
     },
-    reload() {
-      this.error_detail = util.getRandomArr(questionJSON.length); //.slice(0, 50);
-      this.prepareData();
+    getErrList() {
+      if (typeof this.sport.uid == "undefined" || this.sport.uid == 0) {
+        return;
+      }
+      db
+        .getErrList({
+          sid: this.sport.id,
+          uid: this.sport.uid
+        })
+        .then(({ data }) => {
+          let errs = [];
+          data.forEach(item =>
+            item[0].split(",").forEach(a => {
+              errs[a] = typeof errs[a] == "undefined" ? 1 : errs[a] + 1;
+            })
+          );
+          this.error_detail = errs
+            .map((num, id) => ({ num, id }))
+            .filter(item => item)
+            .sort((a, b) => b.num - a.num);
+          this.prepareData();
+        });
     }
   },
   mounted() {
-    this.reload();
-    document.title = this.sport.name + "微信答题活动";
+    this.getErrList();
+    document.title = "我的错题集";
   }
 };
 </script>
