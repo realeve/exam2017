@@ -6,16 +6,16 @@ Vue.use(Router)
 export default new Router({
     mode: 'hash',
     routes: [{
-        path: '/',
-        component: function(resolve) {
-            require(['../pages/Home.vue'], resolve)
-        }
-    }, {
-        //     path: '/home',
+        //     path: '/',
         //     component: function(resolve) {
-        //         require(['../pages/Home.vue'], resolve) // Home
+        //         require(['../pages/Home.vue'], resolve)
         //     }
         // }, {
+        path: '/',
+        component: function(resolve) {
+            require(['../pages/Login.vue'], resolve)
+        }
+    }, {
         path: '/doc',
         component: function(resolve) {
             require(['../pages/Doc.vue'], resolve)

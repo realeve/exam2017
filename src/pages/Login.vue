@@ -9,6 +9,9 @@
       </template>
       <div class="btn">
         <x-button :disabled="!shouldCommit" type="primary" @click.native="login">登录</x-button>
+        <x-button @click.native="jump('errlist')">我的错题集</x-button>
+        <x-button @click.native="jump('score')">排行榜</x-button>
+        <x-button @click.native="jump('study')">知识学习</x-button>
       </div>
     </group>
     <toast v-model="toast.show">{{ toast.msg }}</toast>

@@ -21,8 +21,8 @@ const state = {
     wxUrl: '//api.cbpc.ltd/',
     tips: "",
     sport: {
-        id: 27,
-        name: "职能部室安全履职能力评价",
+        id: 28,
+        name: "质量月微信答题",
         orgname: "成都印钞有限公司", // 机构名
         slogan: "生产至上 安全发展", // 口号
         questionNums: 30, // 抽题数量
@@ -44,7 +44,7 @@ const state = {
         // 最小抽奖得分
         minPrizeScore: 80,
         testMode: false,
-        startDate: "2018-09-13",
+        startDate: "2018-09-23",
         endDate: "2018-09-30",
         // 得分是否累加
         stackMode: true,
