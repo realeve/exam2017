@@ -16,6 +16,7 @@ let isMobile = () => {
 };
 
 export const maxAnswerLength = 4 * 60;
+export const questionNums = 25; // 抽题数量
 
 const state = {
   isLoading: false,
@@ -27,7 +28,7 @@ const state = {
     name: '安全月微信答题',
     orgname: '成都印钞有限公司', // 机构名
     slogan: '生产至上 安全发展', // 口号
-    questionNums: 25, // 抽题数量
+    questionNums, // 抽题数量
     perScore: 1, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
@@ -53,6 +54,7 @@ const state = {
     // 记录每次答题得分
     alwaysRecordScore: true,
     readMaxScore: true,
+    readSumScore: true,
     maxAnswerLength // 最长答题时间，4分钟
   },
   paperInit: false,

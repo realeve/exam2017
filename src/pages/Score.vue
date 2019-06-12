@@ -4,8 +4,15 @@
     <div class="content">
       <h3>1.得分排名(总人数:{{total}})</h3>
       <ul class="dept-rate">
-        <li v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users" :key="i">
-          <img class="avatar" :src="avatar" alt="user_name">
+        <li
+          v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
+          :key="i"
+        >
+          <img
+            class="avatar"
+            :src="avatar"
+            alt="user_name"
+          >
           <div class="detail">
             <div class="text-left">
               <p class="bold">{{i+1}}.{{user_name}}</p>
@@ -20,9 +27,13 @@
           </div>
         </li>
       </ul>
-      <h3 style="margin-top:30px;">2.各部门平均最高分及参与率</h3>
+      <h3 style="margin-top:30px;">2.各部门总分及参与率</h3>
       <ul class="dept-rate">
-        <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
+        <li
+          class="dept-detail"
+          v-for="({avg_score,rate,user_dpt},i) in depts"
+          :key="i"
+        >
           <span>{{i+1}}.{{user_dpt}}</span>
           <span>{{avg_score}}分</span>
           <span>{{rate}}%</span>
@@ -55,7 +66,9 @@ export default {
   methods: {
     getDeptRatio() {
       db[
-        this.sport.stackMode
+        this.sport.readSumScore
+          ? "getCbpcSportMainByDept2"
+          : this.sport.stackMode
           ? "getCbpcSportMainByDept"
           : "getCbpcSportDeptByMaxScore"
       ](this.sport.id).then(({ data }) => {

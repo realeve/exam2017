@@ -7,7 +7,7 @@
         :key="i"
       >
         <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
-        <span>{{curTime}}</span>
+        <span style="background:#785a32;color:#fff;padding: 2px;border-radius: 2px;font-size: 10px;">{{curTime}}</span>
         <div style="position:relative;">
           <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
           <div class="qa-body">
@@ -67,13 +67,7 @@ import Tips from "../components/Tips.vue";
 import util from "../lib/common";
 import moment from "moment";
 import * as db from "../lib/db";
-import { maxAnswerLength } from "../store/state";
-
-// 是否需要随机选项数据
-let questionList = util.getPaperData(questionJSON, {
-  randAnswer: true,
-  randomQuestion: true
-});
+import { maxAnswerLength, questionNums } from "../store/state";
 
 let key = {
   curPaper: "_paper",
@@ -81,6 +75,22 @@ let key = {
   timeCounter: "curTimeLength",
   answerList: "_answerList"
 };
+
+// 是否需要随机选项数据
+let questiones = util.getPaperData(questionJSON, {
+  randAnswer: true,
+  randomQuestion: true
+});
+let questionList = [];
+
+let curPaper = window.localStorage.getItem(key.curPaper);
+if (curPaper == null) {
+  curPaper = questiones.slice(0, questionNums);
+  questionList = curPaper;
+  window.localStorage.setItem(key.curPaper, JSON.stringify(curPaper));
+} else {
+  questionList = JSON.parse(curPaper);
+}
 
 export default {
   name: "page",
@@ -105,12 +115,14 @@ export default {
       srcArrOrder: [],
       curAnswerLength: 0,
       curItvId: 0,
-      questionList: [],
       curAnswerIdx: 0
     };
   },
   computed: {
     ...mapState(["userInfo"]),
+    questionList() {
+      return questionList;
+    },
     sport: {
       get() {
         return this.$store.state.sport;
@@ -283,6 +295,7 @@ export default {
         // 如果载入过，需要删除重载
         $.fn.fullpage.destroy("all");
       }
+
       let params = {
         verticalCentered: true,
         css3: true,
@@ -308,7 +321,7 @@ export default {
           window.localStorage.setItem(key.curAnswer, to);
           window.localStorage.setItem(
             key.answerList,
-            JSON.stringify(answerList)
+            JSON.stringify(this.answerList)
           );
 
           // 离线模式，判断答题顺序后不进入数据提交流程
@@ -331,7 +344,6 @@ export default {
         afterRender: () => {
           $.fn.fullpage.moveTo(this.curAnswerIdx);
           this.setCurIdx(this.curAnswerIdx);
-          console.log("rendered");
         }
       };
 
@@ -341,7 +353,6 @@ export default {
 
       // 开始计时
       this.countTime();
-      console.log("init complete");
     },
     countTime() {
       if (this.maxAnswerLength === 0) {
@@ -350,12 +361,15 @@ export default {
       // 载入当前时长
       let curLen = window.localStorage.getItem(key.timeCounter);
       if (curLen) {
+        if (curLen == this.maxAnswerLength) {
+          curLen = 0;
+          window.localStorage.removeItem(key.timeCounter);
+        }
         this.curAnswerLength = curLen;
       }
       // 开始计时
       this.curItvId = setInterval(() => {
         this.curAnswerLength++;
-        console.log(this.curAnswerLength);
         if (this.curItvId) {
           window.localStorage.setItem(key.timeCounter, this.curAnswerLength);
         }
@@ -375,7 +389,6 @@ export default {
       }
     },
     resetStatus() {
-      console.log("reset status");
       window.localStorage.removeItem(key.timeCounter);
       window.localStorage.removeItem(key.curPaper);
       window.localStorage.removeItem(key.curAnswer);
@@ -383,15 +396,6 @@ export default {
     },
     // 存储答题状态
     initQuestionList() {
-      let curPaper = window.localStorage.getItem(key.curPaper);
-      if (curPaper == null) {
-        curPaper = questionList.slice(0, this.sport.questionNums);
-        this.questionList = curPaper;
-        window.localStorage.setItem(key.curPaper, JSON.stringify(curPaper));
-      } else {
-        this.questionList = JSON.parse(curPaper);
-      }
-
       let answerList = window.localStorage.getItem(key.answerList);
       if (answerList != null) {
         this.answerList = JSON.parse(answerList);
@@ -408,7 +412,7 @@ export default {
   },
   mounted() {
     window.localStorage.removeItem("error_detail");
-    if (false && !this.sport.isLogin) {
+    if (!this.sport.isLogin) {
       this.$router.push("/");
     } else {
       // 如果答题次数超标，跳转至信息(防止按返回键继续答题)

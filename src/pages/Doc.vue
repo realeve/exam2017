@@ -159,16 +159,17 @@ export default {
           answer = answer.split("、")[1];
         }
       }
-      if (item.title.split("（  ）").length > 2) {
+      item.title = item.title.replace(/  /g, " ");
+      if (item.title.split("( )").length > 2) {
         answer.split(";").forEach(answerItem => {
           title = title.replace(
-            "（  ）",
+            /( )|(  )/,
             `<span class="right-answer">${answerItem}</span>`
           );
         });
       } else {
         title = title.replace(
-          "（  ）",
+          /( )|(  )/,
           `<span class="right-answer">${answer}</span>`
         );
       }
