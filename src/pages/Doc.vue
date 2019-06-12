@@ -11,24 +11,46 @@
           </article>
         </template>
         <p class="subtitle">知识学习</p>
-        <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
+        <p
+          class="item"
+          style="font-size:10pt;"
+        >(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
         <article>
-          <p class="item" v-for="(question,i) in questions" :key="i" v-html="`${i+1}.${question}`"></p>
+          <p
+            class="item"
+            v-for="(question,i) in questions"
+            :key="i"
+            v-html="`${i+1}.${question}`"
+          ></p>
         </article>
       </div>
 
       <div class="btn margin-top-60">
         <x-button @click.native="jump('login')">登录</x-button>
-        <x-button type="primary" @click.native="jump('paper')" v-show="sport.isLogin">开始答题</x-button>
+        <x-button
+          type="primary"
+          @click.native="jump('paper')"
+          v-show="sport.isLogin"
+        >开始答题</x-button>
         <x-button @click.native="init">刷新题目</x-button>
-        <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
-        <x-button type="warn" @click.native="jump('/score')">排行榜</x-button>
+        <x-button
+          v-if="isAdmin"
+          @click.native="reset"
+        >清空得分</x-button>
+        <x-button
+          type="warn"
+          @click.native="jump('/score')"
+        >排行榜</x-button>
       </div>
-      <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
+      <confirm
+        v-model="showConfirm"
+        title="系统提示"
+        @on-confirm="onConfirm"
+      >
         <p style="text-align:center;">是否要清空活动数据?</p>
       </confirm>
     </div>
-    <v-foot/>
+    <v-foot />
   </div>
 </template>
 <style lang="less" scoped>
@@ -80,7 +102,7 @@
 
 <script>
 // import paper from "../assets/data/finance.json";
-import questionJSON from "../assets/data/safe2018.js";
+import paper from "../assets/data/safe2019.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";
@@ -119,13 +141,11 @@ export default {
       this.showConfirm = true;
     },
     onConfirm() {
-      db
-        .delCbpcSportMain({
-          sid: this.sport.id
-        })
-        .then(res => {
-          this.$vux.toast.text("清空完毕", "default");
-        });
+      db.delCbpcSportMain({
+        sid: this.sport.id
+      }).then(res => {
+        this.$vux.toast.text("清空完毕", "default");
+      });
     },
     handleQuestion(item) {
       let answer = item.option[item.answer[0]];

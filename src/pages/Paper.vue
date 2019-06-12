@@ -1,20 +1,45 @@
 <template>
   <div>
     <div ref='fp'>
-      <div class="section content" v-for="(question,i) of questionList" :key="i">
+      <div
+        class="section content"
+        v-for="(question,i) of questionList"
+        :key="i"
+      >
         <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
+        <span>{{curTime}}</span>
         <div style="position:relative;">
           <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
           <div class="qa-body">
-            <checklist v-if="question.answer.length>1" label-position="left" :title="`${question.title}`" required :options="question.option" v-model="answerList[i]">
+            <checklist
+              v-if="question.answer.length>1"
+              label-position="left"
+              :title="`${question.title}`"
+              required
+              :options="question.option"
+              v-model="answerList[i]"
+            >
             </checklist>
-            <group v-else :title="`${question.title}`">
-              <radio :options="question.option" v-model="answerList[i]"></radio>
+            <group
+              v-else
+              :title="`${question.title}`"
+            >
+              <radio
+                :options="question.option"
+                v-model="answerList[i]"
+              ></radio>
             </group>
           </div>
         </div>
-        <div class="submit" v-if="i == questionList.length-1">
-          <x-button :disabled="!isCompleted" type="primary" @click.native="submit(sport.questionNums)">提交</x-button>
+        <div
+          class="submit"
+          v-if="i == questionList.length-1"
+        >
+          <x-button
+            :disabled="!isCompleted"
+            type="primary"
+            @click.native="submit(sport.questionNums)"
+          >提交</x-button>
         </div>
       </div>
     </div>
@@ -33,21 +58,29 @@ import { dateFormat } from "vux";
 import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
-// import questionJSON from "../assets/data/safe2018.js";
+import questionJSON from "../assets/data/safe2019.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
-import questionJSON from "../assets/data/quality2018.js";
+// import questionJSON from "../assets/data/quality2018.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
 import moment from "moment";
 import * as db from "../lib/db";
+import { maxAnswerLength } from "../store/state";
 
 // 是否需要随机选项数据
 let questionList = util.getPaperData(questionJSON, {
   randAnswer: true,
   randomQuestion: true
 });
+
+let key = {
+  curPaper: "_paper",
+  curAnswer: "_answer",
+  timeCounter: "curTimeLength",
+  answerList: "_answerList"
+};
 
 export default {
   name: "page",
@@ -69,14 +102,15 @@ export default {
       isCompleted: false,
       startTime: dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss"),
       errorQuestion: [],
-      srcArrOrder: []
+      srcArrOrder: [],
+      curAnswerLength: 0,
+      curItvId: 0,
+      questionList: [],
+      curAnswerIdx: 0
     };
   },
   computed: {
     ...mapState(["userInfo"]),
-    questionList() {
-      return questionList.slice(0, this.sport.questionNums);
-    },
     sport: {
       get() {
         return this.$store.state.sport;
@@ -145,11 +179,26 @@ export default {
       });
       // return this.sport.questionNums - this.errorQuestion.length
       return score;
+    },
+    maxAnswerLength() {
+      return this.sport.maxAnswerLength;
+    },
+    curTime() {
+      let seconds = this.sport.maxAnswerLength - this.curAnswerLength;
+      let min = Math.floor(seconds / 60);
+      let sec = seconds % 60;
+      return `0${min}:${String(sec).padStart(2, "0")}`;
     }
   },
   watch: {
     answerList(val) {
       this.getCompleteStatus();
+    },
+    curAnswerLength(val) {
+      if (val >= this.maxAnswerLength) {
+        // 提交试卷
+        this.submit(this.sport.questionNums);
+      }
     }
   },
   methods: {
@@ -215,8 +264,12 @@ export default {
         });
       }
 
-      this.sport.curScore = Math.max(this.sport.curScore, params.score);
+      // 停止计时
+      this.stopTime();
+      this.clearCount();
+      this.resetStatus();
 
+      this.sport.curScore = Math.max(this.sport.curScore, params.score);
       // 如果到了最后一页点击按钮提交，跳转到提示页面
       if (answer_nums == this.sport.questionNums) {
         this.toast.show = true;
@@ -252,6 +305,12 @@ export default {
             });
           }
 
+          window.localStorage.setItem(key.curAnswer, to);
+          window.localStorage.setItem(
+            key.answerList,
+            JSON.stringify(answerList)
+          );
+
           // 离线模式，判断答题顺序后不进入数据提交流程
           if (!this.sport.isOnline) {
             return;
@@ -268,35 +327,104 @@ export default {
 
           // 实时答题，提交当前数据
           this.submit(from);
+        },
+        afterRender: () => {
+          $.fn.fullpage.moveTo(this.curAnswerIdx);
+          this.setCurIdx(this.curAnswerIdx);
+          console.log("rendered");
         }
       };
 
       this.el.fullpage(params);
 
       this.paperInit = true;
-    },
-    prepareData() {
-      document.title = this.sport.name + "微信答题活动";
 
-      this.answerList = this.questionList.map(
-        item => (item.answer.length > 1 ? [] : -1)
-      );
+      // 开始计时
+      this.countTime();
+      console.log("init complete");
+    },
+    countTime() {
+      if (this.maxAnswerLength === 0) {
+        return;
+      }
+      // 载入当前时长
+      let curLen = window.localStorage.getItem(key.timeCounter);
+      if (curLen) {
+        this.curAnswerLength = curLen;
+      }
+      // 开始计时
+      this.curItvId = setInterval(() => {
+        this.curAnswerLength++;
+        console.log(this.curAnswerLength);
+        if (this.curItvId) {
+          window.localStorage.setItem(key.timeCounter, this.curAnswerLength);
+        }
+        if (this.curAnswerLength > this.maxAnswerLength) {
+          this.curAnswerLength = 0;
+        }
+      }, 1000);
+    },
+    clearCount() {
+      window.localStorage.removeItem(key.timeCounter);
+    },
+    stopTime() {
+      // 清除
+      if (this.curItvId) {
+        window.localStorage.setItem(key.timeCounter, this.curAnswerLength);
+        clearInterval(this.curItvId);
+      }
+    },
+    resetStatus() {
+      console.log("reset status");
+      window.localStorage.removeItem(key.timeCounter);
+      window.localStorage.removeItem(key.curPaper);
+      window.localStorage.removeItem(key.curAnswer);
+      window.localStorage.removeItem(key.answerList);
+    },
+    // 存储答题状态
+    initQuestionList() {
+      let curPaper = window.localStorage.getItem(key.curPaper);
+      if (curPaper == null) {
+        curPaper = questionList.slice(0, this.sport.questionNums);
+        this.questionList = curPaper;
+        window.localStorage.setItem(key.curPaper, JSON.stringify(curPaper));
+      } else {
+        this.questionList = JSON.parse(curPaper);
+      }
+
+      let answerList = window.localStorage.getItem(key.answerList);
+      if (answerList != null) {
+        this.answerList = JSON.parse(answerList);
+        this.curAnswerIdx = window.localStorage.getItem(key.curAnswer);
+      } else {
+        this.answerList = this.questionList.map(item =>
+          item.answer.length > 1 ? [] : -1
+        );
+        window.localStorage.setItem(key.curAnswer, 0);
+      }
+
+      document.title = this.sport.name + "微信答题活动";
     }
   },
   mounted() {
     window.localStorage.removeItem("error_detail");
-    if (!this.sport.isLogin) {
+    if (false && !this.sport.isLogin) {
       this.$router.push("/");
     } else {
       // 如果答题次数超标，跳转至信息(防止按返回键继续答题)
       if (!this.sport.isOnline && this.sport.curTimes > this.sport.maxTimes) {
         this.$router.push("info");
       }
-      this.prepareData();
+
+      // 初始化题目
+      this.initQuestionList();
+
+      // 初始化全屏滚动
       this.init();
     }
   },
   destroyed() {
+    this.stopTime();
     if (this.paperInit) {
       // 如果载入过，需要删除重载
       $.fn.fullpage.destroy("all");

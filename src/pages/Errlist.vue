@@ -1,18 +1,43 @@
 <template>
   <div>
-    <div class="section content" v-for="(question,i) of questionList" :key="question.id">
+    <div
+      class="section content"
+      v-for="(question,i) of questionList"
+      :key="question.id"
+    >
       <div style="position:relative;margin-top:50px;">
         <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
         <div class="qa-body">
-          <checklist v-if="question.answer.length>1" label-position="left" :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`" required disabled :options="question.option" v-model="question.answer">
+          <checklist
+            v-if="question.answer.length>1"
+            label-position="left"
+            :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`"
+            required
+            disabled
+            :options="question.option"
+            v-model="question.answer"
+          >
           </checklist>
-          <group v-else :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`">
-            <radio :options="question.option" disabled v-model="question.answer[0]"></radio>
+          <group
+            v-else
+            :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`"
+          >
+            <radio
+              :options="question.option"
+              disabled
+              v-model="question.answer[0]"
+            ></radio>
           </group>
         </div>
       </div>
-      <div class="submit" v-if="i==questionList.length-1">
-        <x-button type="primary" @click.native="reload">重新答题</x-button>
+      <div
+        class="submit"
+        v-if="i==questionList.length-1"
+      >
+        <x-button
+          type="primary"
+          @click.native="reload"
+        >重新答题</x-button>
       </div>
     </div>
   </div>
@@ -22,10 +47,10 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
-// import questionJSON from "../assets/data/safe2018.js";
+import questionJSON from "../assets/data/safe2019.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
-import questionJSON from "../assets/data/quality2018.js";
+// import questionJSON from "../assets/data/quality2018.js";
 
 import util from "../lib/common";
 import * as db from "../lib/db";
@@ -98,24 +123,22 @@ export default {
       if (typeof this.sport.uid == "undefined" || this.sport.uid == 0) {
         return;
       }
-      db
-        .getErrList({
-          sid: this.sport.id,
-          uid: this.sport.uid
-        })
-        .then(({ data }) => {
-          let errs = [];
-          data.forEach(item =>
-            item[0].split(",").forEach(a => {
-              errs[a] = typeof errs[a] == "undefined" ? 1 : errs[a] + 1;
-            })
-          );
-          this.error_detail = errs
-            .map((num, id) => ({ num, id }))
-            .filter(item => item)
-            .sort((a, b) => b.num - a.num);
-          this.prepareData();
-        });
+      db.getErrList({
+        sid: this.sport.id,
+        uid: this.sport.uid
+      }).then(({ data }) => {
+        let errs = [];
+        data.forEach(item =>
+          item[0].split(",").forEach(a => {
+            errs[a] = typeof errs[a] == "undefined" ? 1 : errs[a] + 1;
+          })
+        );
+        this.error_detail = errs
+          .map((num, id) => ({ num, id }))
+          .filter(item => item)
+          .sort((a, b) => b.num - a.num);
+        this.prepareData();
+      });
     }
   },
   mounted() {
