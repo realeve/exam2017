@@ -78,7 +78,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo"]),
+    userInfo: {
+      get() {
+        return this.$store.state.userInfo;
+      },
+      set(val) {
+        this.$store.commit("setUserinfo", val);
+      }
+    },
     sport: {
       get() {
         return this.$store.state.sport;
@@ -93,7 +100,6 @@ export default {
   },
   watch: {
     "sport.uid"(val) {
-      console.log(val);
       this.getErrList();
     }
   },
@@ -101,10 +107,8 @@ export default {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
       let err_detail = this.error_detail.map(({ id }) => id);
-      console.log(err_detail, questionJSON);
       let questionList = err_detail.map(i => questionJSON[i]);
 
-      console.log(questionList);
       this.questionList = questionList
         .map((item, id) => {
           item.answer =
@@ -119,9 +123,43 @@ export default {
     reload() {
       window.location.href = window.location.href.split("#")[0];
     },
-    getErrList() {
-      if (typeof this.sport.uid == "undefined" || this.sport.uid == 0) {
+    async getErrList() {
+      let curUser = window.localStorage.getItem("userInfo");
+      if (curUser == null) {
         return;
+      }
+
+      if (typeof this.sport.uid == "undefined" || this.sport.uid == 0) {
+        this.userInfo = JSON.parse(curUser);
+        let params = {
+          sid: this.sport.id,
+          card_no: this.userInfo.user_id,
+          username: this.userInfo.user_name,
+          dept_name: "%%"
+        };
+
+        let { data } = await db[this.sport.readMaxScore ? "login" : "login2"](
+          params
+        );
+
+        if (data.length === 0 || data[0].uid == null) {
+          this.toast.show = true;
+          this.toast.msg = "登录失败";
+          return;
+        }
+        let obj = data[0];
+        // console.log(obj.answer_times);
+        // 登录成功
+        this.sport.isLogin = true;
+        this.sport.curTimes = parseInt(obj.answer_times) + 1;
+
+        this.sport.uid = obj.uid;
+        this.sport.curScore = obj.score;
+        this.sport.curTimeLength = obj.time_length;
+
+        if (this.sport.uid == 0) {
+          return;
+        }
       }
       db.getErrList({
         sid: this.sport.id,

@@ -117,7 +117,9 @@ export default {
     //   window.location.href = window.location.href.split("#")[0];
     // },
     reload() {
-      this.error_detail = util.getRandomArr(questionJSON.length); //.slice(0, 20);
+      this.error_detail = util
+        .getRandomArr(questionJSON.length)
+        .slice(0, Math.min(Math.floor(questionJSON.length / 2), 100));
       this.prepareData();
     }
   },
