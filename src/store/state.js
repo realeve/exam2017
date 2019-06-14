@@ -15,7 +15,7 @@ let isMobile = () => {
   }
 };
 
-export const maxAnswerLength = 4 * 60;
+export const maxAnswerLength = 10 * 60;
 export const questionNums = 25; // 抽题数量
 
 const state = {
@@ -32,7 +32,7 @@ const state = {
     perScore: 1, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
-    showDocument: true,
+    showDocument: false,
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,

@@ -28,17 +28,26 @@
       </div> -->
 
       <div class="btn-wrapper margin-top-60 login">
-        <x-button type="primary" @click.native="jump('errlist')">我的错题集</x-button>
+        <x-button
+          type="primary"
+          @click.native="jump('errlist')"
+        >我的错题集</x-button>
         <x-button @click.native="jump('login')">登录</x-button>
         <!-- <x-button>活动已截止</x-button> -->
-        <x-button @click.native="jump('score')">排行榜</x-button>
-        <x-button type="primary" @click.native="jump('study')">知识学习</x-button>
+        <!-- <x-button @click.native="jump('score')">排行榜</x-button> -->
+        <x-button
+          type="primary"
+          @click.native="jump('study')"
+        >知识学习</x-button>
       </div>
 
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
     <!-- <canvas ref="band"></canvas> -->
-    <div class="canvas" id="home"></div>
+    <div
+      class="canvas"
+      id="home"
+    ></div>
     <v-foot color="#333" />
   </div>
 </template>
@@ -181,7 +190,7 @@ export default {
           (
             ((127 * cos(r) + 128) << 16) |
             ((127 * cos(r + twoPi / 3) + 128) << 8) |
-            (127 * cos(r + twoPi / 3 * 2) + 128)
+            (127 * cos(r + (twoPi / 3) * 2) + 128)
           ).toString(16);
         // ctx.fillStyle = ctx.strokeStyle;
         ctx.stroke();
@@ -305,7 +314,7 @@ export default {
   height: 100vh;
   width: 100%;
   // background-color: #e33e3e;
-  background-image: url("../assets/img/main2.jpg");
+  background-image: url("../assets/img/main.jpg");
   background-size: cover;
   background-position: center;
 }

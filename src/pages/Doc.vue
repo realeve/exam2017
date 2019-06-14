@@ -10,6 +10,29 @@
               <span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
           </article>
         </template>
+
+        <div
+          class="btn"
+          style="margin-top:20px;"
+        >
+          <!-- <x-button @click.native="jump('login')">登录</x-button> -->
+          <x-button
+            type="primary"
+            @click.native="jump('paper')"
+            v-show="sport.isLogin"
+          >开始答题(限时{{sport.maxAnswerLength/60}}分钟)</x-button>
+          <x-button @click.native="init">知识学习</x-button>
+          <x-button @click.native="jump('errlist')">我的错题集</x-button>
+          <x-button
+            type="warn"
+            @click.native="jump('/score')"
+          >排行榜</x-button>
+          <x-button
+            v-if="isAdmin"
+            @click.native="reset"
+          >清空得分</x-button>
+        </div>
+
         <p class="subtitle">知识学习</p>
         <p
           class="item"
@@ -25,29 +48,12 @@
         </article>
       </div>
 
-      <div class="btn margin-top-60">
-        <x-button @click.native="jump('login')">登录</x-button>
-        <x-button
-          type="primary"
-          @click.native="jump('paper')"
-          v-show="sport.isLogin"
-        >开始答题</x-button>
-        <x-button @click.native="init">刷新题目</x-button>
-        <x-button
-          v-if="isAdmin"
-          @click.native="reset"
-        >清空得分</x-button>
-        <x-button
-          type="warn"
-          @click.native="jump('/score')"
-        >排行榜</x-button>
-      </div>
       <confirm
         v-model="showConfirm"
         title="系统提示"
         @on-confirm="onConfirm"
       >
-        <p style="text-align:center;">是否要清空活动数据?</p>
+        <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
       </confirm>
     </div>
     <v-foot />

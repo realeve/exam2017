@@ -19,10 +19,10 @@
               <p>{{user_dpt}}</p>
             </div>
             <div>
-              <p>最高得分:{{score}}分(
+              <p>总分:{{score}}分(
                 <span class="bold">{{answer_times}}</span>次)</p>
-              <p>练习时长:{{total_time}}</p>
-              <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p>
+              <!-- <p>练习时长:{{total_time}}</p> -->
+              <!-- <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p> -->
             </div>
           </div>
         </li>
