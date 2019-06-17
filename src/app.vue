@@ -73,7 +73,7 @@ export default {
       if (!val) {
         return;
       }
-      // this.title = `我在2018年${this.sport.name}微信答题活动中获得了${
+      // this.title = `我在2018年${this.sport.name}活动中获得了${
       //   this.sport.curScore
       // }分，你也来参与吧`;
       this.title = `2018年${this.sport.name}活动正在进行中，快来参与吧`;

@@ -25,7 +25,7 @@ const state = {
   tips: '',
   sport: {
     id: 29,
-    name: '安全月微信答题',
+    name: '安全月安全知识答题竞赛',
     orgname: '成都印钞有限公司', // 机构名
     slogan: '生产至上 安全发展', // 口号
     questionNums, // 抽题数量

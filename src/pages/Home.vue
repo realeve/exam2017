@@ -302,7 +302,7 @@ export default {
     // this.animateCanvas();
     this.loadUserInfo();
     particlesJS("home", particlesSetting);
-    document.title = this.sport.name + "微信答题";
+    document.title = this.sport.name; //+ "微信答题";
   }
 };
 </script>

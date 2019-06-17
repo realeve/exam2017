@@ -278,7 +278,6 @@ export default {
 
       // 停止计时
       this.stopTime();
-      this.clearCount();
       this.resetStatus();
 
       this.sport.curScore = Math.max(this.sport.curScore, params.score);
@@ -384,11 +383,12 @@ export default {
     stopTime() {
       // 清除
       if (this.curItvId) {
-        window.localStorage.setItem(key.timeCounter, this.curAnswerLength);
         clearInterval(this.curItvId);
+        this.clearCount();
       }
     },
     resetStatus() {
+      clearInterval(this.curItvId);
       window.localStorage.removeItem(key.timeCounter);
       window.localStorage.removeItem(key.curPaper);
       window.localStorage.removeItem(key.curAnswer);
@@ -407,7 +407,7 @@ export default {
         window.localStorage.setItem(key.curAnswer, 0);
       }
 
-      document.title = this.sport.name + "微信答题活动";
+      document.title = this.sport.name; // + "微信答题活动";
     }
   },
   mounted() {

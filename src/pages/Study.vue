@@ -123,7 +123,7 @@ export default {
   },
   mounted() {
     this.reload();
-    document.title = this.sport.name + "微信答题活动";
+    document.title = this.sport.name; //+ "微信答题活动";
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="head">
     <!-- <img class="logo" src="../assets/img/main.jpg"> -->
     <div class="title">
-      {{sportName}}微信答题活动
+      {{sportName}}
     </div>
   </div>
 </template>

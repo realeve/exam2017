@@ -122,7 +122,7 @@ export default {
     //   this.$router.push("/");
     // }
     this.getErrDetail();
-    document.title = this.sport.name + "微信答题活动";
+    document.title = this.sport.name; // + "微信答题活动";
     this.prepareData();
   }
 };
