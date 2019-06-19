@@ -416,7 +416,7 @@ export default {
       this.$router.push("/");
     } else {
       // 如果答题次数超标，跳转至信息(防止按返回键继续答题)
-      if (!this.sport.isOnline && this.sport.curTimes > this.sport.maxTimes) {
+      if (!this.sport.isOnline && this.sport.curTimes >= this.sport.maxTimes) {
         this.$router.push("info");
       }
 

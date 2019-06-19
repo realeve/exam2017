@@ -289,7 +289,7 @@ export default {
 
       if (
         !this.sport.isOnline &&
-        parseInt(obj.answer_times) > this.sport.maxTimes
+        parseInt(obj.answer_times) >= this.sport.maxTimes
       ) {
         this.toast.show = true;
         this.toast.msg = "答题次数用完";
