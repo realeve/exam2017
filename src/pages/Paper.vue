@@ -228,6 +228,9 @@ export default {
       const now = moment().format("YYYY-MM-DD HH:mm:ss");
       const timeLength = moment(now).diff(moment(this.startTime), "s");
       this.sport.curScore = this.subScore;
+
+      this.sport.curTimes = parseInt(this.sport.curTimes) + 1;
+
       // 未处理实时答题，未处理得分累加
       return {
         uid: this.sport.uid,

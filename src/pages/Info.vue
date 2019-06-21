@@ -57,7 +57,7 @@ export default {
   computed: {
     ...mapState(["sport", "userInfo", "error_detail"]),
     answer_times() {
-      return this.sport.maxTimes - (this.sport.curTimes - 1);
+      return this.sport.maxTimes - this.sport.curTimes;
     }
   },
   methods: {

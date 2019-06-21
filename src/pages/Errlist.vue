@@ -151,7 +151,7 @@ export default {
         // console.log(obj.answer_times);
         // 登录成功
         this.sport.isLogin = true;
-        this.sport.curTimes = parseInt(obj.answer_times) + 1;
+        // this.sport.curTimes = parseInt(obj.answer_times) + 1;
 
         this.sport.uid = obj.uid;
         this.sport.curScore = obj.score;

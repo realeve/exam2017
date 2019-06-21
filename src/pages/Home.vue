@@ -285,7 +285,7 @@ export default {
 
       this.sport.uid = obj.uid;
       this.sport.curScore = obj.score;
-      this.sport.curTimes = parseInt(obj.answer_times) + 1;
+      // this.sport.curTimes = parseInt(obj.answer_times) + 1;
 
       if (
         !this.sport.isOnline &&

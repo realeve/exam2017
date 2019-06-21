@@ -127,7 +127,7 @@ export default {
       // console.log(obj.answer_times);
       // 登录成功
       this.sport.isLogin = true;
-      this.sport.curTimes = parseInt(obj.answer_times) + 1;
+      this.sport.curTimes = parseInt(obj.answer_times);
 
       this.sport.uid = obj.uid;
       this.sport.curScore = obj.score;
@@ -143,7 +143,7 @@ export default {
       // console.log(obj);
       if (
         !this.sport.isOnline &&
-        parseInt(obj.answer_times) >= this.sport.maxTimes
+        parseInt(obj.answer_times) > this.sport.maxTimes
       ) {
         this.toast.show = true;
         this.toast.msg = "答题次数用完";
