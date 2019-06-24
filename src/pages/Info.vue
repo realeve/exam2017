@@ -122,10 +122,10 @@ export default {
         sid: this.sport.id
       }).then(({ data }) => {
         let maxScore = Math.max(data[0].score, this.sport.curScore);
-        this.title = `本次得分${this.sport.curScore}分`; // maxScore >= 90 ? "恭喜你过关了" : "哎呀，差一点就过了";
+        this.title = `本次得分${this.sport.curScore}分`; // maxScore >= 90 ? "恭喜你过关了" : "哎呀，差一点就过了";  、、<br>还有${this.answer_times + 1}次答题机会。
         this.desc = `感谢您对本次活动的大力支持,你当前总分为${maxScore}分(答题${
           data[0].answer_times
-        }次),<br>还有${this.answer_times}次答题机会。`;
+        }次)。`;
       });
     }
   },

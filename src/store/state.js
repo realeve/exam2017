@@ -41,7 +41,7 @@ const state = {
     dpt: ['印钞管理部'],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 4,
+    maxTimes: 4000,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
