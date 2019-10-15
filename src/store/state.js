@@ -21,13 +21,17 @@ export const questionNums = 25; // 抽题数量
 const state = {
   isLoading: false,
   userInfo: {},
-  wxUrl: '//api.cbpc.ltd/',
-  tips: '',
+  wxUrl: "//api.cbpc.ltd/",
+  tips: "",
   sport: {
-    id: 29,
-    name: '安全月安全知识答题竞赛',
-    orgname: '成都印钞有限公司', // 机构名
-    slogan: '生产至上 安全发展', // 口号
+    id: 31,
+    name: "2019行业消防安全测试练习",
+    orgname: "成都印钞有限公司", // 机构名
+    slogan: "生产至上 安全发展", // 口号
+
+    // randAnswer: true, //答案随机化
+    // randomQuestion: true, //问题随机
+
     questionNums, // 抽题数量
     perScore: 1, // 每题得分
     useDept: true,
@@ -36,9 +40,9 @@ const state = {
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,
-    userName: '',
-    cardNo: '',
-    dpt: ['印钞管理部'],
+    userName: "",
+    cardNo: "",
+    dpt: ["印钞管理部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
     maxTimes: 4000,
@@ -47,8 +51,8 @@ const state = {
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
-    startDate: '2019-06-11',
-    endDate: '2019-06-21',
+    startDate: "2019-10-11",
+    endDate: "2019-10-31",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分

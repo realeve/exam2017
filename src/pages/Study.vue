@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div
-      class="content"
-      v-for="(question,i) of questionList"
-      :key="question.id"
-    >
+    <div class="content" v-for="(question,i) of questionList" :key="question.id">
       <div style="position:relative;margin-top:50px;">
         <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
         <div class="qa-body">
@@ -16,28 +12,14 @@
             disabled
             :options="question.option"
             v-model="question.answer"
-          >
-          </checklist>
-          <group
-            v-else
-            :title="`${question.title}(正确答案:${question.answerText.join('、')})`"
-          >
-            <radio
-              :options="question.option"
-              disabled
-              v-model="question.answer[0]"
-            ></radio>
+          ></checklist>
+          <group v-else :title="`${question.title}(正确答案:${question.answerText.join('、')})`">
+            <radio :options="question.option" disabled v-model="question.answer[0]"></radio>
           </group>
         </div>
       </div>
-      <div
-        class="submit"
-        v-if="i==questionList.length-1"
-      >
-        <x-button
-          type="primary"
-          @click.native="reload"
-        >更新题目</x-button>
+      <div class="submit" v-if="i==questionList.length-1">
+        <x-button type="primary" @click.native="reload">更新题目</x-button>
       </div>
     </div>
   </div>
@@ -49,7 +31,7 @@ import { mapState } from "vuex";
 
 // import fillBlank from "../assets/data/fillBlank.js";
 
-import questionJSON from "../assets/data/safe2019.js";
+import questionJSON from "../assets/data/safe201910.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
 // import questionJSON from "../assets/data/quality2018.js";

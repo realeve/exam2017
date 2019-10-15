@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div
-      class="section content"
-      v-for="(question,i) of questionList"
-      :key="question.id"
-    >
+    <div class="section content" v-for="(question,i) of questionList" :key="question.id">
       <div style="position:relative;margin-top:50px;">
         <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
         <div class="qa-body">
@@ -16,28 +12,17 @@
             disabled
             :options="question.option"
             v-model="question.answer"
-          >
-          </checklist>
+          ></checklist>
           <group
             v-else
             :title="`(做错${question.err_num}次)${question.title}(正确答案:${question.answerText.join('、')})`"
           >
-            <radio
-              :options="question.option"
-              disabled
-              v-model="question.answer[0]"
-            ></radio>
+            <radio :options="question.option" disabled v-model="question.answer[0]"></radio>
           </group>
         </div>
       </div>
-      <div
-        class="submit"
-        v-if="i==questionList.length-1"
-      >
-        <x-button
-          type="primary"
-          @click.native="reload"
-        >重新答题</x-button>
+      <div class="submit" v-if="i==questionList.length-1">
+        <x-button type="primary" @click.native="reload">重新答题</x-button>
       </div>
     </div>
   </div>
@@ -47,7 +32,7 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/safe2019.js";
+import questionJSON from "../assets/data/safe201910.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
 // import questionJSON from "../assets/data/quality2018.js";
@@ -107,10 +92,12 @@ export default {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
       let err_detail = this.error_detail.map(({ id }) => id);
+
       let questionList = err_detail.map(i => questionJSON[i]);
 
       this.questionList = questionList
         .map((item, id) => {
+          // console.log(item);
           item.answer =
             typeof item.answer == "number" ? [item.answer] : item.answer;
           item.answerText = item.answer.map(getAnswer);
@@ -121,7 +108,7 @@ export default {
         .sort((a, b) => b.err_num - a.err_num);
     },
     reload() {
-      window.location.href = window.location.href.split("#")[0];
+      window.location.href = window.location.href.split("#")[0] + "#login";
     },
     async getErrList() {
       let curUser = window.localStorage.getItem("userInfo");

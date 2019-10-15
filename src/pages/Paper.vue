@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div ref='fp'>
-      <div
-        class="section content"
-        v-for="(question,i) of questionList"
-        :key="i"
-      >
+    <div ref="fp">
+      <div class="section content" v-for="(question,i) of questionList" :key="i">
         <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
-        <span style="background:#785a32;color:#fff;padding: 2px;border-radius: 2px;font-size: 10px;">{{curTime}}</span>
+        <span
+          style="background:#785a32;color:#fff;padding: 2px;border-radius: 2px;font-size: 10px;"
+        >{{curTime}}</span>
         <div style="position:relative;">
           <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
           <div class="qa-body">
@@ -18,23 +16,13 @@
               required
               :options="question.option"
               v-model="answerList[i]"
-            >
-            </checklist>
-            <group
-              v-else
-              :title="`${question.title}`"
-            >
-              <radio
-                :options="question.option"
-                v-model="answerList[i]"
-              ></radio>
+            ></checklist>
+            <group v-else :title="`${question.title}`">
+              <radio :options="question.option" v-model="answerList[i]"></radio>
             </group>
           </div>
         </div>
-        <div
-          class="submit"
-          v-if="i == questionList.length-1"
-        >
+        <div class="submit" v-if="i == questionList.length-1">
           <x-button
             :disabled="!isCompleted"
             type="primary"
@@ -58,7 +46,7 @@ import { dateFormat } from "vux";
 import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
-import questionJSON from "../assets/data/safe2019.js";
+import questionJSON from "../assets/data/safe201910.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
 // import questionJSON from "../assets/data/quality2018.js";
@@ -344,8 +332,8 @@ export default {
           this.submit(from);
         },
         afterRender: () => {
-          $.fn.fullpage.moveTo(this.curAnswerIdx);
-          this.setCurIdx(this.curAnswerIdx);
+          // $.fn.fullpage.moveTo(this.curAnswerIdx);
+          // this.setCurIdx(this.curAnswerIdx);
         }
       };
 

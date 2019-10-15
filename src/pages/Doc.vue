@@ -2,32 +2,29 @@
   <div class="wrapper">
     <div class="content">
       <div>
-        <div class="title">{{sport.orgname}}<br>{{year}}{{sport.name}}</div>
+        <div class="title">
+          {{sport.orgname}}
+          <br />
+          {{year}}{{sport.name}}
+        </div>
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
           <article>
-            <p>本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会
-              <span v-if="sport.doLottery">，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。</p>
+            <p>
+              本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会
+              <span
+                v-if="sport.doLottery"
+              >，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。
+            </p>
           </article>
         </template>
         <p class="subtitle">知识学习</p>
-        <p
-          class="item"
-          style="font-size:10pt;"
-        >(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
+        <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
         <article>
-          <p
-            class="item"
-            v-for="(question,i) in questions"
-            :key="i"
-            v-html="`${i+1}.${question}`"
-          ></p>
+          <p class="item" v-for="(question,i) in questions" :key="i" v-html="`${i+1}.${question}`"></p>
         </article>
       </div>
-      <div
-        class="btn"
-        style="margin-top:20px;"
-      >
+      <div class="btn" style="margin-top:20px;">
         <!-- <x-button @click.native="jump('login')">登录</x-button> -->
         <x-button
           type="primary"
@@ -39,17 +36,10 @@
         <!-- <x-button
           type="warn"
           @click.native="jump('/score')"
-        >排行榜</x-button> -->
-        <x-button
-          v-if="isAdmin"
-          @click.native="reset"
-        >清空得分</x-button>
+        >排行榜</x-button>-->
+        <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
       </div>
-      <confirm
-        v-model="showConfirm"
-        title="系统提示"
-        @on-confirm="onConfirm"
-      >
+      <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
       </confirm>
     </div>
@@ -105,7 +95,7 @@
 
 <script>
 // import paper from "../assets/data/finance.json";
-import paper from "../assets/data/safe2019.js";
+import paper from "../assets/data/safe201910.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";
@@ -151,7 +141,14 @@ export default {
       });
     },
     handleQuestion(item) {
-      let answer = item.option[item.answer[0]];
+      let options = ["A", "B", "C", "D", "E"];
+      let answer =
+        item.answer.length > 1
+          ? item.answer
+              .map(idx => options[idx] + "、" + item.option[idx])
+              .join(";")
+          : item.option[item.answer[0]];
+
       if (answer == "全部选项都是") {
         answer = item.option.slice(0, 3).join("、");
       }
@@ -162,6 +159,7 @@ export default {
           answer = answer.split("、")[1];
         }
       }
+      // console.log(item.option, answer, item.answer);
       item.title = item.title.replace(/  /g, " ");
       if (item.title.split("( )").length > 2) {
         answer.split(";").forEach(answerItem => {
