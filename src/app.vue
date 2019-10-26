@@ -173,13 +173,13 @@ export default {
       this.wxPermissionInit();
     },
     needRedirect() {
-      let hrefArr = window.location.href.split("?");
-      if (!hrefArr[1]) {
+      // let hrefArr = window.location.href.split("?");
+      if (window.location.search === "") {
         window.location.href = this.redirectUrl;
         return true;
       }
-      console.log(hrefArr[1]);
-      let params = querystring.parse(hrefArr[1]);
+
+      let params = querystring.parse(window.location.search.slice(1));
       this.code = params.code;
       return false;
     },
