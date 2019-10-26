@@ -174,10 +174,11 @@ export default {
     },
     needRedirect() {
       let hrefArr = window.location.href.split("?");
-      if (hrefArr.length == 1) {
+      if (!hrefArr[1]) {
         window.location.href = this.redirectUrl;
         return true;
       }
+      console.log(hrefArr[1]);
       let params = querystring.parse(hrefArr[1]);
       this.code = params.code;
       return false;

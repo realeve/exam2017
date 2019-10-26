@@ -1,13 +1,7 @@
 <template>
   <div class="wrapper">
     <group class="content">
-      <x-input
-        title="姓名"
-        required
-        name="userName"
-        v-model="sport.userName"
-        placeholder="点击此处输入姓名"
-      ></x-input>
+      <x-input title="姓名" required name="userName" v-model="sport.userName" placeholder="点击此处输入姓名"></x-input>
       <x-input
         title="卡号"
         required
@@ -19,24 +13,11 @@
         keyboard="number"
       ></x-input>
       <template v-if="sport.useDept">
-        <x-input
-          title="部门"
-          required
-          disabled
-          name="dpt"
-          v-model="sport.dpt[0]"
-        ></x-input>
-        <picker
-          :data='dptList'
-          v-model='sport.dpt'
-        ></picker>
+        <x-input title="部门" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
+        <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
-        <x-button
-          :disabled="!shouldCommit"
-          type="primary"
-          @click.native="login"
-        >开始答题</x-button>
+        <x-button :disabled="!shouldCommit" type="primary" @click.native="login">开始答题</x-button>
         <!-- <x-button @click.native="jump('errlist')">我的错题集</x-button> -->
         <x-button @click.native="jump('score')">排行榜</x-button>
         <!-- <x-button @click.native="jump('study')">知识学习</x-button> -->
@@ -168,17 +149,18 @@ export default {
 
       userInfo.is_update = true;
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
-      db.setCbpcUserList({
-        nickname: this.userInfo.nickname,
-        openid: this.userInfo.openid,
-        sex: this.userInfo.sex,
-        headimgurl: this.userInfo.headimgurl,
-        uid
-      }).then(res => {
-        userInfo.is_update = true;
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      });
+      if (this.userInfo.nickname) {
+        db.setCbpcUserList({
+          nickname: this.userInfo.nickname,
+          openid: this.userInfo.openid,
+          sex: this.userInfo.sex,
+          headimgurl: this.userInfo.headimgurl,
+          uid
+        }).then(res => {
+          userInfo.is_update = true;
+          // localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        });
+      }
     },
     init: async function() {
       if (!this.sport.useDept) {
