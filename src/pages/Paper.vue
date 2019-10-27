@@ -37,7 +37,7 @@
 </template>
 <script>
 import "fullpage.js";
-import $ from "fullpage.js/node_modules/jquery";
+import $ from "jquery";
 
 import { Toast, Group, Radio, Checklist, XButton } from "vux";
 
