@@ -25,7 +25,7 @@ const state = {
   tips: "",
   sport: {
     id: 32,
-    name: "新型冠状病毒相关知识竞赛题",
+    name: "新型冠状病毒相关知识竞赛",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
 
