@@ -8,32 +8,26 @@
           v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
           :key="i"
         >
-          <img
-            class="avatar"
-            :src="avatar"
-            alt="user_name"
-          >
+          <img class="avatar" :src="avatar" alt="user_name" />
           <div class="detail">
             <div class="text-left">
               <p class="bold">{{i+1}}.{{user_name}}</p>
               <p>{{user_dpt}}</p>
             </div>
             <div>
-              <p>总分:{{score}}分(
-                <span class="bold">{{answer_times}}</span>次)</p>
+              <p>
+                总分:{{score}}分
+                <!-- (<span class="bold">{{answer_times}}</span>次) -->
+              </p>
               <!-- <p>练习时长:{{total_time}}</p> -->
               <!-- <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p> -->
             </div>
           </div>
         </li>
       </ul>
-      <h3 style="margin-top:30px;">2.各部门总分及参与率</h3>
-      <ul class="dept-rate">
-        <li
-          class="dept-detail"
-          v-for="({avg_score,rate,user_dpt},i) in depts"
-          :key="i"
-        >
+      <h3 v-if="showDept" style="margin-top:30px;">2.各部门总分及参与率</h3>
+      <ul v-if="showDept" class="dept-rate">
+        <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
           <span>{{i+1}}.{{user_dpt}}</span>
           <span>{{avg_score}}分</span>
           <span>{{rate}}%</span>
@@ -49,6 +43,10 @@ import VHeader from "../components/Header";
 import { mapState } from "vuex";
 import * as db from "../lib/db";
 
+import state from "../store/state";
+
+const FemaleSport = state.sport.id == 32;
+
 export default {
   components: {
     VHeader
@@ -57,7 +55,8 @@ export default {
     return {
       depts: [],
       users: [],
-      total: ""
+      total: "",
+      showDept: !FemaleSport
     };
   },
   computed: {
@@ -103,7 +102,9 @@ export default {
       });
     },
     init() {
-      this.getDeptRatio();
+      if (!FemaleSport) {
+        this.getDeptRatio();
+      }
       this.getScoreList();
       this.getTotal();
     }

@@ -24,16 +24,16 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 31,
-    name: "2019行业消防安全测试练习",
+    id: 32,
+    name: "新型冠状病毒相关知识竞赛题",
     orgname: "成都印钞有限公司", // 机构名
-    slogan: "生产至上 安全发展", // 口号
+    slogan: "", // 口号
 
     // randAnswer: true, //答案随机化
     // randomQuestion: true, //问题随机
 
     questionNums, // 抽题数量
-    perScore: 1, // 每题得分
+    perScore: 4, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
     showDocument: false,
@@ -45,16 +45,16 @@ const state = {
     dpt: ["印钞管理部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 4000,
+    maxTimes: 2,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
-    startDate: "2019-10-11",
-    endDate: "2019-10-31",
+    startDate: "2020-03-05",
+    endDate: "2020-03-06",
     // 得分是否累加
-    stackMode: true,
+    stackMode: false,
     // 记录每次答题得分
     alwaysRecordScore: true,
     readMaxScore: true,

@@ -19,7 +19,7 @@
       <div class="btn">
         <x-button :disabled="!shouldCommit" type="primary" @click.native="login">开始答题</x-button>
         <!-- <x-button @click.native="jump('errlist')">我的错题集</x-button> -->
-        <x-button @click.native="jump('score')">排行榜</x-button>
+        <!-- <x-button @click.native="jump('score')">排行榜</x-button> -->
         <!-- <x-button @click.native="jump('study')">知识学习</x-button> -->
       </div>
     </group>
@@ -32,6 +32,10 @@ import { XButton, XInput, Group, Toast, Picker, GroupTitle } from "vux";
 
 import { mapState } from "vuex";
 import * as db from "../lib/db";
+
+import state from "../store/state";
+
+const FemaleSport = state.sport.id == 32;
 
 export default {
   components: {
@@ -149,7 +153,7 @@ export default {
 
       userInfo.is_update = true;
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      if (this.userInfo.nickname) {
+      if (!FemaleSport && this.userInfo.nickname) {
         db.setCbpcUserList({
           nickname: this.userInfo.nickname,
           openid: this.userInfo.openid,

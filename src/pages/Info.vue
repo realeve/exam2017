@@ -11,8 +11,8 @@
         v-show="error_detail.length>0"
         @click.native="showAnswer"
       >查看正确答案</x-button>
-      <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button>
-      <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button>
+      <!-- <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button> -->
+      <!-- <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button> -->
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
       icon: "success",
       completeNum: 0,
       desc: ``,
-      title: "感谢参与"
+      title: "感谢您的参与"
     };
   },
   computed: {

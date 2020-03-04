@@ -46,7 +46,8 @@ import { dateFormat } from "vux";
 import { mapState } from "vuex";
 
 // import questionJSON from "../assets/data/finance.json";
-import questionJSON from "../assets/data/safe201910.js";
+// import questionJSON from "../assets/data/safe201910.js";
+import questionJSON from "../assets/data/ncov.js";
 // import questionJSON from "../assets/data/safePrint.js";
 // import questionJSON from "../assets/data/safeMarket.js";
 // import questionJSON from "../assets/data/quality2018.js";
