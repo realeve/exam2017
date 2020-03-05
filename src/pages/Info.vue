@@ -4,7 +4,8 @@
       <msg :title="title" :description="desc" :icon="icon"></msg>
       <x-button class="wrapper" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
       <x-button class="wrapper" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
-      <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button>
+      <!-- <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button> -->
+      <x-button class="wrapper" @click.native="reload">再答一次</x-button>
       <x-button
         class="wrapper"
         type="primary"
@@ -84,11 +85,12 @@ export default {
         });
     },
     reload() {
-      if (this.answer_times == 0) {
-        this.$router.push("/score");
-        return;
-      }
-      window.location.href = window.location.href.split("#")[0];
+      // if (this.answer_times == 0) {
+      //   this.$router.push("/score");
+      //   return;
+      // }
+      // window.location.href = window.location.href.split("#")[0];
+      this.$router.push("/score");
     },
     loadCurScore: async function() {
       if (!this.sport.cardNo) {

@@ -19,7 +19,7 @@
                 总分:{{score}}分
                 <!-- (<span class="bold">{{answer_times}}</span>次) -->
               </p>
-              <!-- <p>练习时长:{{total_time}}</p> -->
+              <p>{{total_time}}</p>
               <!-- <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p> -->
             </div>
           </div>
@@ -82,16 +82,16 @@ export default {
       ]({ sid: this.sport.id, limit: 500 }).then(({ data }) => {
         this.users = data.map(item => {
           let { total_time } = item;
-          total_time = parseInt(total_time, 10);
-          let h = Math.floor(total_time / 3600);
-          let m = Math.floor((total_time % 3600) / 60);
-          let s = Math.floor(total_time % 60);
-          if (h > 0) {
-            h += "时";
-          } else {
-            h = "";
-          }
-          item.total_time = `${h}${m}分${s}秒`;
+          // total_time = parseInt(total_time, 10);
+          // let h = Math.floor(total_time / 3600);
+          // let m = Math.floor((total_time % 3600) / 60);
+          // let s = Math.floor(total_time % 60);
+          // if (h > 0) {
+          //   h += "时";
+          // } else {
+          //   h = "";
+          // }
+          // item.total_time = `${h}${m}分${s}秒`;
           return item;
         });
       });
