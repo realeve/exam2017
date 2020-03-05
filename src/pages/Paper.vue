@@ -59,7 +59,7 @@ import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
 
 let key = {
-  curPaper: "_paper",
+  curPaper: "_papers",
   curAnswer: "_answer",
   timeCounter: "curTimeLength",
   answerList: "_answerList"

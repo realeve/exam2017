@@ -17,7 +17,7 @@
         <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
-        <x-button :disabled="!shouldCommit" type="primary" @click.native="login">开始答题</x-button>
+        <x-button :disabled="disableLogin||!shouldCommit" type="primary" @click.native="login">开始答题</x-button>
         <!-- <x-button @click.native="jump('errlist')">我的错题集</x-button> -->
         <!-- <x-button @click.native="jump('score')">排行榜</x-button> -->
         <!-- <x-button @click.native="jump('study')">知识学习</x-button> -->
@@ -32,7 +32,7 @@ import { XButton, XInput, Group, Toast, Picker, GroupTitle } from "vux";
 
 import { mapState } from "vuex";
 import * as db from "../lib/db";
-
+import moment from "moment";
 import state from "../store/state";
 
 const FemaleSport = state.sport.id == 32;
@@ -52,7 +52,8 @@ export default {
         show: false,
         msg: ""
       },
-      dptList: []
+      dptList: [],
+      disableLogin: moment().format("YYYY-MM-DD") > state.sport.endDate
     };
   },
   computed: {
