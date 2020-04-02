@@ -94,8 +94,7 @@
 </style>
 
 <script>
-// import paper from "../assets/data/finance.json";
-import paper from "../assets/data/safe201910.js";
+import paper from "../assets/data/ncov.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";

@@ -24,8 +24,8 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 32,
-    name: "新型冠状病毒相关知识竞赛",
+    id: 33,
+    name: "2020年全员安全履职能力闭卷测试",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
 

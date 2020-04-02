@@ -29,12 +29,7 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
-// import fillBlank from "../assets/data/fillBlank.js";
-
-import questionJSON from "../assets/data/safe201910.js";
-// import questionJSON from "../assets/data/safePrint.js";
-// import questionJSON from "../assets/data/safeMarket.js";
-// import questionJSON from "../assets/data/quality2018.js";
+import questionJSON from "../assets/data/ncov.js";
 
 import util from "../lib/common";
 

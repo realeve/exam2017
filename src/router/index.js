@@ -9,15 +9,15 @@ export default new Router({
     {
       path: "/",
       component: function(resolve) {
+        require(["../pages/Home.vue"], resolve);
+      }
+    },
+    {
+      path: "/login",
+      component: function(resolve) {
         require(["../pages/Login.vue"], resolve);
       }
     },
-    // {
-    //   path: "/login",
-    //   component: function(resolve) {
-    //     require(["../pages/Login.vue"], resolve);
-    //   }
-    // },
     {
       path: "/doc",
       component: function(resolve) {

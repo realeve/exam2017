@@ -26,7 +26,7 @@ export const getCbpcDeptList = async sid =>
   await axios({
     url: FemaleSport
       ? "/266/77f72268ae/array.json"
-      : "/7/809d780efa/array.json",
+      : "/273/49aff5c500/array.json",
     params: {
       sid,
       cache: 7200
@@ -40,7 +40,7 @@ export const getCbpcDeptList = async sid =>
 */
 export const login = async params =>
   await axios({
-    url: FemaleSport ? "/267/e7afd80fad" : "/8/230cba0823.json",
+    url: FemaleSport ? "/267/e7afd80fad" : "/8//274/6942e3f35e.json",
     params
   });
 
@@ -51,40 +51,40 @@ export const login = async params =>
 */
 export const login2 = async params =>
   await axios({
-    url: "/39/836f66bd88.json",
+    url: "/275/ad5e19128c.json",
     params
   });
 
 /**
 *   @database: { 微信开发 }
-*   @desc:     { 插入数据 } 
-    const { uid, sid, answer_times, score, error_detail, rec_time, start_time, answer_nums, time_length } = params;
+*   @desc:     { 插入数据2020 } 
+    const { uid, sid, answer_times, score, error_detail, start_time, answer_nums, time_length } = params;
 */
-const addCbpcSportMain = async params =>
-  await axios({
-    url: "/9/1a4beb4ff2.json",
+export const addCbpcSportMain = params =>
+  axios({
+    url: "/276/eff6e8846f.json",
     params
   });
 
 /**
 *   @database: { 微信开发 }
-*   @desc:     { 更新答题数据 } 
-    const { answer_times, score, error_detail, rec_time, start_time, answer_nums, time_length, uid, sid } = params;
+*   @desc:     { 更新答题数据2020 } 
+    const { answer_times, score, error_detail, start_time, answer_nums, time_length, uid, sid } = params;
 */
-const setCbpcSportMain = async params =>
-  await axios({
-    url: "/10/329cebc7da.json",
+export const setCbpcSportMain = params =>
+  axios({
+    url: "/277/f31bc3be02.json",
     params
   });
 
 /**
 *   @database: { 微信开发 }
 *   @desc:     { 分数过低时仅更新答题次数 } 
-    const { answer_times, rec_time, start_time, answer_nums, time_length, uid, sid } = params;
+    const { answer_times, start_time, answer_nums, time_length, uid, sid } = params;
 */
-const setCbpcSportMainByTimes = async params =>
-  await axios({
-    url: "/11/5ef8fa675c.json",
+export const setCbpcSportMainByTimes = params =>
+  axios({
+    url: "/278/62c3b88570.json",
     params
   });
 
@@ -117,7 +117,7 @@ export const submitPaper = async (params, sport) => {
 */
 export const getCbpcSportMain = async params =>
   await axios({
-    url: "/12/e71eb4f0a1.json",
+    url: "/279/8f9d4e2cd6.json",
     params
   });
 
@@ -128,7 +128,7 @@ export const getCbpcSportMain = async params =>
 */
 export const getCbpcSportMain2 = async params =>
   await axios({
-    url: "/40/f0db845c49.json",
+    url: "/280/dada6c94fb.json",
     params
   });
 
@@ -139,7 +139,7 @@ export const getCbpcSportMain2 = async params =>
 */
 export const setCbpcUserList = async params =>
   await axios({
-    url: "/15/791c1677d6.json",
+    url: "/281/211b647d9e.json",
     params
   });
 
@@ -171,7 +171,7 @@ export const getCbpcSportLuckyusers = async params =>
  */
 export const delCbpcSportMain = async sid =>
   await axios({
-    url: "/16/37584eabca.json",
+    url: "/282/61f51aed8c.json",
     params: {
       sid
     }
@@ -183,7 +183,7 @@ export const delCbpcSportMain = async sid =>
  */
 export const getCbpcSportMainByDept = async sid =>
   await axios({
-    url: "/17/64c0c27545.json",
+    url: "/283/1058e38090.json",
     params: {
       sid
     }
@@ -207,7 +207,7 @@ export const getCbpcSportMainByDept2 = sid =>
  */
 export const getCbpcSportMainByUser = async params =>
   await axios({
-    url: "/18/a13ae161c1.json",
+    url: "/284/1899350f92.json",
     params
   });
 
@@ -253,7 +253,7 @@ export const setCbpcPrize = async params =>
 */
 export const getViewCbpcUserList = async params =>
   await axios({
-    url: "/41/bdcb547de9.json",
+    url: "/285/1cde57c9b9.json",
     params
   });
 
@@ -273,10 +273,14 @@ export const getCbpcDepts = async sid =>
 *   @database: { 微信开发 }
 *   @desc:     { 卡号改部门 } 
     const { dept_id, card_no } = params;
+
+    dept_name,card_no
+
 */
 export const updateDeptInfo = async params =>
   await axios({
-    url: "/43/0265840c3d.json",
+    // url: "/43/0265840c3d.json",
+    url: "/286/15e547a866.json",
     params
   });
 
@@ -287,20 +291,23 @@ export const updateDeptInfo = async params =>
 */
 export const updateCardInfo = async params =>
   await axios({
-    url: "/44/ebe393408a.json",
+    // url: "/44/ebe393408a.json",
+    url: "/287/d46168c157.json",
     params
   });
 
 /**
 *   @database: { 微信开发 }
-*   @desc:     { 新增人员信息 } 
-    const { card_no, user_name, dept_id } = params;
+*   @desc:     { 新增用户 } 
+    const { username, cardno, deptname } = params;
 */
-export const addCbpcUserList = async params =>
-  await axios({
-    url: "/45/7a5fa288f5.json",
-    params
-  });
+export const addCbpcUserList = params =>
+  DEV
+    ? mock(_commonData)
+    : axios({
+        url: "/288/a8ca91e358.json",
+        params
+      });
 
 /**
 *   @database: { 会议管理 }
@@ -319,7 +326,7 @@ export const getViewCbpcSportScoreList = async params =>
  */
 export const getCbpcSportTotalPeople = async sid =>
   await axios({
-    url: "/77/6dbb189f56.json",
+    url: "/289/1bd104632c.json",
     params: {
       sid
     }
@@ -332,7 +339,7 @@ export const getCbpcSportTotalPeople = async sid =>
 */
 export const getCbpcSportMainByMaxScore = async params =>
   await axios({
-    url: FemaleSport ? "/268/dad8f0eb21.json" : "/81/aefff097ac.json",
+    url: FemaleSport ? "/268/dad8f0eb21.json" : "/290/df1276a184.json",
     params
   });
 
@@ -342,7 +349,7 @@ export const getCbpcSportMainByMaxScore = async params =>
  */
 export const getCbpcSportDeptByMaxScore = async sid =>
   await axios({
-    url: "/82/778700f89d.json",
+    url: "/291/c25f867c71.json",
     params: {
       sid
     }
@@ -355,6 +362,6 @@ export const getCbpcSportDeptByMaxScore = async sid =>
 */
 export const getErrList = async params =>
   await axios({
-    url: "/101/3605f99e4a/array.json",
+    url: "/292/c8838e5fb6/array.json",
     params
   });
