@@ -40,7 +40,7 @@ export const getCbpcDeptList = async sid =>
 */
 export const login = async params =>
   await axios({
-    url: FemaleSport ? "/267/e7afd80fad" : "/8//274/6942e3f35e.json",
+    url: FemaleSport ? "/267/e7afd80fad" : "/274/6942e3f35e.json",
     params
   });
 

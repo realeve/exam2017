@@ -51,8 +51,8 @@ const state = {
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
-    startDate: "2020-03-05",
-    endDate: "2020-03-06",
+    startDate: "2020-04-03",
+    endDate: "2020-04-30",
     // 得分是否累加
     stackMode: false,
     // 记录每次答题得分

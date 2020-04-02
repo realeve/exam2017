@@ -94,7 +94,7 @@
 </style>
 
 <script>
-import paper from "../assets/data/ncov.js";
+import paper from "../assets/data/safe2020.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";

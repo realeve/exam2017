@@ -45,7 +45,7 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/ncov.js";
+import questionJSON from "../assets/data/safe2020.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
