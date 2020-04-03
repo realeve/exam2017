@@ -2,11 +2,11 @@
   <div class="wrapper">
     <div class="content">
       <div class="btn-wrapper login">
-        <x-button type="primary" @click.native="jump('errlist')">我的错题集</x-button>
-        <x-button @click.native="jump('login')">登录</x-button>
+        <!-- <x-button type="primary" @click.native="jump('errlist')">我的错题集</x-button> -->
+        <x-button type="primary" @click.native="jump('login')">登录</x-button>
         <!-- <x-button>活动已截止</x-button> -->
         <!-- <x-button @click.native="jump('score')">排行榜</x-button> -->
-        <x-button type="primary" @click.native="jump('doc')">知识学习</x-button>
+        <!-- <x-button type="primary" @click.native="jump('doc')">知识学习</x-button> -->
       </div>
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>

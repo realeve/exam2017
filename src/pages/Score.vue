@@ -25,7 +25,7 @@
           </div>
         </li>
       </ul>
-      <h3 v-if="showDept" style="margin-top:30px;">2.各部门总分及参与率</h3>
+      <h3 v-if="showDept" style="margin-top:30px;">2.各部门平均得分及参与率</h3>
       <ul v-if="showDept" class="dept-rate">
         <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
           <span>{{i+1}}.{{user_dpt}}</span>

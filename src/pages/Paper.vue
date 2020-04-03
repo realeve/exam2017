@@ -62,12 +62,13 @@ let key = {
 
 // 是否需要随机选项数据
 let questiones = util.getPaperData(questionJSON, {
-  randAnswer: true,
-  randomQuestion: true
+  randAnswer: false, // 答题不随机
+  randomQuestion: true // 题目随机
 });
 let questionList = [];
 
 let curPaper = window.localStorage.getItem(key.curPaper);
+console.log(curPaper);
 if (curPaper == null) {
   curPaper = questiones.slice(0, questionNums);
   questionList = curPaper;
@@ -183,7 +184,7 @@ export default {
       let seconds = this.sport.maxAnswerLength - this.curAnswerLength;
       let min = Math.floor(seconds / 60);
       let sec = seconds % 60;
-      return `0${min}:${String(sec).padStart(2, "0")}`;
+      return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
     }
   },
   watch: {

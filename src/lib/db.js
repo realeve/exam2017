@@ -195,7 +195,7 @@ export const getCbpcSportMainByDept = async sid =>
  */
 export const getCbpcSportMainByDept2 = sid =>
   axios({
-    url: "/178/24ad0c62ad.json",
+    url: "/293/42eff6ef46.json",
     params: {
       sid
     }

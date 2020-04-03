@@ -18,26 +18,30 @@
             </p>
           </article>
         </template>
+
+        <div class="btn" style="margin-top:20px;">
+          <!-- <x-button @click.native="jump('login')">登录</x-button> -->
+
+          <x-button
+            type="primary"
+            @click.native="jump('paper')"
+            v-show="sport.isLogin"
+          >开始答题(限时{{sport.maxAnswerLength/60}}分钟)</x-button>
+
+          <!-- <x-button @click.native="init">刷新题目</x-button> -->
+
+          <x-button @click.native="jump('errlist')">我的错题集</x-button>
+
+          <x-button @click.native="jump('/score')">排行榜</x-button>
+
+          <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
+        </div>
+
         <p class="subtitle">知识学习</p>
-        <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p>
+        <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
         <article>
           <p class="item" v-for="(question,i) in questions" :key="i" v-html="`${i+1}.${question}`"></p>
         </article>
-      </div>
-      <div class="btn" style="margin-top:20px;">
-        <!-- <x-button @click.native="jump('login')">登录</x-button> -->
-        <x-button
-          type="primary"
-          @click.native="jump('paper')"
-          v-show="sport.isLogin"
-        >开始答题(限时{{sport.maxAnswerLength/60}}分钟)</x-button>
-        <x-button @click.native="init">刷新题目</x-button>
-        <!-- <x-button @click.native="jump('errlist')">我的错题集</x-button> -->
-        <!-- <x-button
-          type="warn"
-          @click.native="jump('/score')"
-        >排行榜</x-button>-->
-        <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
@@ -176,10 +180,10 @@ export default {
       return title;
     },
     init() {
-      this.questions = util
-        .randomArr(paper)
-        .slice(0, this.sport.questionNums)
-        .map(this.handleQuestion);
+      this.questions =
+        // util.randomArr(paper)
+        // .slice(0, this.sport.questionNums)
+        paper.map(this.handleQuestion);
     }
   },
   mounted() {
