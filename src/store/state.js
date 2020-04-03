@@ -26,7 +26,7 @@ const state = {
   tips: "",
   sport: {
     id: 33,
-    name: "2020年全员安全履职能力闭卷测试",
+    name: "2020年全员安全履职能力培训测试",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
 
@@ -55,7 +55,7 @@ const state = {
     startDate: "2020-04-04",
     endDate: "2020-04-20",
     // 得分是否累加
-    stackMode: false,
+    stackMode: true,
     // 记录每次答题得分
     alwaysRecordScore: true,
     readMaxScore: true,

@@ -3,18 +3,22 @@
     <div class="content">
       <div>
         <div class="title">
-          {{sport.orgname}}
+          {{ sport.orgname }}
           <br />
-          {{year}}{{sport.name}}
+          {{ year }}{{ sport.name }}
         </div>
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
           <article>
             <p>
-              本次活动中，我们将从{{paper.length}}道题目中随机抽取{{sport.questionNums}}道题目作答,每人{{sport.maxTimes}}次机会
-              <span
-                v-if="sport.doLottery"
-              >，得分在{{sport.minPrizeScore}}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span>。
+              本次活动中，我们将从{{ paper.length }}道题目中随机抽取{{
+                sport.questionNums
+              }}道题目作答,每人{{ sport.maxTimes }}次机会
+              <span v-if="sport.doLottery"
+                >，得分在{{
+                  sport.minPrizeScore
+                }}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span
+              >。
             </p>
           </article>
         </template>
@@ -26,7 +30,8 @@
             type="primary"
             @click.native="jump('paper')"
             v-show="sport.isLogin"
-          >开始答题(限时{{sport.maxAnswerLength/60}}分钟)</x-button>
+            >开始答题(限时{{ sport.maxAnswerLength / 60 }}分钟)</x-button
+          >
 
           <!-- <x-button @click.native="init">刷新题目</x-button> -->
 
@@ -40,11 +45,18 @@
         <p class="subtitle">知识学习</p>
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
         <article>
-          <p class="item" v-for="(question,i) in questions" :key="i" v-html="`${i+1}.${question}`"></p>
+          <p
+            class="item"
+            v-for="(question, i) in questions"
+            :key="i"
+            v-html="`${i + 1}.${question}`"
+          ></p>
         </article>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
-        <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
+        <p style="text-align:center;">
+          是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作
+        </p>
       </confirm>
     </div>
     <v-foot />
@@ -71,7 +83,7 @@
     font-weight: bold;
   }
   article {
-    text-indent: 2em;
+    // text-indent: 2em;
     line-height: 23pt;
     p {
       line-height: 23pt;
@@ -105,6 +117,7 @@ import { XButton, Confirm } from "vux";
 
 import { mapState } from "vuex";
 import * as db from "../lib/db";
+import * as R from "ramda";
 
 export default {
   components: {
@@ -114,7 +127,7 @@ export default {
   data() {
     return {
       questions: [],
-      paper: paper.slice(0, 50),
+      paper: R.clone(paper), //.slice(0, 50),
       showConfirm: false
     };
   },
@@ -179,11 +192,28 @@ export default {
       }
       return title;
     },
+    handleSrcQuestion(item) {
+      let options = ["A", "B", "C", "D", "E"];
+      let answer = item.answer.map(idx => options[idx]).join("、");
+
+      let title = item.title.replace(
+        "（",
+        `（<span style="font-weight:bold;">${answer}</span>`
+      );
+      item.option.forEach((option, idx) => {
+        title += `<br/><span style="${
+          item.answer.includes(idx)
+            ? "color:#e23;text-decoration: underline;"
+            : ""
+        }">${options[idx]}、${option}</span>`;
+      });
+      return title;
+    },
     init() {
       this.questions =
         // util.randomArr(paper)
         // .slice(0, this.sport.questionNums)
-        paper.map(this.handleQuestion);
+        R.clone(paper).map(this.handleSrcQuestion);
     }
   },
   mounted() {

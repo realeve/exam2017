@@ -209,6 +209,14 @@ export const getCbpcSportMainByUser = async params =>
   await axios({
     url: "/284/1899350f92.json",
     params
+  }).then(res => {
+    res.data = res.data.map(item => {
+      let total_time = item.total_time.split(":");
+      let str = `总时长:${total_time[0]}时${total_time[1]}分`;
+      item.total_time = str;
+      return item;
+    });
+    return res;
   });
 
 /**

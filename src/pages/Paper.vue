@@ -1,16 +1,23 @@
 <template>
   <div>
     <div ref="fp">
-      <div class="section content" v-for="(question,i) of questionList" :key="i">
-        <span v-if="sport.testMode">答案:{{question.answer.join(',')}},得分:{{subScore}}</span>
+      <div
+        class="section content"
+        v-for="(question, i) of questionList"
+        :key="i"
+      >
+        <span v-if="sport.testMode"
+          >答案:{{ question.answer.join(",") }},得分:{{ subScore }}</span
+        >
         <span
           style="background:#785a32;color:#fff;padding: 2px;border-radius: 2px;font-size: 10px;"
-        >{{curTime}}</span>
+          >{{ curTime }}</span
+        >
         <div style="position:relative;">
-          <div class="qa-num">{{i+1}}/{{questionList.length}}</div>
+          <div class="qa-num">{{ i + 1 }}/{{ questionList.length }}</div>
           <div class="qa-body">
             <checklist
-              v-if="question.answer.length>1"
+              v-if="question.answer.length > 1"
               label-position="left"
               :title="`${question.title}`"
               required
@@ -22,12 +29,13 @@
             </group>
           </div>
         </div>
-        <div class="submit" v-if="i == questionList.length-1">
+        <div class="submit" v-if="i == questionList.length - 1">
           <x-button
             :disabled="!isCompleted"
             type="primary"
             @click.native="submit(sport.questionNums)"
-          >提交</x-button>
+            >提交</x-button
+          >
         </div>
       </div>
     </div>
@@ -52,6 +60,7 @@ import util from "../lib/common";
 import moment from "moment";
 import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
+import * as R from "ramda";
 
 let key = {
   curPaper: "_papers",
@@ -61,14 +70,14 @@ let key = {
 };
 
 // 是否需要随机选项数据
-let questiones = util.getPaperData(questionJSON, {
+let questiones = util.getPaperData(R.clone(questionJSON), {
   randAnswer: false, // 答题不随机
   randomQuestion: true // 题目随机
 });
 let questionList = [];
 
 let curPaper = window.localStorage.getItem(key.curPaper);
-console.log(curPaper);
+
 if (curPaper == null) {
   curPaper = questiones.slice(0, questionNums);
   questionList = curPaper;
@@ -152,9 +161,7 @@ export default {
         //   : curQuestion.score;
 
         let scorePerQuestion =
-          this.$store.state.sport.perScore > 0
-            ? this.$store.state.sport.perScore
-            : curQuestion.score;
+          curQuestion.score || this.$store.state.sport.perScore || 1;
 
         // 多选答案校对
         let itemType = typeof item;
