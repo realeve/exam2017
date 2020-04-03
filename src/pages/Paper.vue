@@ -1,18 +1,11 @@
 <template>
   <div>
     <div ref="fp">
-      <div
-        class="section content"
-        v-for="(question, i) of questionList"
-        :key="i"
-      >
-        <span v-if="sport.testMode"
-          >答案:{{ question.answer.join(",") }},得分:{{ subScore }}</span
-        >
+      <div class="section content" v-for="(question, i) of questionList" :key="i">
+        <span v-if="sport.testMode">答案:{{ question.answer.join(",") }},得分:{{ subScore }}</span>
         <span
           style="background:#785a32;color:#fff;padding: 2px;border-radius: 2px;font-size: 10px;"
-          >{{ curTime }}</span
-        >
+        >{{ curTime }}</span>
         <div style="position:relative;">
           <div class="qa-num">{{ i + 1 }}/{{ questionList.length }}</div>
           <div class="qa-body">
@@ -34,8 +27,7 @@
             :disabled="!isCompleted"
             type="primary"
             @click.native="submit(sport.questionNums)"
-            >提交</x-button
-          >
+          >提交</x-button>
         </div>
       </div>
     </div>
@@ -85,6 +77,9 @@ if (curPaper == null) {
 } else {
   questionList = JSON.parse(curPaper);
 }
+
+// 快速测试
+// questionList = questionList.slice(0, 3);
 
 export default {
   name: "page",
@@ -255,6 +250,9 @@ export default {
         this.toast.msg = "提交失败";
         return;
       }
+
+      // 重置
+      window.localStorage.removeItem(key.answerList);
 
       // 抽奖
       if (this.sport.doLottery) {

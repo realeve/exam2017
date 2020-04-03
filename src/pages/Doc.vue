@@ -5,7 +5,7 @@
         <div class="title">
           {{ sport.orgname }}
           <br />
-          {{ year }}{{ sport.name }}
+          {{ sport.name }}
         </div>
         <template v-if="sport.doLottery">
           <p class="subtitle">说明</p>
@@ -198,7 +198,7 @@ export default {
       let title = item.title
         .replace(/\(/g, "（")
         .replace(/\)/g, "）")
-        .replace("（", `（<span style="font-weight:bold;">${answer}</span>`);
+        .replace("（ ", `（ <span style="font-weight:bold;">${answer}</span>`);
       item.option.forEach((option, idx) => {
         title += `<br/><span style="${
           item.answer.includes(idx)
