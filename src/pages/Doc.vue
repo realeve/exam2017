@@ -12,13 +12,15 @@
           <article>
             <p>
               本次活动中，我们将从{{ paper.length }}道题目中随机抽取{{
-                sport.questionNums
+              sport.questionNums
               }}道题目作答,每人{{ sport.maxTimes }}次机会
-              <span v-if="sport.doLottery"
-                >，得分在{{
-                  sport.minPrizeScore
-                }}分以上者将参与后续的抽奖环节，400个奖品等你来拿</span
-              >。
+              <span
+                v-if="sport.doLottery"
+              >
+                ，得分在{{
+                sport.minPrizeScore
+                }}分以上者将参与后续的抽奖环节，400个奖品等你来拿
+              </span>。
             </p>
           </article>
         </template>
@@ -30,8 +32,7 @@
             type="primary"
             @click.native="jump('paper')"
             v-show="sport.isLogin"
-            >开始答题(限时{{ sport.maxAnswerLength / 60 }}分钟)</x-button
-          >
+          >开始答题(限时{{ sport.maxAnswerLength / 60 }}分钟)</x-button>
 
           <!-- <x-button @click.native="init">刷新题目</x-button> -->
 
@@ -54,9 +55,7 @@
         </article>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
-        <p style="text-align:center;">
-          是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作
-        </p>
+        <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
       </confirm>
     </div>
     <v-foot />
@@ -196,10 +195,10 @@ export default {
       let options = ["A", "B", "C", "D", "E"];
       let answer = item.answer.map(idx => options[idx]).join("、");
 
-      let title = item.title.replace(
-        "（",
-        `（<span style="font-weight:bold;">${answer}</span>`
-      );
+      let title = item.title
+        .replace(/\(/g, "（")
+        .replace(/\)/g, "）")
+        .replace("（", `（<span style="font-weight:bold;">${answer}</span>`);
       item.option.forEach((option, idx) => {
         title += `<br/><span style="${
           item.answer.includes(idx)
