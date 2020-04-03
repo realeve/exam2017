@@ -10,8 +10,8 @@
 <script>
 import { Loading } from "vux";
 
-import { querystring } from "vux";
-
+// import { querystring } from "vux";
+import qs from "qs";
 import { mapState } from "vuex";
 import { axios } from "./lib/axios";
 import * as db from "./lib/db";
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     wxPermissionInit() {
-      axios({
+      return axios({
         params: {
           s: "/weixin/signature",
           url: this.url
@@ -179,7 +179,7 @@ export default {
         return true;
       }
 
-      let params = querystring.parse(window.location.search.slice(1));
+      let params = qs.parse(window.location.search.slice(1));
       this.code = params.code;
       return false;
     },

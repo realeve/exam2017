@@ -17,7 +17,11 @@
         <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
-        <x-button :disabled="disableLogin||!shouldCommit" type="primary" @click.native="login">开始答题</x-button>
+        <x-button :disabled="isEnd||notStart||!shouldCommit" type="primary" @click.native="login">
+          开始答题
+          <span v-if="notStart">(活动未开始)</span>
+          <span v-if="isEnd">(活动已结束)</span>
+        </x-button>
         <!-- <x-button @click.native="jump('errlist')">我的错题集</x-button> -->
         <!-- <x-button @click.native="jump('score')">排行榜</x-button> -->
         <!-- <x-button @click.native="jump('study')">知识学习</x-button> -->
@@ -37,6 +41,8 @@ import state from "../store/state";
 
 const FemaleSport = state.sport.id == 32;
 
+let now = () => moment().format("YYYY-MM-DD hh:mm:ss");
+
 export default {
   components: {
     XButton,
@@ -53,7 +59,8 @@ export default {
         msg: ""
       },
       dptList: [],
-      disableLogin: moment().format("YYYY-MM-DD") > state.sport.endDate
+      notStart: now() < state.sport.startDate,
+      isEnd: now() > state.sport.endDate
     };
   },
   computed: {
@@ -167,7 +174,17 @@ export default {
         });
       }
     },
+    getSportDate() {
+      db.getCbpcSportListCfg(this.sport.id).then(res => {
+        this.sport.startDate = res.start_time;
+        this.sport.endDate = res.end_time;
+        this.notStart = now() < res.start_time;
+        this.isEnd = now() > res.end_time;
+      });
+    },
     init: async function() {
+      this.getSportDate();
+
       if (!this.sport.useDept) {
         this.loadUserInfo();
         return;

@@ -365,3 +365,14 @@ export const getErrList = async params =>
     url: "/292/c8838e5fb6/array.json",
     params
   });
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 读取活动设置 }
+ */
+export const getCbpcSportListCfg = sid =>
+  axios({
+    url: "/294/5c6b096e3c.json",
+    params: {
+      sid
+    }
+  }).then(res => res.data[0] || {});
