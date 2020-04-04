@@ -149,9 +149,7 @@ export default {
       this.showConfirm = true;
     },
     onConfirm() {
-      db.delCbpcSportMain({
-        sid: this.sport.id
-      }).then(res => {
+      db.delCbpcSportMain(this.sport.id).then(res => {
         this.$vux.toast.text("清空完毕", "default");
       });
     },

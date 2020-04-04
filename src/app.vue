@@ -15,6 +15,7 @@ import qs from "qs";
 import { mapState } from "vuex";
 import { axios } from "./lib/axios";
 import * as db from "./lib/db";
+import moment from "moment";
 
 export default {
   name: "app",
@@ -213,6 +214,10 @@ export default {
     } else {
       // 正式环境微信载入
       this.wxInit();
+    }
+
+    if (moment().format("YYYYMMDD") == "20200404") {
+      document.querySelector("html").style.filter = "grayscale(1)";
     }
   }
 };
