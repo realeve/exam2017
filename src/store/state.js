@@ -46,7 +46,7 @@ const state = {
     dpt: ["印钞管理部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 2,
+    maxTimes: 99999,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
@@ -60,13 +60,13 @@ const state = {
     alwaysRecordScore: true,
     readMaxScore: true,
     readSumScore: true,
-    maxAnswerLength // 最长答题时间，4分钟
+    maxAnswerLength, // 最长答题时间，4分钟
   },
   paperInit: false,
   peopleCount: 0,
   isPC: !isMobile(),
   refreshInterval: 5 * 1000,
-  error_detail: []
+  error_detail: [],
 };
 
 // 按题目数量总分100分

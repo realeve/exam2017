@@ -8,7 +8,7 @@
           v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
           :key="i"
         >
-          <img class="avatar" :src="avatar" alt="user_name" />
+          <!-- <img class="avatar" :src="avatar" alt="user_name" /> -->
           <div class="detail">
             <div class="text-left">
               <p class="bold">{{i+1}}.{{user_name}}</p>
