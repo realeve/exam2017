@@ -120,12 +120,9 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
   multiple = randomArr(multiple);
   judge = randomArr(judge);
 
-  // singleChoice = singleChoice.slice(0, 40);
-  // multiple = multiple.slice(0, 10);
-  // judge = judge.slice(0, 10);
-  singleChoice = singleChoice.slice(0, 2);
-  multiple = multiple.slice(0, 2);
-  judge = judge.slice(0, 2);
+  singleChoice = singleChoice.slice(0, 40);
+  multiple = multiple.slice(0, 10);
+  judge = judge.slice(0, 10);
   return [...singleChoice, ...multiple, ...judge];
 }
 
