@@ -55,10 +55,10 @@ import { maxAnswerLength, questionNums } from "../store/state";
 import * as R from "ramda";
 
 let key = {
-  curPaper: "_papers",
-  curAnswer: "_answer",
+  curPaper: "_paper_",
+  curAnswer: "_answer_",
   timeCounter: "curTimeLength",
-  answerList: "_answerList"
+  answerList: "_answerList_"
 };
 
 // 是否需要随机选项数据

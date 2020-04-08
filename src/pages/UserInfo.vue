@@ -4,9 +4,7 @@
     <group class="content">
       <x-input title="姓名或卡号" required name="userName" v-model="userName" placeholder="点击此处输入姓名或卡号"></x-input>
     </group>
-    <div v-if="userList.length === 0" style="tip">
-      未搜索到 {{userName}} 的相关信息。
-    </div>
+    <div v-if="userList.length === 0" style="tip">未搜索到 {{userName}} 的相关信息。</div>
     <ul v-else class="user">
       <li class="user-item" v-for="(item,id) in userList" :key="item.uid">
         <span>{{id+1}}.{{item.dept_name}}</span>
@@ -17,14 +15,14 @@
     <div class="btn">
       <x-button type="primary" @click.native="query">查询</x-button>
     </div>
-    <hr/>
+    <hr />
     <h2 style="margin-top:20px;">用户信息修改</h2>
     <group class="content">
       <x-input title="姓名" name="userName" v-model="userName" placeholder="点击此处输入姓名"></x-input>
       <x-input title="卡号" name="card_no" v-model="card_no" placeholder="点击此处输入卡号"></x-input>
       <template v-if="dptList.length>0">
         <x-input title="部门" required disabled name="dept_name" v-model="dept_name[0]"></x-input>
-        <picker :data='dptList' v-model='dept_name'></picker>
+        <picker :data="dptList" v-model="dept_name"></picker>
       </template>
     </group>
     <div class="btn">
@@ -83,14 +81,14 @@ export default {
       this.userList = data;
     },
     add: async function() {
-      let { dept_id } = this.depts.find(
-        item => item.dept_name == this.dept_name[0]
-      );
+      // let { dept_id } = this.depts.find(
+      //   item => item.dept_name == this.dept_name[0]
+      // );
 
       let params = {
-        dept_id,
-        card_no: this.card_no,
-        user_name: this.userName
+        deptname: this.dept_name[0],
+        cardno: this.card_no,
+        username: this.userName
       };
       let { data } = await db.addCbpcUserList(params);
       this.showToast(data);
@@ -106,13 +104,13 @@ export default {
     update: async function() {
       // 卡号改部门
       let params = {
-        dept_id,
-        card_no
+        deptname: this.dept_name[0],
+        cardno: this.card_no
       };
       let edidDept = this.userName.length == 0;
       // 改卡号
       if (!edidDept) {
-        params.user_name = this.userName;
+        params.username = this.userName;
       }
       let { data } = await db[edidDept ? "updateDeptInfo" : "updateCardInfo"](
         params

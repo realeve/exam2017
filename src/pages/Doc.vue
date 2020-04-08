@@ -26,13 +26,13 @@
         </template>
 
         <div class="btn" style="margin-top:20px;">
-          <!-- <x-button @click.native="jump('login')">登录</x-button> -->
+          <x-button v-if="isAdmin" @click.native="jump('user')">修改用户信息</x-button>
 
           <x-button
             type="primary"
             @click.native="jump('paper')"
             v-show="sport.isLogin"
-          >开始答题(限时{{ sport.maxAnswerLength / 60 }}分钟)</x-button>
+          >开始答题(限时{{ sport.maxAnswerLength / 60 }}分钟)</template>
 
           <!-- <x-button @click.native="init">刷新题目</x-button> -->
 
