@@ -18,7 +18,7 @@ function randomArr(arr) {
   let rdmArr = getRandomArr(arr.length);
   let newQuestions = [];
   rdmArr.forEach((item, i) => {
-    arr[item].questionId = rdmArr[i];
+    // arr[item].questionId = rdmArr[i];
     newQuestions.push(arr[item]);
   });
   return newQuestions;
@@ -74,8 +74,9 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     randomQuestion ? randomArr(json) : json;
   }
 
-  questions = questions.map(item => {
+  questions = questions.map((item, idx) => {
     item.score = item.score || 1;
+    item.questionId = idx;
     if (item.answer.length > 1) {
       item.title = "【多选题】" + item.title;
     } else if (item.option.length == 1) {

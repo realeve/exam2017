@@ -44,7 +44,9 @@
 
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>
-
+        <p style="font-style: italic;">
+          <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。
+        </p>
         <p class="subtitle">知识学习</p>
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
         <article>
