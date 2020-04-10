@@ -15,13 +15,13 @@
           <x-button @click.native="showAll">显示全部</x-button>
         </div>
       </div>
-      <h3>2.得分排名(总人数:{{total}})</h3>
+      <h3>2.得分排名(参与人数:{{total}})</h3>
       <ul class="dept-rate">
         <li
           v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
           :key="i"
         >
-          <!-- <img class="avatar" :src="avatar" alt="user_name" /> -->
+          <img class="avatar" :src="avatar" alt="user_name" />
           <div class="detail">
             <div class="text-left">
               <p class="bold">{{i+1}}.{{user_name}}</p>
