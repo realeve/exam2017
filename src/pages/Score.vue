@@ -2,7 +2,20 @@
   <div>
     <!-- <v-header/> -->
     <div class="content">
-      <h3>1.得分排名(总人数:{{total}})</h3>
+      <h3 v-if="showDept" style="margin-top:30px;">1.各部门平均得分及参与率</h3>
+      <div class="dept-score">
+        <ul v-if="showDept" class="dept-rate hide-half" :class="{showFull:isShowFull}">
+          <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
+            <span>{{i+1}}.{{user_dpt}}</span>
+            <span>{{avg_score}}分</span>
+            <span>{{rate}}%</span>
+          </li>
+        </ul>
+        <div :class="{hideButton:isShowFull}" class="btn-showall">
+          <x-button @click.native="showAll">显示全部</x-button>
+        </div>
+      </div>
+      <h3>2.得分排名(总人数:{{total}})</h3>
       <ul class="dept-rate">
         <li
           v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
@@ -25,14 +38,6 @@
           </div>
         </li>
       </ul>
-      <h3 v-if="showDept" style="margin-top:30px;">2.各部门平均得分及参与率</h3>
-      <ul v-if="showDept" class="dept-rate">
-        <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
-          <span>{{i+1}}.{{user_dpt}}</span>
-          <span>{{avg_score}}分</span>
-          <span>{{rate}}%</span>
-        </li>
-      </ul>
     </div>
     <v-foot color="#333" />
   </div>
@@ -41,6 +46,7 @@
 <script>
 import VHeader from "../components/Header";
 import { mapState } from "vuex";
+import { XButton } from "vux";
 import * as db from "../lib/db";
 
 import state from "../store/state";
@@ -49,20 +55,26 @@ const FemaleSport = state.sport.id == 32;
 
 export default {
   components: {
-    VHeader
+    VHeader,
+    XButton
   },
   data() {
     return {
       depts: [],
       users: [],
       total: "",
-      showDept: !FemaleSport
+      showDept: !FemaleSport,
+      isShowFull: false
     };
   },
   computed: {
     ...mapState(["sport"])
   },
   methods: {
+    showAll() {
+      // console.log("show full");
+      this.isShowFull = !this.isShowFull;
+    },
     getDeptRatio() {
       db[
         this.sport.readSumScore
@@ -125,6 +137,63 @@ export default {
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
     // margin-top: 10px;
+  }
+  .dept-score {
+    margin-bottom: 2em;
+    button {
+      background: rgb(66, 185, 131);
+      color: rgb(255, 255, 255);
+    }
+    .hideButton {
+      display: none;
+    }
+    .btn-showall {
+      height: 2em;
+    }
+    .hide-half {
+      max-height: 14em;
+      overflow: hidden;
+    }
+    .dept-rate {
+      li {
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        padding: 5px 0;
+        @avatar-size: 64px;
+        .avatar {
+          width: @avatar-size;
+          height: @avatar-size;
+          border-radius: 50%;
+          box-shadow: 1px 3px 3px #777;
+          border: solid 1px #fff3;
+        }
+        .detail {
+          padding-left: 10px;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          .bold {
+            font-weight: bold;
+          }
+          p {
+            padding: 3px 0;
+          }
+          text-align: right;
+          .text-left {
+            text-align: left;
+          }
+        }
+      }
+
+      .dept-detail {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .showFull {
+      max-height: unset;
+      overflow: unset;
+    }
   }
   .dept-rate {
     li {
