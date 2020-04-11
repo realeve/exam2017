@@ -3,8 +3,8 @@
     <!-- <v-header/> -->
     <div class="content">
       <h3 v-if="showDept" style="margin-top:30px;">1.各部门平均得分及参与率</h3>
-      <div class="dept-score">
-        <ul v-if="showDept" class="dept-rate hide-half" :class="{showFull:isShowFull}">
+      <div class="dept-score" :class="{hideSome:!isShowFull}">
+        <ul v-if="showDept" class="dept-rate" :class="{ hideHalf:!isShowFull}">
           <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
             <span>{{i+1}}.{{user_dpt}}</span>
             <span>{{avg_score}}分</span>
@@ -13,6 +13,17 @@
         </ul>
         <div :class="{hideButton:isShowFull}" class="btn-showall">
           <x-button @click.native="showAll">显示全部</x-button>
+          <!-- <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+          >
+            <path
+              d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm5.247 8l-5.247 6.44-5.263-6.44-.737.678 6 7.322 6-7.335-.753-.665z"
+            />
+          </svg>-->
         </div>
       </div>
       <h3>2.得分排名(参与人数:{{total}})</h3>
@@ -139,19 +150,32 @@ export default {
     // margin-top: 10px;
   }
   .dept-score {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+    position: relative;
     button {
       background: rgb(66, 185, 131);
       color: rgb(255, 255, 255);
+      position: absolute;
+      bottom: 0;
     }
     .hideButton {
       display: none;
     }
     .btn-showall {
-      height: 2em;
+      text-align: center;
+      height: 5em;
+      position: relative;
+      bottom: 5em;
+      background: linear-gradient(
+        rgba(255, 255, 255, 0),
+        10%,
+        rgba(255, 255, 255, 1)
+      );
+      // border-bottom: 1px solid #ddd;
+      // padding-top: 3em;
     }
-    .hide-half {
-      max-height: 14em;
+    .hideHalf {
+      max-height: 16em;
       overflow: hidden;
     }
     .dept-rate {
@@ -190,10 +214,10 @@ export default {
         justify-content: space-between;
       }
     }
-    .showFull {
-      max-height: unset;
-      overflow: unset;
-    }
+  }
+  .hideSome {
+    max-height: 16em;
+    overflow: hidden;
   }
   .dept-rate {
     li {
