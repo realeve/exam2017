@@ -45,7 +45,7 @@
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>
 
-        <p class="subtitle">
+        <p v-if="score.num>0" class="subtitle">
           你当前共答题
           <span>{{score.num}}</span>
           次，平均得分
