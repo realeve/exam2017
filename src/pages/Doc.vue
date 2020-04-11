@@ -49,7 +49,7 @@
           你当前共答题
           <span>{{score.num}}</span>
           次，平均得分
-          <span>{{score.score.toFixed(2)}}</span>分，排名第
+          <span>{{score.score.toFixed(2)}}</span>分，平均得分排名第
           <span>{{score.level}}</span>名
           <!-- <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。 -->
         </p>
