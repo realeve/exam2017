@@ -1272,7 +1272,7 @@ export default [
   {
     title: "在火灾发展过程中，烟气流动的方向一般与火势蔓延方向（  ）。",
     option: ["相同", "相反　　", "垂直"],
-    answer: [2],
+    answer: [0],
     score: 1.5,
   },
   {
