@@ -44,9 +44,16 @@
 
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>
-        <p style="font-style: italic;">
-          <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。
+
+        <p class="subtitle">
+          你当前共答题
+          <span>{{score.num}}</span>
+          次，平均得分
+          <span>{{score.score}}</span>分，排名第
+          <span>{{score.level}}</span>名
+          <!-- <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。 -->
         </p>
+
         <p class="subtitle">知识学习</p>
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
         <article>
@@ -99,6 +106,10 @@
     font-size: 15pt;
     padding-top: 20px;
     width: 100%;
+    span {
+      color: #e23;
+      font-weight: bold;
+    }
   }
   .btn {
     width: 80%;
@@ -131,7 +142,8 @@ export default {
     return {
       questions: [],
       paper: R.clone(paper), //.slice(0, 50),
-      showConfirm: false
+      showConfirm: false,
+      score: {}
     };
   },
   computed: {
@@ -155,6 +167,11 @@ export default {
     onConfirm() {
       db.delCbpcSportMain(this.sport.id).then(res => {
         this.$vux.toast.text("清空完毕", "default");
+      });
+    },
+    onRefresh() {
+      db.getCbpcSport2020Level(this.sport.uid).then(res => {
+        this.score = res.data[0];
       });
     },
     handleQuestion(item) {
@@ -211,6 +228,7 @@ export default {
       return title;
     },
     init() {
+      this.onRefresh();
       this.questions =
         // util.randomArr(paper)
         // .slice(0, this.sport.questionNums)

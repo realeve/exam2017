@@ -86,6 +86,9 @@ export default {
     }
   },
   methods: {
+    jump(router) {
+      this.$router.push(router);
+    },
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
       let err_detail = this.error_detail.map(({ id }) => id);
@@ -105,7 +108,8 @@ export default {
         .sort((a, b) => b.err_num - a.err_num);
     },
     reload() {
-      window.location.href = window.location.href.split("#")[0] + "#login";
+      // window.location.href = window.location.href.split("#")[0] + "#login";
+      this.jump("login");
     },
     async getErrList() {
       let curUser = window.localStorage.getItem("userInfo");

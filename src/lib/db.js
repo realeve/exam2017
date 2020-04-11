@@ -382,3 +382,20 @@ export const getCbpcSportListCfg = (sid) =>
       sid,
     },
   }).then((res) => res.data[0] || {});
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 个人得分排名 } 
+    const { sid, sid2, uid } = params;
+*/
+export const getCbpcSport2020Level = (uid) =>
+  axios({
+    url: "/297/2df50df059.json",
+    params: {
+      sid: state.sport.id,
+      sid2: state.sport.id,
+      sid3: state.sport.id,
+      uid,
+      uid2: uid,
+    },
+  });
