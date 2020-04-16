@@ -53,7 +53,7 @@ const state = {
     minPrizeScore: 80,
     testMode: false,
     startDate: "2020-04-04",
-    endDate: "2020-04-20",
+    endDate: "2020-04-19 00:00:00",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分

@@ -1,7 +1,7 @@
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 html {
@@ -51,7 +51,7 @@ nav,
 section {
   margin: 0;
   padding: 0;
-  font-weight: 100;
+  font-weight: normal;
 }
 
 article,
@@ -64,18 +64,19 @@ header,
 menu,
 nav,
 section {
-  display: block
+  display: block;
 }
 
 audio,
 canvas,
 video {
-  display: inline-block
+  display: inline-block;
 }
 
 body,
 html {
-  font: 300 1em/1.65 '等线', 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans GB', 'Microsoft Yahei', 'STHeiti';
+  /* font: 400 1em/1.65 "等线", "PingFang SC", "Helvetica Neue", "Helvetica",
+    "Arial", "Hiragino Sans GB", "Microsoft Yahei", "STHeiti"; */
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -85,32 +86,32 @@ html {
 
 table {
   border-collapse: collapse;
-  border-spacing: 0
+  border-spacing: 0;
 }
 
 fieldset,
 img {
-  border: 0
+  border: 0;
 }
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
-  padding: 0
+  padding: 0;
 }
 
 acronym,
 abbr {
   border-bottom: 1px dotted;
-  font-variant: normal
+  font-variant: normal;
 }
 
 abbr {
-  cursor: help
+  cursor: help;
 }
 
 del {
-  text-decoration: line-through
+  text-decoration: line-through;
 }
 
 address,
@@ -122,74 +123,74 @@ em,
 th,
 var {
   font-style: normal;
-  font-weight: 400
+  font-weight: 400;
 }
 
 ul {
-  list-style: none
+  list-style: none;
 }
 
 caption,
 th {
-  text-align: left
+  text-align: left;
 }
 
 sub,
 sup {
   font-size: 75%;
   line-height: 0;
-  position: relative
+  position: relative;
 }
 
 sup {
-  top: -0.5em
+  top: -0.5em;
 }
 
 sub {
-  bottom: -0.25em
+  bottom: -0.25em;
 }
 
 a {
-  color: #1abc9c
+  color: #1abc9c;
 }
 
 q:before,
 q:after {
-  content: ''
+  content: "";
 }
 
 :root sub,
 :root sup {
-  vertical-align: baseline
+  vertical-align: baseline;
 }
 
 a:hover {
-  text-decoration: none
+  text-decoration: none;
 }
 
 strong,
 b {
   color: #000;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .section {
-  min-height: 100%
+  min-height: 100%;
 }
 
 .clearfix:before,
 .clearfix:after {
   content: "";
-  display: table
+  display: table;
 }
 
 .clearfix:after {
-  clear: both
+  clear: both;
 }
 
-@media only screen and ( max-width: 640px) {
+@media only screen and (max-width: 640px) {
   blockquote {
-    margin: 1em 0
+    margin: 1em 0;
   }
   .tip {
     display: none;

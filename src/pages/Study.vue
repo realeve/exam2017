@@ -137,8 +137,8 @@ export default {
   background: #faf5f0;
   background-clip: padding-box;
   padding-top: 14px;
-  font-family: "HiraginoSansGB-W3", "微软雅黑", "Microsoft Yahei", "宋体",
-    "Arial Narrow", "HELVETICA";
+  // font-family: "HiraginoSansGB-W3", "微软雅黑", "Microsoft Yahei", "宋体",
+  //   "Arial Narrow", "HELVETICA";
   font-weight: 400;
 }
 .qa-body {

@@ -156,10 +156,10 @@ export default {
   text-align: center;
   white-space: nowrap;
   line-height: normal;
-  font-family: "Microsoft Yahei";
+  // font-family: "Microsoft Yahei";
   margin-top: 5px;
   .prefix {
-    font-size: 30px;
+    // font-size: 30px;
     font-size: 16pt;
     color: rgb(255, 204, 0);
     vertical-align: super;
@@ -168,7 +168,7 @@ export default {
   .number {
     background-color: rgb(52, 19, 68);
     display: inline-block;
-    letter-spacing: 0.02em;
+    // letter-spacing: 0.02em;
     text-indent: 0.02em;
     height: auto;
     line-height: normal;

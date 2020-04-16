@@ -2365,7 +2365,15 @@ export default [
     answer: [1],
     score: 1,
   },
-];
+].map((item) => {
+  item.title = item.title.includes("不正确")
+    ? item.title.replace("不正确", "【不正确】")
+    : item.title.includes("不准确")
+    ? item.title.replace("不准确", "【不准确】")
+    : item.title.replace("正确", "【正确】");
+
+  return item;
+});
 
 // 处理题目中的ABCD
 // let questions = {

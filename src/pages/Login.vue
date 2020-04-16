@@ -41,7 +41,7 @@ import state from "../store/state";
 
 const FemaleSport = state.sport.id == 32;
 
-let now = () => moment().format("YYYY-MM-DD hh:mm:ss");
+let now = () => moment().format("YYYY-MM-DD HH:mm:ss");
 
 export default {
   components: {
@@ -199,6 +199,10 @@ export default {
   mounted() {
     document.title = "登录";
     this.init();
+    if (now() > state.sport.endDate) {
+    }
+
+    console.log(now(), this.sport.endDate, this.isEnd);
   }
 };
 </script>
