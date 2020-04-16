@@ -25,7 +25,7 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 33,
+    id: 34,
     name: "2020年全员安全履职能力培训测试",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
@@ -46,14 +46,14 @@ const state = {
     dpt: ["印钞管理部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 99999,
+    maxTimes: 1,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
     startDate: "2020-04-04",
-    endDate: "2020-04-19 00:00:00",
+    endDate: "2020-04-29 00:00:00",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分
