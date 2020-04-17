@@ -40,7 +40,7 @@
 
           <x-button @click.native="jump('errlist')">我的错题集</x-button>
 
-          <x-button @click.native="jump('/score')">排行榜</x-button>
+          <!-- <x-button @click.native="jump('/score')">排行榜</x-button> -->
 
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>
@@ -54,8 +54,8 @@
           <!-- <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。 -->
         </p>
 
-        <p class="subtitle">知识学习</p>
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
+        <!-- <p class="subtitle">知识学习</p>
         <article>
           <p
             class="item"
@@ -63,7 +63,7 @@
             :key="i"
             v-html="`${i + 1}.${question}`"
           ></p>
-        </article>
+        </article>-->
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
@@ -172,6 +172,9 @@ export default {
     onRefresh() {
       db.getCbpcSport2020Level(this.sport.uid).then(res => {
         this.score = res.data[0];
+        if (this.score.num >= this.sport.maxTimes) {
+          this.$router.push("/info");
+        }
       });
     },
     handleQuestion(item) {

@@ -10,17 +10,16 @@ Vue.use(VueResource);
 import store from "./store";
 import router from "./router";
 
-import {
-    WechatPlugin,
-    ToastPlugin
-} from "vux";
+import { WechatPlugin, ToastPlugin, ConfirmPlugin } from "vux";
 Vue.use(WechatPlugin);
+
+// Vue.use(ConfirmPlugin);
 
 Vue.use(ToastPlugin);
 
 let VueTouch = require("vue-touch");
 Vue.use(VueTouch, {
-    name: "v-touch"
+  name: "v-touch",
 });
 
 import VFoot from "./components/Copyright.vue";
@@ -29,17 +28,17 @@ Vue.component("v-foot", VFoot);
 import VHeader from "./components/Header.vue";
 Vue.component("v-header", VHeader);
 
-router.beforeEach(function(to, from, next) {
-    store.commit("updateLoadingStatus", {
-        isLoading: true
-    });
-    next();
+router.beforeEach(function (to, from, next) {
+  store.commit("updateLoadingStatus", {
+    isLoading: true,
+  });
+  next();
 });
 
-router.afterEach(function(to) {
-    store.commit("updateLoadingStatus", {
-        isLoading: false
-    });
+router.afterEach(function (to) {
+  store.commit("updateLoadingStatus", {
+    isLoading: false,
+  });
 });
 // FastClick.attach(document.body);
 
@@ -50,7 +49,7 @@ Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-    router,
-    store,
-    render: h => h(App)
+  router,
+  store,
+  render: (h) => h(App),
 }).$mount("#app");

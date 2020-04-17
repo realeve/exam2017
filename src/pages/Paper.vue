@@ -22,16 +22,19 @@
             </group>
           </div>
         </div>
-        <div class="submit" v-if="i == questionList.length - 1">
-          <x-button
-            :disabled="!isCompleted"
-            type="primary"
-            @click.native="submit(sport.questionNums)"
-          >提交</x-button>
+        <div class="submit" v-if="true || i == questionList.length - 1">
+          <x-button :disabled="!isCompleted" type="primary" @click.native="showModal(true)">提交</x-button>
         </div>
       </div>
     </div>
     <toast v-model="toast.show">{{ toast.msg }}</toast>
+    <Confirm
+      :value="modal"
+      title="确认提交？"
+      content="每人仅有一次答题机会，提交后将不可修改。"
+      @on-confirm="submit(sport.questionNums)"
+      @on-cancel="showModal(false )"
+    />
     <!-- <tips></tips> -->
   </div>
 </template>
@@ -39,7 +42,7 @@
 import "fullpage.js";
 import $ from "jquery";
 
-import { Toast, Group, Radio, Checklist, XButton } from "vux";
+import { Toast, Group, Radio, Checklist, XButton, Confirm } from "vux";
 
 import { dateFormat } from "vux";
 
@@ -89,7 +92,8 @@ export default {
     Radio,
     Checklist,
     XButton,
-    Tips
+    Tips,
+    Confirm
   },
   data() {
     return {
@@ -104,7 +108,8 @@ export default {
       srcArrOrder: [],
       curAnswerLength: 0,
       curItvId: 0,
-      curAnswerIdx: 0
+      curAnswerIdx: 0,
+      modal: false
     };
   },
   computed: {
@@ -235,7 +240,17 @@ export default {
       let slideNum = this.questionList.length;
       this.tips = slideNum > 1 ? `${slideIdx}/${slideNum}` : "";
     },
+    showModal(val = true) {
+      this.modal = val;
 
+      // this.$vux.confirm.show("确认提交？", {
+      //   title: "sdfsdf",
+      //   onCancel() {},
+      //   onConfirm() {
+      //     this.submit(num);
+      //   }
+      // });
+    },
     submit: async function(answer_nums) {
       let params = this.getSubmitData(answer_nums);
 

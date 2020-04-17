@@ -5,7 +5,7 @@
       <x-button class="wrapper" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
       <x-button class="wrapper" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
       <!-- <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button> -->
-      <x-button class="wrapper" @click.native="reload">查看得分</x-button>
+      <!-- <x-button class="wrapper" @click.native="reload">查看得分</x-button> -->
       <x-button
         class="wrapper"
         type="primary"
