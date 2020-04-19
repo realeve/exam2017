@@ -67,7 +67,7 @@ export default new Router({
       },
     },
     {
-      path: "/err",
+      path: "/error",
       component: function (resolve) {
         require(["../pages/Error.vue"], resolve);
       },

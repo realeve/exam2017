@@ -7,24 +7,37 @@
 </template>
 
 <script>
-import { XButton, Msg } from "vux";
+import { Msg } from "vux";
+import qs from "qs";
 
-import { dateFormat } from "vux";
-
-import { mapState } from "vuex";
-import * as db from "../lib/db";
 export default {
   components: {
-    XButton,
     Msg
   },
   data() {
     return {
-      icon: "success",
-      completeNum: 0,
-      desc: ``,
-      title: "感谢您的参与"
+      icon: "warn",
+      desc: `请扫描屏幕二维码登录参与答题`,
+      title: "链接无效"
     };
+  },
+  mounted() {
+    let query = window.location.href.split("?")[1] || "";
+    let obj = qs.parse(query);
+
+    let idx = [
+      { desc: `请扫描屏幕二维码登录参与答题`, title: "链接无效" },
+      {
+        title: "链接超时",
+        desc: "二维码超时，请重新扫码。"
+      }
+    ];
+    console.log(obj);
+    let item = idx[obj.state];
+    if (item) {
+      this.desc = item.desc;
+      this.title = item.title;
+    }
   }
 };
 </script>

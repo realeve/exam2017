@@ -203,7 +203,16 @@ export default {
     console.log(obj);
     if (!obj.timestamp) {
       // 二维码失效
-      this.$router.push("/error");
+      this.$router.push("/error?state=0");
+      return;
+    }
+
+    let isValid = moment(Number(obj.timestamp))
+      .add(70, "s")
+      .isAfter(moment());
+    if (!isValid) {
+      this.$router.push("/error?state=1");
+      return;
     }
 
     // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });
