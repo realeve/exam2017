@@ -86,13 +86,13 @@ export default {
       return axios({
         params: {
           s: "/weixin/signature",
-          url: this.url
+          url: this.url.split("?")[0]
         }
       }).then(data => {
         this.shouldShare = true;
         this.wxReady(data);
         this.initWxShare();
-        this.recordReadNum();
+        // this.recordReadNum();
       });
     },
     wxReady(obj) {
@@ -138,7 +138,11 @@ export default {
             "menuItem:readMode",
             "menuItem:openWithQQBrowser",
             "menuItem:openWithSafari",
-            "menuItem:share:email"
+            "menuItem:share:email",
+
+            // 禁止分享朋友圈相关设置
+            "menuItem:share:appMessage",
+            "menuItem:share:timeline"
           ]
         });
       });
@@ -194,6 +198,14 @@ export default {
     }
   },
   created() {
+    let query = window.location.search.slice(1);
+    let obj = qs.parse(query);
+    console.log(obj);
+    if (!obj.timestamp) {
+      // 二维码失效
+      this.$router.push("/error");
+    }
+
     // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });
 
     this.title = this.sport.name + "活动";

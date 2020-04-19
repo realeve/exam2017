@@ -6,6 +6,10 @@
       <x-button class="wrapper" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
       <!-- <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button> -->
       <!-- <x-button class="wrapper" @click.native="reload">查看得分</x-button> -->
+
+      <x-button v-if="isAdmin" @click.native="jump('user')">修改用户信息</x-button>
+      <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
+
       <x-button
         class="wrapper"
         type="primary"
@@ -15,11 +19,14 @@
       <!-- <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button> -->
       <!-- <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button> -->
     </div>
+    <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
+      <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
+    </confirm>
   </div>
 </template>
 
 <script>
-import { XButton, Msg } from "vux";
+import { XButton, Msg, Confirm } from "vux";
 
 import { dateFormat } from "vux";
 
@@ -28,6 +35,7 @@ import * as db from "../lib/db";
 export default {
   components: {
     XButton,
+    Confirm,
     Msg
   },
   data() {
@@ -35,6 +43,7 @@ export default {
       icon: "success",
       completeNum: 0,
       desc: ``,
+      showConfirm: false,
       title: "感谢您的参与"
     };
   },
@@ -42,9 +51,21 @@ export default {
     ...mapState(["sport", "userInfo", "error_detail"]),
     answer_times() {
       return this.sport.maxTimes - this.sport.curTimes;
+    },
+    isAdmin() {
+      const name = this.sport.userName;
+      return name == "李宾" || name == "徐文庆" || name == "黄夏玢";
     }
   },
   methods: {
+    reset() {
+      this.showConfirm = true;
+    },
+    onConfirm() {
+      db.delCbpcSportMain(this.sport.id).then(res => {
+        this.$vux.toast.text("清空完毕", "default");
+      });
+    },
     jump(router) {
       this.$router.push(router);
     },

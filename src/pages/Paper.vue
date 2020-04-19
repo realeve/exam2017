@@ -56,12 +56,12 @@ import moment from "moment";
 import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
 import * as R from "ramda";
-
+let prefix = "20200420";
 let key = {
-  curPaper: "_paper_",
-  curAnswer: "_answer_",
-  timeCounter: "curTimeLength",
-  answerList: "_answerList_"
+  curPaper: prefix + "_paper_",
+  curAnswer: prefix + "_answer_",
+  timeCounter: prefix + "_curTimeLength",
+  answerList: prefix + "_answerList_"
 };
 
 // 是否需要随机选项数据
