@@ -9,6 +9,7 @@
 
 <script>
 import { Loading } from "vux";
+import md5 from "md5";
 
 // import { querystring } from "vux";
 import qs from "qs";
@@ -20,14 +21,14 @@ import moment from "moment";
 export default {
   name: "app",
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
       code: "",
       apiId: "wx762c9153df774440",
       title: "",
-      shouldShare: false
+      shouldShare: false,
     };
   },
   computed: {
@@ -38,7 +39,7 @@ export default {
       },
       set(val) {
         this.$store.commit("updateLoadingStatus", val);
-      }
+      },
     },
     userInfo: {
       get() {
@@ -46,7 +47,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setUserinfo", val);
-      }
+      },
     },
     // 签名用URL
     url() {
@@ -67,7 +68,7 @@ export default {
     shouldInitShare() {
       // && this.sport.curScore >= this.sport.minPrizeScore
       return this.sport.isLogin && this.shouldShare;
-    }
+    },
   },
   watch: {
     shouldInitShare(val) {
@@ -79,16 +80,16 @@ export default {
       // }分，你也来参与吧`;
       this.title = `${this.sport.name}活动正在进行中，快来参与吧`;
       this.initWxShare();
-    }
+    },
   },
   methods: {
     wxPermissionInit() {
       return axios({
         params: {
           s: "/weixin/signature",
-          url: this.url.split("?")[0]
-        }
-      }).then(data => {
+          url: this.url.split("?")[0],
+        },
+      }).then((data) => {
         this.shouldShare = true;
         this.wxReady(data);
         this.initWxShare();
@@ -105,8 +106,9 @@ export default {
         jsApiList: [
           "onMenuShareAppMessage",
           "onMenuShareTimeline",
-          "hideMenuItems"
-        ]
+          "hideMenuItems",
+          "hideOptionMenu",
+        ],
       };
       this.$wechat.config(config);
     },
@@ -119,14 +121,16 @@ export default {
           imgUrl: "https://www.cbpc.ltd/public/cdn/cbpc.jpg",
           type: "",
           dataUrl: "",
-          success: function() {},
-          cancel: function() {}
+          success: function () {},
+          cancel: function () {},
         };
+        this.$wechat.hideOptionMenu();
+
         this.$wechat.onMenuShareAppMessage(option);
         this.$wechat.onMenuShareTimeline(option);
-        this.$wechat.onMenuShareQQ(option);
-        this.$wechat.onMenuShareWeibo(option);
-        this.$wechat.onMenuShareQZone(option);
+        // this.$wechat.onMenuShareQQ(option);
+        // this.$wechat.onMenuShareWeibo(option);
+        // this.$wechat.onMenuShareQZone(option);
 
         // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
         this.$wechat.hideMenuItems({
@@ -142,8 +146,8 @@ export default {
 
             // 禁止分享朋友圈相关设置
             "menuItem:share:appMessage",
-            "menuItem:share:timeline"
-          ]
+            "menuItem:share:timeline",
+          ],
         });
       });
     },
@@ -162,9 +166,9 @@ export default {
       axios({
         params: {
           s: "/weixin/user_info",
-          code: this.code
-        }
-      }).then(data => {
+          code: this.code,
+        },
+      }).then((data) => {
         this.userInfo = data;
         if (typeof data.nickname != "undefined") {
           localStorage.setItem("wx_userinfo", JSON.stringify(data));
@@ -195,7 +199,7 @@ export default {
         return;
       }
       db.addCommonVisitCount(window.location.href.split("?")[0]);
-    }
+    },
   },
   created() {
     let query = window.location.search.slice(1);
@@ -207,9 +211,20 @@ export default {
       return;
     }
 
-    let isValid = moment(Number(obj.timestamp))
-      .add(30, "s")
-      .isAfter(moment());
+    let salt = "cbpc";
+    let token = md5(salt + obj.timestamp)
+      .slice(10, 16)
+      .split("")
+      .reverse()
+      .join("");
+
+    if (token !== obj.t) {
+      // 二维码失效
+      this.$router.push("/error?state=0");
+      return;
+    }
+
+    let isValid = moment(Number(obj.timestamp)).add(30, "s").isAfter(moment());
     if (!isValid) {
       this.$router.push("/error?state=1");
       return;
@@ -230,7 +245,7 @@ export default {
         country: "中国",
         headimgurl:
           "http://wx.qlogo.cn/mmhead/Q3auHgzwzM7RSAYiaxiaC1lOZYicWic9YZKEFJ2TKEfh3pFJibLvf7IxdLQ/0",
-        privilege: []
+        privilege: [],
       };
     } else {
       // 正式环境微信载入
@@ -240,7 +255,7 @@ export default {
     if (moment().format("YYYYMMDD") == "20200404") {
       document.querySelector("html").style.filter = "grayscale(1)";
     }
-  }
+  },
 };
 </script>
 
