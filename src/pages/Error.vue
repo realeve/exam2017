@@ -22,9 +22,11 @@ export default {
     };
   },
   mounted() {
-    let query = window.location.href.split("?")[1] || "";
-    let obj = qs.parse(query);
-
+    let state = window.location.href.includes("?state=0")
+      ? 0
+      : window.location.href.includes("?state=1")
+      ? 1
+      : 2;
     let idx = [
       { desc: `请扫描屏幕二维码登录参与答题`, title: "链接无效" },
       {
@@ -32,8 +34,8 @@ export default {
         desc: "二维码超时，请重新扫码。"
       }
     ];
-    console.log(obj);
-    let item = idx[obj.state];
+
+    let item = idx[state];
     if (item) {
       this.desc = item.desc;
       this.title = item.title;

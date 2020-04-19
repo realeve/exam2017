@@ -208,7 +208,7 @@ export default {
     }
 
     let isValid = moment(Number(obj.timestamp))
-      .add(70, "s")
+      .add(30, "s")
       .isAfter(moment());
     if (!isValid) {
       this.$router.push("/error?state=1");
