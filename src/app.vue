@@ -17,6 +17,8 @@ import { mapState } from "vuex";
 import { axios } from "./lib/axios";
 import * as db from "./lib/db";
 import moment from "moment";
+// import VConsole from "vconsole";
+// var v = new VConsole();
 
 export default {
   name: "app",
@@ -204,7 +206,7 @@ export default {
   created() {
     let query = window.location.search.slice(1);
     let obj = qs.parse(query);
-    console.log(obj);
+    // console.log(obj);
     if (!obj.timestamp) {
       // 二维码失效
       this.$router.push("/error?state=0");
@@ -254,6 +256,43 @@ export default {
 
     if (moment().format("YYYYMMDD") == "20200404") {
       document.querySelector("html").style.filter = "grayscale(1)";
+    }
+
+    var router = this.$router;
+    // 监听页面非激活事件；
+    document.addEventListener("visibilitychange", function () {
+      // 用户息屏、或者切到后台运行 （离开页面）
+      // console.log("切换到后台", moment().format("YYYYMMDD hh:mm:ss"));
+      router.push("/error?state=2");
+    });
+
+    // 返回时关闭微信网页
+    window.addEventListener(
+      "popstate",
+      function (e) {
+        weixinClosePage();
+      },
+      false
+    );
+    //关闭微信页面
+    function weixinClosePage() {
+      if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+          document.addEventListener(
+            "WeixinJSBridgeReady",
+            weixin_ClosePage,
+            false
+          );
+        } else if (document.attachEvent) {
+          document.attachEvent("WeixinJSBridgeReady", weixin_ClosePage);
+          document.attachEvent("onWeixinJSBridgeReady", weixin_ClosePage);
+        }
+      } else {
+        weixin_ClosePage();
+      }
+    }
+    function weixin_ClosePage() {
+      WeixinJSBridge.call("closeWindow");
     }
   },
 };

@@ -26,12 +26,18 @@ export default {
       ? 0
       : window.location.href.includes("?state=1")
       ? 1
-      : 2;
+      : window.location.href.includes("?state=2")
+      ? 2
+      : 3;
     let idx = [
       { desc: `请扫描屏幕二维码登录参与答题`, title: "链接无效" },
       {
         title: "链接超时",
         desc: "二维码超时，请重新扫码。"
+      },
+      {
+        title: "链接超时",
+        desc: "请按标准流程完成答题。"
       }
     ];
 
