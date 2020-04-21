@@ -260,16 +260,17 @@ export default {
       document.querySelector("html").style.filter = "grayscale(1)";
     }
 
+    var router = this.$router;
     // 宽高比
     /**
      * 9/16 = 0.5625
      * 10/16 = 0.625
      */
+    // console.log(window.innerWidth / window.innerHeight);
     if (window.innerWidth / window.innerHeight > 0.7) {
       router.push("/error?state=2");
     }
 
-    var router = this.$router;
     // 监听页面非激活事件；
     document.addEventListener("visibilitychange", function() {
       // 用户息屏、或者切到后台运行 （离开页面）
