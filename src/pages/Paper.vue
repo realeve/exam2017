@@ -1,14 +1,8 @@
 <template>
   <div>
     <div ref="fp">
-      <div
-        class="section content"
-        v-for="(question, i) of questionList"
-        :key="i"
-      >
-        <span v-if="sport.testMode"
-          >答案:{{ question.answer.join(",") }},得分:{{ subScore }}</span
-        >
+      <div class="section content" v-for="(question, i) of questionList" :key="i">
+        <span v-if="sport.testMode">答案:{{ question.answer.join(",") }},得分:{{ subScore }}</span>
         <span
           style="
             background: #785a32;
@@ -17,8 +11,7 @@
             border-radius: 2px;
             font-size: 10px;
           "
-          >{{ curTime }}</span
-        >
+        >{{ curTime }}</span>
         <div style="position: relative;">
           <div class="qa-num">{{ i + 1 }}/{{ questionList.length }}</div>
           <div class="qa-body">
@@ -36,12 +29,7 @@
           </div>
         </div>
         <div class="submit" v-if="true || i == questionList.length - 1">
-          <x-button
-            :disabled="!isCompleted"
-            type="primary"
-            @click.native="showModal(true)"
-            >提交</x-button
-          >
+          <x-button :disabled="!isCompleted" type="primary" @click.native="showModal(true)">提交</x-button>
         </div>
       </div>
     </div>
@@ -79,13 +67,13 @@ let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",
   timeCounter: prefix + "_curTimeLength",
-  answerList: prefix + "_answerList_",
+  answerList: prefix + "_answerList_"
 };
 
 // 是否需要随机选项数据
 let questiones = util.getPaperData(R.clone(questionJSON), {
   randAnswer: false, // 答题不随机
-  randomQuestion: true, // 题目随机
+  randomQuestion: true // 题目随机
 });
 let questionList = [];
 
@@ -111,13 +99,13 @@ export default {
     Checklist,
     XButton,
     Tips,
-    Confirm,
+    Confirm
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: "",
+        msg: ""
       },
       answerList: [],
       isCompleted: false,
@@ -127,7 +115,7 @@ export default {
       curAnswerLength: 0,
       curItvId: 0,
       curAnswerIdx: 0,
-      modal: false,
+      modal: false
     };
   },
   computed: {
@@ -141,7 +129,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      },
+      }
     },
     url() {
       return window.location.href.split("#")[0];
@@ -155,7 +143,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setTips", val);
-      },
+      }
     },
     paperInit: {
       get() {
@@ -163,7 +151,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setPaperInit", val);
-      },
+      }
     },
     subScore() {
       // return this.sport.questionNums - this.errorQuestion.length;
@@ -218,7 +206,7 @@ export default {
       return padStart(2, "0", min) + ":" + padStart(2, "0", sec);
 
       // return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    },
+    }
   },
   watch: {
     answerList(val) {
@@ -229,7 +217,7 @@ export default {
         // 提交试卷
         this.submit(this.sport.questionNums);
       }
-    },
+    }
   },
   methods: {
     getCompleteStatus() {
@@ -260,6 +248,11 @@ export default {
         start_time: this.startTime,
         answer_nums,
         time_length: timeLength,
+
+        // 添加以下三字段校验人员信息是否一致
+        openid: this.userInfo.openid,
+        nickname: this.userInfo.nickname,
+        headimgurl: this.userInfo.headimgurl
       };
     },
     setCurIdx(slideIdx) {
@@ -277,7 +270,7 @@ export default {
       //   }
       // });
     },
-    submit: async function (answer_nums) {
+    submit: async function(answer_nums) {
       let params = this.getSubmitData(answer_nums);
 
       // 存储当前错误题目
@@ -306,7 +299,7 @@ export default {
           sid3: sid,
           sid4: sid,
           _uid: uid,
-          _sid: sid,
+          _sid: sid
         });
       }
 
@@ -377,7 +370,7 @@ export default {
         afterRender: () => {
           // $.fn.fullpage.moveTo(this.curAnswerIdx);
           // this.setCurIdx(this.curAnswerIdx);
-        },
+        }
       };
 
       this.el.fullpage(params);
@@ -435,14 +428,14 @@ export default {
         this.answerList = JSON.parse(answerList);
         this.curAnswerIdx = window.localStorage.getItem(key.curAnswer);
       } else {
-        this.answerList = this.questionList.map((item) =>
+        this.answerList = this.questionList.map(item =>
           item.answer.length > 1 ? [] : -1
         );
         window.localStorage.setItem(key.curAnswer, 0);
       }
 
       document.title = this.sport.name; // + "微信答题活动";
-    },
+    }
   },
   mounted() {
     window.localStorage.removeItem("error_detail");
@@ -467,7 +460,7 @@ export default {
       // 如果载入过，需要删除重载
       $.fn.fullpage.destroy("all");
     }
-  },
+  }
 };
 </script>
 <style scoped lang="less">

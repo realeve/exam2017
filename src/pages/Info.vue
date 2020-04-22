@@ -18,6 +18,25 @@
       >查看正确答案</x-button>
       <!-- <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button> -->
       <!-- <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button> -->
+
+      <div class="marquee" style="margin-top:20px;">
+        <marquee scrollamount="10">当前时间:{{clock}} 当前时间:{{clock}} 当前时间:{{clock}}</marquee>
+      </div>
+      <div class="item">
+        <p class="title" :style="!isPassed?'color:#e23':''">身份校验：{{isPassed?'通过':'未通过'}}</p>
+        <div class="row">
+          <div class="column">
+            <div style="margin:10px 0">1.本机微信</div>
+            <img style="margin:10px 0" :src="userInfo.headimgurl" alt />
+            <div style="font-weight:bold;">{{userInfo.nickname}}</div>
+          </div>
+          <div class="column">
+            <div style="margin:10px 0">2.答题人微信</div>
+            <img style="margin:10px 0" :src="dbUserInfo.headimgurl" alt />
+            <div style="font-weight:bold;">{{dbUserInfo.nickname}}</div>
+          </div>
+        </div>
+      </div>
     </div>
     <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
       <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
@@ -44,7 +63,15 @@ export default {
       completeNum: 0,
       desc: ``,
       showConfirm: false,
-      title: "感谢您的参与"
+      title: "感谢您的参与",
+      clock: "",
+      dbUserInfo: {
+        nickname: "",
+        openid: "",
+        username: "",
+        cardno: "",
+        deptname: ""
+      }
     };
   },
   computed: {
@@ -54,7 +81,10 @@ export default {
     },
     isAdmin() {
       const name = this.sport.userName;
-      return name == "李宾" || name == "徐文庆" || name == "黄夏玢";
+      return false; //name == "李宾" || name == "徐文庆" || name == "黄夏玢";
+    },
+    isPassed() {
+      return this.dbUserInfo.openid == this.userInfo.openid;
     }
   },
   methods: {
@@ -119,6 +149,8 @@ export default {
         return;
       }
 
+      let { nickname, openid } = this.userInfo;
+
       //alwaysRecordScore
       let action = this.sport.stackMode
         ? "getCbpcSportMain2"
@@ -131,6 +163,7 @@ export default {
         let maxScore = Math.max(data[0].score, this.sport.curScore);
         this.title = `本次得分${this.sport.curScore}分`; // maxScore >= 90 ? "恭喜你过关了" : "哎呀，差一点就过了";  、、<br>还有${this.answer_times + 1}次答题机会。
         this.desc = `感谢您对本次活动的大力支持`;
+        this.dbUserInfo = data[0];
         /**
          * ,你当前总分为${maxScore}分(答题${
           data[0].answer_times
@@ -146,6 +179,9 @@ export default {
       this.loadCurScore();
     }
     document.title = "感谢参与";
+    setInterval(() => {
+      this.clock = dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss");
+    }, 1000);
   }
 };
 </script>
@@ -158,6 +194,38 @@ export default {
   font-weight: 100;
   .content {
     flex: 1;
+    .marquee {
+      margin: 0 15%;
+      width: 70%;
+      // color: #e23;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .item {
+      margin: 0 10%;
+      width: 80%;
+      .title {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 20px 0;
+      }
+    }
+    .row {
+      display: flex;
+      flex-direction: row;
+    }
+    .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+    }
   }
 }
 

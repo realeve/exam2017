@@ -42,7 +42,7 @@ export default {
     ];
 
     // 清空localstorage
-    window.localStorage.clear();
+    // window.localStorage.clear();
 
     let item = idx[state];
     if (item) {
