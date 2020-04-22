@@ -41,6 +41,9 @@ export default {
       }
     ];
 
+    // 清空localstorage
+    window.localStorage.clear();
+
     let item = idx[state];
     if (item) {
       this.desc = item.desc;
