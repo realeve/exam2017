@@ -24,6 +24,14 @@
       </div>
       <div class="item">
         <p class="title" :style="!isPassed?'color:#e23':''">身份校验：{{isPassed?'通过':'未通过'}}</p>
+
+        <div class="row">
+          <div class="column" style="align-items:flex-start;">
+            <p>姓名：{{dbUserInfo.username}}</p>
+            <p>部门：{{dbUserInfo.deptname}}</p>
+            <p>卡号：{{dbUserInfo.cardno}}</p>
+          </div>
+        </div>
         <div class="row">
           <div class="column">
             <div style="margin:10px 0">1.本机微信</div>
