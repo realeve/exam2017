@@ -67,7 +67,8 @@ let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",
   timeCounter: prefix + "_curTimeLength",
-  answerList: prefix + "_answerList_"
+  answerList: prefix + "_answerList_",
+  token: prefix + "_token"
 };
 
 // 是否需要随机选项数据
@@ -237,6 +238,8 @@ export default {
 
       this.sport.curTimes = parseInt(this.sport.curTimes) + 1;
 
+      let { nickname, openid, headimgurl } = this.userInfo;
+
       // 未处理实时答题，未处理得分累加
       return {
         uid: this.sport.uid,
@@ -250,9 +253,9 @@ export default {
         time_length: timeLength,
 
         // 添加以下三字段校验人员信息是否一致
-        openid: this.userInfo.openid,
-        nickname: this.userInfo.nickname,
-        headimgurl: this.userInfo.headimgurl
+        nickname,
+        openid,
+        headimgurl
       };
     },
     setCurIdx(slideIdx) {
@@ -287,6 +290,8 @@ export default {
 
       // 重置
       window.localStorage.removeItem(key.answerList);
+
+      window.localStorage.setItem(key.token, this.sport.uid + "_safe_20200421");
 
       // 抽奖
       if (this.sport.doLottery) {
@@ -445,6 +450,7 @@ export default {
       // 如果答题次数超标，跳转至信息(防止按返回键继续答题)
       if (!this.sport.isOnline && this.sport.curTimes >= this.sport.maxTimes) {
         this.$router.push("info");
+        return;
       }
 
       // 初始化题目
@@ -452,6 +458,7 @@ export default {
 
       // 初始化全屏滚动
       this.init();
+      window.localStorage.removeItem(key.token);
     }
   },
   destroyed() {

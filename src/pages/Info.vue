@@ -23,7 +23,7 @@
         <marquee scrollamount="10">当前时间:{{clock}} 当前时间:{{clock}} 当前时间:{{clock}}</marquee>
       </div>
       <div class="item">
-        <p class="title" :style="!isPassed?'color:#e23':''">身份校验：{{isPassed?'通过':'未通过'}}</p>
+        <p class="title" :style="!isValid?'color:#e23':''">身份校验：{{isValid?'通过':'未通过'}}</p>
 
         <div class="row">
           <div class="column" style="align-items:flex-start;">
@@ -38,11 +38,11 @@
             <img style="margin:10px 0" :src="userInfo.headimgurl" alt />
             <div style="font-weight:bold;">{{userInfo.nickname}}</div>
           </div>
-          <div class="column">
+          <!-- <div class="column">
             <div style="margin:10px 0">2.答题人微信</div>
             <img style="margin:10px 0" :src="dbUserInfo.headimgurl" alt />
             <div style="font-weight:bold;">{{dbUserInfo.nickname}}</div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -59,6 +59,16 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 import * as db from "../lib/db";
+
+let prefix = "20200420";
+let key = {
+  curPaper: prefix + "_paper_",
+  curAnswer: prefix + "_answer_",
+  timeCounter: prefix + "_curTimeLength",
+  answerList: prefix + "_answerList_",
+  token: prefix + "_token"
+};
+
 export default {
   components: {
     XButton,
@@ -79,7 +89,8 @@ export default {
         username: "",
         cardno: "",
         deptname: ""
-      }
+      },
+      isValid: false
     };
   },
   computed: {
@@ -190,6 +201,10 @@ export default {
     setInterval(() => {
       this.clock = dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss");
     }, 1000);
+
+    this.isValid =
+      window.localStorage.getItem(key.token) ==
+      this.sport.uid + "_safe_20200421";
   }
 };
 </script>

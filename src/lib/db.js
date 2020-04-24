@@ -62,7 +62,8 @@ export const login2 = async (params) =>
 */
 export const addCbpcSportMain = (params) =>
   axios({
-    url: "/276/eff6e8846f.json",
+    // url: "/276/eff6e8846f.json",
+    url: "/311/aa3a4c4c1f.json",
     params,
   });
 
