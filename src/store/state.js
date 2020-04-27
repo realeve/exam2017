@@ -26,8 +26,8 @@ const state = {
   tips: "",
   sport: {
     id: 34,
-    name: "2020年全员安全履职能力闭卷测试",
-    orgname: "成都印钞有限公司", // 机构名
+    name: "招标与集中采购知识测试",
+    orgname: "中国印钞造币总公司", // 机构名
     slogan: "", // 口号
 
     // randAnswer: true, //答案随机化
@@ -43,17 +43,17 @@ const state = {
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["印钞管理部"],
+    dpt: ["成钞"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 1,
+    maxTimes: 99999,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
     startDate: "2020-04-04",
-    endDate: "2020-04-29 00:00:00",
+    endDate: "2020-12-29 00:00:00",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分
@@ -61,6 +61,7 @@ const state = {
     readMaxScore: true,
     readSumScore: true,
     maxAnswerLength, // 最长答题时间，4分钟
+    validQR: false, // 校验是否为二维码进入
   },
   paperInit: false,
   peopleCount: 0,

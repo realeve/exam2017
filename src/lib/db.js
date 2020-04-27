@@ -400,3 +400,57 @@ export const getCbpcSport2020Level = (uid) =>
       uid2: uid,
     },
   });
+
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 单位列表 }
+ */
+export const getCbpmDeptList = () =>
+  axios({
+    url: "/319/c016999a1e.array",
+  });
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 添加用户 } 
+    const { username, deptname, openid, headimgurl, nickname } = params;
+*/
+export const addCbpmPurchaseUser = (params) =>
+  axios({
+    url: "/321/1c772b8f04.json",
+    params: {
+      ...params,
+      deptname: params.dept_name,
+    },
+  });
+
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 招标采购 登录 } 
+    const { sid, username, dept_name } = params;
+*/
+export const getCbpmPurchaseUser = async (params) => {
+  let res = await axios({
+    url: "/320/27132863e2.json",
+    params,
+  });
+  if (res.rows > 0) {
+    return res;
+  }
+  // 没有信息，添加
+  let data = {
+    answer_times: 1,
+    score: 0,
+    time_length: 0,
+  };
+
+  // 添加信息然后登录
+  res = await addCbpmPurchaseUser(params);
+
+  res.data[0].uid = res.data[0].id;
+  res.data[0] = {
+    ...data,
+    ...res.data[0],
+  };
+  return res;
+};

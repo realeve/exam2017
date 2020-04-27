@@ -55,7 +55,7 @@
         </p>
 
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
-        <!-- <p class="subtitle">知识学习</p>
+        <p class="subtitle">知识学习</p>
         <article>
           <p
             class="item"
@@ -63,7 +63,7 @@
             :key="i"
             v-html="`${i + 1}.${question}`"
           ></p>
-        </article>-->
+        </article>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>

@@ -204,34 +204,36 @@ export default {
     }
   },
   created() {
-    let query = window.location.search.slice(1);
-    let obj = qs.parse(query);
-    // console.log(obj);
-    if (!obj.timestamp) {
-      // 二维码失效
-      this.$router.push("/error?state=0");
-      return;
-    }
+    if (this.sport.validQR) {
+      let query = window.location.search.slice(1);
+      let obj = qs.parse(query);
+      // console.log(obj);
+      if (!obj.timestamp) {
+        // 二维码失效
+        this.$router.push("/error?state=0");
+        return;
+      }
 
-    let salt = "cbpc";
-    let token = md5(salt + obj.timestamp)
-      .slice(10, 16)
-      .split("")
-      .reverse()
-      .join("");
+      let salt = "cbpc";
+      let token = md5(salt + obj.timestamp)
+        .slice(10, 16)
+        .split("")
+        .reverse()
+        .join("");
 
-    if (token !== obj.t) {
-      // 二维码失效
-      this.$router.push("/error?state=0");
-      return;
-    }
+      if (token !== obj.t) {
+        // 二维码失效
+        this.$router.push("/error?state=0");
+        return;
+      }
 
-    let isValid = moment(Number(obj.timestamp))
-      .add(15, "s")
-      .isAfter(moment());
-    if (!isValid) {
-      this.$router.push("/error?state=1");
-      return;
+      let isValid = moment(Number(obj.timestamp))
+        .add(15, "s")
+        .isAfter(moment());
+      if (!isValid) {
+        this.$router.push("/error?state=1");
+        return;
+      }
     }
 
     // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });

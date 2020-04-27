@@ -2,7 +2,7 @@
   <div class="wrapper">
     <group class="content">
       <x-input title="姓名" required name="userName" v-model="sport.userName" placeholder="点击此处输入姓名"></x-input>
-      <x-input
+      <!-- <x-input
         title="卡号"
         required
         type="number"
@@ -11,9 +11,9 @@
         v-model="sport.cardNo"
         placeholder="点击此处输入卡号"
         keyboard="number"
-      ></x-input>
+      ></x-input>-->
       <template v-if="sport.useDept">
-        <x-input title="部门" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
+        <x-input title="单位" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
         <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
@@ -38,8 +38,6 @@ import { mapState } from "vuex";
 import * as db from "../lib/db";
 import moment from "moment";
 import state from "../store/state";
-
-const FemaleSport = state.sport.id == 32;
 
 let now = () => moment().format("YYYY-MM-DD HH:mm:ss");
 
@@ -86,7 +84,7 @@ export default {
       this.$router.push(router);
     },
     loadUserInfo() {
-      let userInfo = localStorage.getItem("userInfo");
+      let userInfo = localStorage.getItem("p_userInfo");
       if (userInfo == null) {
         return;
       }
@@ -102,14 +100,12 @@ export default {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
         username: this.sport.userName,
-        dept_name: "%%"
+        dept_name: this.sport.dpt[0],
+        nickname: this.userInfo.nickname,
+        openid: this.userInfo.openid,
+        headimgurl: this.userInfo.headimgurl
       };
-      if (this.sport.useDept) {
-        params.dept_name = `%${this.sport.dpt[0]}%`;
-      }
-      let { data } = await db[this.sport.readMaxScore ? "login" : "login2"](
-        params
-      );
+      let { data } = await db.getCbpmPurchaseUser(params);
 
       if (data.length === 0 || data[0].uid == null) {
         this.toast.show = true;
@@ -126,14 +122,6 @@ export default {
       this.sport.curScore = obj.score;
       this.sport.curTimeLength = obj.time_length;
 
-      // 更新微信用户信息
-      var userInfo = {
-        user_name: params.username,
-        user_id: params.card_no,
-        user_dpt: this.sport.dpt[0]
-      };
-      this.updateUserInfo(obj.uid, userInfo);
-      // console.log(obj);
       if (
         !this.sport.isOnline &&
         parseInt(obj.answer_times) > this.sport.maxTimes
@@ -152,16 +140,9 @@ export default {
     },
     // 更新头像信息
     updateUserInfo(uid, userInfo) {
-      // let user = localStorage.getItem("userInfo");
-      // if (user == null || JSON.parse(user).is_update) {
-      //   userInfo.is_update = true;
-      //   localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      //   return;
-      // }
-
       userInfo.is_update = true;
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      if (!FemaleSport && this.userInfo.nickname) {
+      localStorage.setItem("p_userInfo", JSON.stringify(userInfo));
+      if (this.userInfo.nickname) {
         db.setCbpcUserList({
           nickname: this.userInfo.nickname,
           openid: this.userInfo.openid,
@@ -190,8 +171,10 @@ export default {
         return;
       }
       this.sport.useDept = false;
-      let { data } = await db.getCbpcDeptList(this.sport.id);
-      this.dptList[0] = data.map(([dept]) => dept);
+      let { data } = await db.getCbpmDeptList(this.sport.id);
+      this.dptList[0] = data.map(([dept]) =>
+        dept.length == 2 ? dept + "公司" : dept
+      );
       this.sport.useDept = true;
       this.loadUserInfo();
     }
