@@ -32,7 +32,7 @@ function randomAnswer(questions) {
 
     // 存储乱序后的选项数组
     let newQuestions = [];
-    rdmArr.forEach(item => {
+    rdmArr.forEach((item) => {
       newQuestions.push(question.option[item]);
     });
 
@@ -58,11 +58,13 @@ function randomAnswer(questions) {
     newAnswer.sort((a, b) => a - b);
     Object.assign(question, {
       option: newQuestions,
-      answer: newAnswer
+      answer: newAnswer,
     });
     return question;
   });
 }
+
+// 1.判断题 50-单选 115 -多选 59
 
 function getPaperData(json, { randAnswer, randomQuestion }) {
   if (json.length == 0) {
@@ -99,11 +101,11 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     return randomQuestions;
   }
 
-  let dist = randomQuestions.map(item => {
+  let dist = randomQuestions.map((item) => {
     item.option = item.option.map((value, key) => {
       return {
         key,
-        value: alphaArr[key] + "、" + value
+        value: alphaArr[key] + "、" + value,
       };
     });
     return item;
@@ -130,5 +132,5 @@ export default {
   getRandomArr,
   randomArr,
   randomAnswer,
-  getPaperData
+  getPaperData,
 };

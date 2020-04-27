@@ -40,7 +40,7 @@
 
           <x-button @click.native="jump('errlist')">我的错题集</x-button>
 
-          <!-- <x-button @click.native="jump('/score')">排行榜</x-button> -->
+          <x-button @click.native="jump('/score')">排行榜</x-button>
 
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>
@@ -51,7 +51,6 @@
           次，平均得分
           <span>{{score.score.toFixed(2)}}</span>分，平均得分排名第
           <span>{{score.level}}</span>名
-          <!-- <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。 -->
         </p>
 
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
