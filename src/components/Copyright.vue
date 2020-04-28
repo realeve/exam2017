@@ -1,7 +1,5 @@
 <template>
-  <footer :style="{color}">
-    {{year}} &copy; 成都印钞有限公司
-  </footer>
+  <footer :style="{ color }">{{ year }} &copy; 中国印钞造币总公司</footer>
 </template>
 <style lang="less" scoped>
 footer {
@@ -16,12 +14,12 @@ export default {
     year() {
       let date = new Date();
       return date.getFullYear();
-    }
+    },
   },
   props: {
     color: {
-      default: "#999"
-    }
-  }
+      default: "#999",
+    },
+  },
 };
 </script>
