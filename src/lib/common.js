@@ -28,6 +28,10 @@ function randomArr(arr) {
 // 乱序题目和答案
 function randomAnswer(questions) {
   return R.clone(questions).map((question, i) => {
+    // 判断不随机
+    if (question.option.length == 2) {
+      return question;
+    }
     // 将题目选项乱序.
     let rdmArr = getRandomArr(question.option.length);
 
@@ -89,6 +93,8 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
       item.score = 0;
     } else if (item.option.length == 2) {
       item.title = "【判断题】" + item.title;
+    } else if (item.option.length > 2 && item.answer.length == 1) {
+      item.title = "【单选题】" + item.title;
     }
     return item;
   });
