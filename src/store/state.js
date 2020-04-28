@@ -17,7 +17,7 @@ let isMobile = () => {
 
 // 答题时长，60分钟
 export const maxAnswerLength = 60 * 60;
-export const questionNums = 60; // 抽题数量
+export const questionNums = 50; // 抽题数量
 
 const state = {
   isLoading: false,
@@ -25,7 +25,7 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 34,
+    id: 35,
     name: "招标与集中采购知识测试",
     orgname: "中国印钞造币总公司", // 机构名
     slogan: "", // 口号

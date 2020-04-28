@@ -2,48 +2,56 @@
   <div>
     <!-- <v-header/> -->
     <div class="content">
-      <h3 v-if="showDept" style="margin-top:30px;">1.各部门平均得分及参与率</h3>
-      <div class="dept-score" :class="{hideSome:!isShowFull}">
-        <ul v-if="showDept" class="dept-rate" :class="{ hideHalf:!isShowFull}">
-          <li class="dept-detail" v-for="({avg_score,rate,user_dpt},i) in depts" :key="i">
-            <span>{{i+1}}.{{user_dpt}}</span>
-            <span>{{avg_score}}分</span>
-            <span>{{rate}}%</span>
+      <h3 v-if="showDept" style="margin-top: 30px;">
+        1.各单位平均得分
+      </h3>
+      <div class="dept-score" :class="{ hideSome: !isShowFull }">
+        <ul
+          v-if="showDept"
+          class="dept-rate"
+          :class="{ hideHalf: !isShowFull }"
+        >
+          <li
+            class="dept-detail"
+            v-for="({ avg_score, rate, user_dpt }, i) in depts"
+            :key="i"
+          >
+            <span>{{ i + 1 }}.{{ user_dpt }}</span>
+            <span>{{ avg_score }}分</span>
+            <!-- <span>{{ rate }}%</span> -->
           </li>
         </ul>
-        <div :class="{hideButton:isShowFull}" class="btn-showall">
+        <div :class="{ hideButton: isShowFull }" class="btn-showall">
           <x-button @click.native="showAll">显示全部</x-button>
-          <!-- <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-          >
-            <path
-              d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm5.247 8l-5.247 6.44-5.263-6.44-.737.678 6 7.322 6-7.335-.753-.665z"
-            />
-          </svg>-->
         </div>
       </div>
-      <h3>2.得分排名(参与人数:{{total}})</h3>
+      <h3>2.得分排名(参与人数:{{ total }})</h3>
       <ul class="dept-rate">
         <li
-          v-for="({user_name,user_dpt,score,time_length,avatar,answer_times,total_time},i) in users"
+          v-for="({
+            user_name,
+            user_dpt,
+            score,
+            time_length,
+            avatar,
+            answer_times,
+            total_time,
+          },
+          i) in users"
           :key="i"
         >
           <img class="avatar" :src="avatar" alt="user_name" />
           <div class="detail">
             <div class="text-left">
-              <p class="bold">{{i+1}}.{{user_name}}</p>
-              <p>{{user_dpt}}</p>
+              <p class="bold">{{ i + 1 }}.{{ user_name }}</p>
+              <p>{{ user_dpt }}</p>
             </div>
             <div>
               <p>
-                总分:{{score}}分
+                总分:{{ score }}分
                 <!-- (<span class="bold">{{answer_times}}</span>次) -->
               </p>
-              <p>{{total_time}}</p>
+              <p>{{ total_time }}</p>
               <!-- <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p> -->
             </div>
           </div>
@@ -67,7 +75,7 @@ const FemaleSport = state.sport.id == 32;
 export default {
   components: {
     VHeader,
-    XButton
+    XButton,
   },
   data() {
     return {
@@ -75,11 +83,11 @@ export default {
       users: [],
       total: "",
       showDept: !FemaleSport,
-      isShowFull: false
+      isShowFull: false,
     };
   },
   computed: {
-    ...mapState(["sport"])
+    ...mapState(["sport"]),
   },
   methods: {
     showAll() {
@@ -87,23 +95,38 @@ export default {
       this.isShowFull = !this.isShowFull;
     },
     getDeptRatio() {
-      db[
-        this.sport.readSumScore
-          ? "getCbpcSportMainByDept2"
-          : this.sport.stackMode
-          ? "getCbpcSportMainByDept"
-          : "getCbpcSportDeptByMaxScore"
-      ](this.sport.id).then(({ data }) => {
-        this.depts = data;
-      });
+      if (this.sport.id != 35) {
+        db[
+          this.sport.readSumScore
+            ? "getCbpcSportMainByDept2"
+            : this.sport.stackMode
+            ? "getCbpcSportMainByDept"
+            : "getCbpcSportDeptByMaxScore"
+        ](this.sport.id).then(({ data }) => {
+          this.depts = data;
+        });
+      } else {
+        db.getCbpcSport2020Purchase(this.sport.id).then(({ data }) => {
+          this.depts = data;
+        });
+      }
     },
     getScoreList() {
+      if (this.sport.id == 35) {
+        db.getCbpcSport2020ScorePurchase(this.sport.id).then(({ data }) => {
+          this.users = data.map((item) => {
+            let { total_time } = item;
+            return item;
+          });
+        });
+        return;
+      }
       db[
         this.sport.stackMode
           ? "getCbpcSportMainByUser"
           : "getCbpcSportMainByMaxScore"
       ]({ sid: this.sport.id, limit: 500 }).then(({ data }) => {
-        this.users = data.map(item => {
+        this.users = data.map((item) => {
           let { total_time } = item;
           // total_time = parseInt(total_time, 10);
           // let h = Math.floor(total_time / 3600);
@@ -130,11 +153,11 @@ export default {
       }
       this.getScoreList();
       this.getTotal();
-    }
+    },
   },
   mounted() {
     this.init();
-  }
+  },
 };
 </script>
 

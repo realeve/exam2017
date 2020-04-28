@@ -439,7 +439,7 @@ export const getCbpmPurchaseUser = async (params) => {
   }
   // 没有信息，添加
   let data = {
-    answer_times: 1,
+    answer_times: 0,
     score: 0,
     time_length: 0,
   };
@@ -454,3 +454,26 @@ export const getCbpmPurchaseUser = async (params) => {
   };
   return res;
 };
+
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 集中采购各单位参与人员 }
+ */
+export const getCbpcSport2020Purchase = (sid) =>
+  axios({
+    url: "/322/cfb1fbce86.json",
+    params: {
+      sid,
+    },
+  });
+/**
+ *   @database: { 微信开发 }
+ *   @desc:     { 集中采购累计得分排名 }
+ */
+export const getCbpcSport2020ScorePurchase = (sid) =>
+  axios({
+    url: "/323/1bd3740181.json",
+    params: {
+      sid,
+    },
+  });
