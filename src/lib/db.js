@@ -477,3 +477,13 @@ export const getCbpcSport2020ScorePurchase = (sid) =>
       sid,
     },
   });
+/**
+*   @database: { 微信开发 }
+*   @desc:     { 得分查询_集中采购 } 
+    const { uid, sid } = params;
+*/
+export const getCbpcSport2020Userinfo = (params) =>
+  axios({
+    url: "/324/fe4a58887a.json",
+    params,
+  });
