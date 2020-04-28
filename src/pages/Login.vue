@@ -1,7 +1,13 @@
 <template>
   <div class="wrapper">
     <group class="content">
-      <x-input title="姓名" required name="userName" v-model="sport.userName" placeholder="点击此处输入姓名"></x-input>
+      <x-input
+        title="姓名"
+        required
+        name="userName"
+        v-model="sport.userName"
+        placeholder="点击此处输入姓名"
+      ></x-input>
       <!-- <x-input
         title="卡号"
         required
@@ -13,11 +19,21 @@
         keyboard="number"
       ></x-input>-->
       <template v-if="sport.useDept">
-        <x-input title="单位" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
+        <x-input
+          title="单位"
+          required
+          disabled
+          name="dpt"
+          v-model="sport.dpt[0]"
+        ></x-input>
         <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
-        <x-button :disabled="isEnd||notStart||!shouldCommit" type="primary" @click.native="login">
+        <x-button
+          :disabled="isEnd || notStart || !shouldCommit"
+          type="primary"
+          @click.native="login"
+        >
           开始答题
           <span v-if="notStart">(活动未开始)</span>
           <span v-if="isEnd">(活动已结束)</span>
@@ -48,17 +64,17 @@ export default {
     Group,
     Toast,
     GroupTitle,
-    Picker
+    Picker,
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: ""
+        msg: "",
       },
       dptList: [],
       notStart: now() < state.sport.startDate,
-      isEnd: now() > state.sport.endDate
+      isEnd: now() > state.sport.endDate,
     };
   },
   computed: {
@@ -66,7 +82,7 @@ export default {
     shouldCommit() {
       return (
         this.sport.userName != "" &&
-        this.sport.cardNo != "" &&
+        // this.sport.cardNo != "" &&
         (this.sport.useDept ? this.sport.dpt[0] != "" : true)
       );
     },
@@ -76,8 +92,8 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      }
-    }
+      },
+    },
   },
   methods: {
     jump(router) {
@@ -92,10 +108,10 @@ export default {
       this.sport = {
         userName: userInfo.user_name,
         cardNo: userInfo.user_id,
-        dpt: [userInfo.user_dpt]
+        dpt: [userInfo.user_dpt],
       };
     },
-    login: async function() {
+    login: async function () {
       let params = {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
@@ -103,8 +119,9 @@ export default {
         dept_name: this.sport.dpt[0],
         nickname: this.userInfo.nickname,
         openid: this.userInfo.openid,
-        headimgurl: this.userInfo.headimgurl
+        headimgurl: this.userInfo.headimgurl,
       };
+
       let { data } = await db.getCbpmPurchaseUser(params);
 
       if (data.length === 0 || data[0].uid == null) {
@@ -121,6 +138,16 @@ export default {
       this.sport.uid = obj.uid;
       this.sport.curScore = obj.score;
       this.sport.curTimeLength = obj.time_length;
+
+      localStorage.setItem(
+        "p_userInfo",
+        JSON.stringify({
+          user_name: params.username,
+          user_id: params.card_no,
+          user_dpt: params.dept_name,
+          uid: obj.uid,
+        })
+      );
 
       if (
         !this.sport.isOnline &&
@@ -148,22 +175,22 @@ export default {
           openid: this.userInfo.openid,
           sex: this.userInfo.sex,
           headimgurl: this.userInfo.headimgurl,
-          uid
-        }).then(res => {
+          uid,
+        }).then((res) => {
           userInfo.is_update = true;
           // localStorage.setItem("userInfo", JSON.stringify(userInfo));
         });
       }
     },
     getSportDate() {
-      db.getCbpcSportListCfg(this.sport.id).then(res => {
+      db.getCbpcSportListCfg(this.sport.id).then((res) => {
         this.sport.startDate = res.start_time;
         this.sport.endDate = res.end_time;
         this.notStart = now() < res.start_time;
         this.isEnd = now() > res.end_time;
       });
     },
-    init: async function() {
+    init: async function () {
       this.getSportDate();
 
       if (!this.sport.useDept) {
@@ -172,12 +199,10 @@ export default {
       }
       this.sport.useDept = false;
       let { data } = await db.getCbpmDeptList(this.sport.id);
-      this.dptList[0] = data.map(([dept]) =>
-        dept.length == 2 ? dept + "公司" : dept
-      );
+      this.dptList[0] = data;
       this.sport.useDept = true;
       this.loadUserInfo();
-    }
+    },
   },
   mounted() {
     document.title = "登录";
@@ -186,7 +211,7 @@ export default {
     }
 
     console.log(now(), this.sport.endDate, this.isEnd);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

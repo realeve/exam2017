@@ -1,3 +1,4 @@
+import * as R from "ramda";
 // 安保测试 2020年
 const isSafeTest2020 = true;
 
@@ -26,7 +27,7 @@ function randomArr(arr) {
 
 // 乱序题目和答案
 function randomAnswer(questions) {
-  return questions.map((question, i) => {
+  return R.clone(questions).map((question, i) => {
     // 将题目选项乱序.
     let rdmArr = getRandomArr(question.option.length);
 
@@ -65,6 +66,7 @@ function randomAnswer(questions) {
 }
 
 // 1.判断题 50-单选 115 -多选 59
+// 10+30+10
 
 function getPaperData(json, { randAnswer, randomQuestion }) {
   if (json.length == 0) {
@@ -85,6 +87,8 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
       item.title = "【填空题】" + item.title;
       //填空题仅学习，不计分
       item.score = 0;
+    } else if (item.option.length == 2) {
+      item.title = "【判断题】" + item.title;
     }
     return item;
   });
@@ -101,7 +105,35 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     return randomQuestions;
   }
 
-  let dist = randomQuestions.map((item) => {
+  if (!isSafeTest2020) {
+    return randomQuestions.map((item) => {
+      item.option = item.option.map((value, key) => {
+        return {
+          key,
+          value: alphaArr[key] + "、" + value,
+        };
+      });
+      return item;
+    });
+  }
+
+  let judge = randomQuestions.slice(0, 50);
+  let singleChoice = randomQuestions.slice(50, 165);
+  let multiple = randomQuestions.slice(165, 225);
+
+  singleChoice = randomArr(singleChoice);
+  multiple = randomArr(multiple);
+  judge = randomArr(judge);
+
+  judge = judge.slice(0, 10);
+  singleChoice = singleChoice.slice(0, 30);
+  multiple = multiple.slice(0, 10);
+
+  let res = R.clone([...judge, ...singleChoice, ...multiple]);
+
+  // console.log(res, randomAnswer(res));
+
+  return randomAnswer(res).map((item) => {
     item.option = item.option.map((value, key) => {
       return {
         key,
@@ -110,22 +142,6 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     });
     return item;
   });
-  if (!isSafeTest2020) {
-    return dist;
-  }
-
-  let singleChoice = dist.slice(0, 200);
-  let multiple = dist.slice(200, 240);
-  let judge = dist.slice(240, 300);
-
-  singleChoice = randomArr(singleChoice);
-  multiple = randomArr(multiple);
-  judge = randomArr(judge);
-
-  singleChoice = singleChoice.slice(0, 40);
-  multiple = multiple.slice(0, 10);
-  judge = judge.slice(0, 10);
-  return [...singleChoice, ...multiple, ...judge];
 }
 
 export default {

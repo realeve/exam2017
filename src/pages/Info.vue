@@ -60,7 +60,7 @@ import { dateFormat } from "vux";
 import { mapState } from "vuex";
 import * as db from "../lib/db";
 
-let prefix = "20200420";
+let prefix = "202005";
 let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",
