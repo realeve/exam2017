@@ -262,6 +262,10 @@ export default {
       document.querySelector("html").style.filter = "grayscale(1)";
     }
 
+    if (!this.sport.validQR) {
+      return;
+    }
+
     var router = this.$router;
     // 宽高比
     /**
