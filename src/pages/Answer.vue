@@ -71,7 +71,7 @@ export default {
   methods: {
     prepareData() {
       let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
-
+      console.log(questionJSON, this.error_detail);
       this.questionList = util
         .getPaperData(
           questionJSON.filter((item, id) => this.error_detail.includes(id)),
@@ -83,6 +83,7 @@ export default {
           item.answerText = item.answer.map(getAnswer);
           return item;
         });
+      console.log(this.questionList);
     },
     reload() {
       window.location.href = window.location.href.split("#")[0];

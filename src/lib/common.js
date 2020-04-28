@@ -1,4 +1,7 @@
 import * as R from "ramda";
+
+import questionJSON from "../assets/data/safe2020.js";
+
 // 安保测试 2020年
 const isSafeTest2020 = true;
 
@@ -76,7 +79,7 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
   if (json.length == 0) {
     return json;
   }
-  let questions = json;
+  let questions = R.clone(json);
 
   if (!isSafeTest2020) {
     randomQuestion ? randomArr(json) : json;
@@ -121,6 +124,10 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
       });
       return item;
     });
+  }
+
+  if (questionJSON.length !== randomQuestions.length) {
+    return randomQuestions;
   }
 
   let judge = randomQuestions.slice(0, 50);

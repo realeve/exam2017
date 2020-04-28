@@ -442,7 +442,7 @@ export default {
         window.localStorage.setItem(key.curAnswer, 0);
       }
 
-      console.log(this.answerList);
+      // console.log(this.answerList);
 
       document.title = this.sport.name; // + "微信答题活动";
     }
