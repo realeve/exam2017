@@ -2,24 +2,12 @@
   <div class="home">
     <div class="content">
       <msg :title="title" :description="desc" :icon="icon"></msg>
-      <x-button
-        class="wrapper"
-        @click.native="viewLucky"
-        v-show="sport.doLottery"
-        >查看中奖列表</x-button
-      >
-      <x-button
-        class="wrapper"
-        @click.native="viewChart"
-        v-show="sport.isOnline"
-        >查看实时得分</x-button
-      >
+      <x-button class="wrapper" @click.native="viewLucky" v-show="sport.doLottery">查看中奖列表</x-button>
+      <x-button class="wrapper" @click.native="viewChart" v-show="sport.isOnline">查看实时得分</x-button>
       <!-- <x-button class="wrapper" @click.native="reload">{{answer_times=='0'?'查看得分':'再答一次'}}</x-button> -->
       <!-- <x-button class="wrapper" @click.native="reload">查看得分</x-button> -->
 
-      <x-button v-if="isAdmin" @click.native="jump('user')"
-        >修改用户信息</x-button
-      >
+      <x-button v-if="isAdmin" @click.native="jump('user')">修改用户信息</x-button>
       <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
 
       <x-button
@@ -27,22 +15,19 @@
         type="primary"
         v-show="error_detail.length > 0"
         @click.native="showAnswer"
-        >查看正确答案</x-button
-      >
-      <!-- <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button> -->
-      <!-- <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button> -->
+      >查看正确答案</x-button>
+      <x-button class="wrapper" @click.native="scoreList">得分排行榜</x-button>
+      <x-button class="wrapper" @click.native="jump('errlist')">我的错题集</x-button>
 
       <div class="marquee" style="margin-top: 20px;">
-        <marquee scrollamount="10"
-          >当前时间:{{ clock }} 当前时间:{{ clock }} 当前时间:{{
-            clock
-          }}</marquee
-        >
+        <marquee scrollamount="10">
+          当前时间:{{ clock }} 当前时间:{{ clock }} 当前时间:{{
+          clock
+          }}
+        </marquee>
       </div>
       <div class="item">
-        <p class="title" :style="!isValid ? 'color:#e23' : ''">
-          身份校验：{{ isValid ? "通过" : "未通过" }}
-        </p>
+        <p class="title" :style="!isValid ? 'color:#e23' : ''">身份校验：{{ isValid ? "通过" : "未通过" }}</p>
 
         <div class="row">
           <div class="column" style="align-items: flex-start;">
@@ -66,9 +51,7 @@
       </div>
     </div>
     <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
-      <p style="text-align: center;">
-        是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作
-      </p>
+      <p style="text-align: center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
     </confirm>
   </div>
 </template>
@@ -87,14 +70,14 @@ let key = {
   curAnswer: prefix + "_answer_",
   timeCounter: prefix + "_curTimeLength",
   answerList: prefix + "_answerList_",
-  token: prefix + "_token",
+  token: prefix + "_token"
 };
 
 export default {
   components: {
     XButton,
     Confirm,
-    Msg,
+    Msg
   },
   data() {
     return {
@@ -109,9 +92,9 @@ export default {
         openid: "",
         username: "",
         cardno: "",
-        deptname: "",
+        deptname: ""
       },
-      isValid: false,
+      isValid: false
     };
   },
   computed: {
@@ -125,14 +108,14 @@ export default {
     },
     isPassed() {
       return this.dbUserInfo.openid == this.userInfo.openid;
-    },
+    }
   },
   methods: {
     reset() {
       this.showConfirm = true;
     },
     onConfirm() {
-      db.delCbpcSportMain(this.sport.id).then((res) => {
+      db.delCbpcSportMain(this.sport.id).then(res => {
         this.$vux.toast.text("清空完毕", "default");
       });
     },
@@ -157,7 +140,7 @@ export default {
 
       db.getCbpcSportLuckyusers({
         uid,
-        sid,
+        sid
       })
         .then(({ data }) => {
           let obj = data[0];
@@ -170,7 +153,7 @@ export default {
           this.title = "中奖了";
           this.desc = "恭喜您成为本次活动的幸运用户。";
         })
-        .catch((res) => {
+        .catch(res => {
           this.title = "抽奖出错";
           this.desc = "请返回后重新进入答题页面，系统将自动抽奖";
         });
@@ -183,7 +166,7 @@ export default {
       // window.location.href = window.location.href.split("#")[0];
       this.$router.push("/score");
     },
-    loadCurScore: async function () {
+    loadCurScore: async function() {
       if (this.sport.id != 35 && !this.sport.cardNo) {
         this.$router.push("/");
         return;
@@ -201,7 +184,7 @@ export default {
 
       await db[action]({
         uid: this.sport.uid,
-        sid: this.sport.id,
+        sid: this.sport.id
       }).then(({ data }) => {
         let maxScore = Math.max(data[0].score, this.sport.curScore);
         this.title = `本次得分${this.sport.curScore}分`; // maxScore >= 90 ? "恭喜你过关了" : "哎呀，差一点就过了";  、、<br>还有${this.answer_times + 1}次答题机会。
@@ -213,7 +196,7 @@ export default {
         }次)。
          */
       });
-    },
+    }
   },
   mounted() {
     if (this.sport.doLottery) {
@@ -229,7 +212,7 @@ export default {
     this.isValid =
       window.localStorage.getItem(key.token) ==
       this.sport.uid + "_safe_20200421";
-  },
+  }
 };
 </script>
 

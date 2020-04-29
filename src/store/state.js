@@ -25,9 +25,9 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 35,
-    name: "招标与集中采购知识题库",
-    orgname: "中国印钞造币总公司", // 机构名
+    id: 36,
+    name: "“学规章、守纪律，严管理、促养成”专题教育培训",
+    orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
 
     // randAnswer: true, //答案随机化

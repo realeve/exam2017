@@ -2,23 +2,13 @@
   <div>
     <!-- <v-header/> -->
     <div class="content">
-      <h3 v-if="showDept" style="margin-top: 30px;">
-        1.各单位平均得分
-      </h3>
+      <h3 v-if="showDept" style="margin-top: 30px;">1.各部门平均得分及参与率</h3>
       <div class="dept-score" :class="{ hideSome: !isShowFull }">
-        <ul
-          v-if="showDept"
-          class="dept-rate"
-          :class="{ hideHalf: !isShowFull }"
-        >
-          <li
-            class="dept-detail"
-            v-for="({ avg_score, rate, user_dpt }, i) in depts"
-            :key="i"
-          >
+        <ul v-if="showDept" class="dept-rate" :class="{ hideHalf: !isShowFull }">
+          <li class="dept-detail" v-for="({ avg_score, rate, user_dpt }, i) in depts" :key="i">
             <span>{{ i + 1 }}.{{ user_dpt }}</span>
             <span>{{ avg_score }}分</span>
-            <!-- <span>{{ rate }}%</span> -->
+            <span>{{ rate }}%</span>
           </li>
         </ul>
         <div :class="{ hideButton: isShowFull }" class="btn-showall">
@@ -75,7 +65,7 @@ const FemaleSport = state.sport.id == 32;
 export default {
   components: {
     VHeader,
-    XButton,
+    XButton
   },
   data() {
     return {
@@ -83,11 +73,11 @@ export default {
       users: [],
       total: "",
       showDept: !FemaleSport,
-      isShowFull: false,
+      isShowFull: false
     };
   },
   computed: {
-    ...mapState(["sport"]),
+    ...mapState(["sport"])
   },
   methods: {
     showAll() {
@@ -95,38 +85,38 @@ export default {
       this.isShowFull = !this.isShowFull;
     },
     getDeptRatio() {
-      if (this.sport.id != 35) {
-        db[
-          this.sport.readSumScore
-            ? "getCbpcSportMainByDept2"
-            : this.sport.stackMode
-            ? "getCbpcSportMainByDept"
-            : "getCbpcSportDeptByMaxScore"
-        ](this.sport.id).then(({ data }) => {
-          this.depts = data;
-        });
-      } else {
-        db.getCbpcSport2020Purchase(this.sport.id).then(({ data }) => {
-          this.depts = data;
-        });
-      }
+      // if (this.sport.id != 35) {
+      db[
+        this.sport.readSumScore
+          ? "getCbpcSportMainByDept2"
+          : this.sport.stackMode
+          ? "getCbpcSportMainByDept"
+          : "getCbpcSportDeptByMaxScore"
+      ](this.sport.id).then(({ data }) => {
+        this.depts = data;
+      });
+      // } else {
+      //   db.getCbpcSport2020Purchase(this.sport.id).then(({ data }) => {
+      //     this.depts = data;
+      //   });
+      // }
     },
     getScoreList() {
-      if (this.sport.id == 35) {
-        db.getCbpcSport2020ScorePurchase(this.sport.id).then(({ data }) => {
-          this.users = data.map((item) => {
-            let { total_time } = item;
-            return item;
-          });
-        });
-        return;
-      }
+      // if (this.sport.id == 35) {
+      //   db.getCbpcSport2020ScorePurchase(this.sport.id).then(({ data }) => {
+      //     this.users = data.map(item => {
+      //       let { total_time } = item;
+      //       return item;
+      //     });
+      //   });
+      //   return;
+      // }
       db[
         this.sport.stackMode
           ? "getCbpcSportMainByUser"
           : "getCbpcSportMainByMaxScore"
       ]({ sid: this.sport.id, limit: 500 }).then(({ data }) => {
-        this.users = data.map((item) => {
+        this.users = data.map(item => {
           let { total_time } = item;
           // total_time = parseInt(total_time, 10);
           // let h = Math.floor(total_time / 3600);
@@ -153,11 +143,11 @@ export default {
       }
       this.getScoreList();
       this.getTotal();
-    },
+    }
   },
   mounted() {
     this.init();
-  },
+  }
 };
 </script>
 

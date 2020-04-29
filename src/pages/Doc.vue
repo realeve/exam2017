@@ -40,7 +40,7 @@
 
           <x-button @click.native="jump('errlist')">我的错题集</x-button>
 
-          <!-- <x-button @click.native="jump('/score')">排行榜</x-button> -->
+          <x-button @click.native="jump('/score')">排行榜</x-button>
 
           <x-button v-if="isAdmin" @click.native="reset">清空得分</x-button>
         </div>

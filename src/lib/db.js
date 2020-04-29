@@ -424,7 +424,7 @@ export const addCbpmPurchaseUser = (params) =>
     },
   });
 
-/**
+/*
 *   @database: { 微信开发 }
 *   @desc:     { 招标采购 登录 } 
     const { sid, username, dept_name } = params;

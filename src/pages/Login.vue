@@ -1,14 +1,8 @@
 <template>
   <div class="wrapper">
     <group class="content">
+      <x-input title="姓名" required name="userName" v-model="sport.userName" placeholder="点击此处输入姓名"></x-input>
       <x-input
-        title="姓名"
-        required
-        name="userName"
-        v-model="sport.userName"
-        placeholder="点击此处输入姓名"
-      ></x-input>
-      <!-- <x-input
         title="卡号"
         required
         type="number"
@@ -17,15 +11,9 @@
         v-model="sport.cardNo"
         placeholder="点击此处输入卡号"
         keyboard="number"
-      ></x-input>-->
+      ></x-input>
       <template v-if="sport.useDept">
-        <x-input
-          title="单位"
-          required
-          disabled
-          name="dpt"
-          v-model="sport.dpt[0]"
-        ></x-input>
+        <x-input title="部门" required disabled name="dpt" v-model="sport.dpt[0]"></x-input>
         <picker :data="dptList" v-model="sport.dpt"></picker>
       </template>
       <div class="btn">
@@ -64,17 +52,17 @@ export default {
     Group,
     Toast,
     GroupTitle,
-    Picker,
+    Picker
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: "",
+        msg: ""
       },
       dptList: [],
       notStart: now() < state.sport.startDate,
-      isEnd: now() > state.sport.endDate,
+      isEnd: now() > state.sport.endDate
     };
   },
   computed: {
@@ -92,15 +80,15 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      },
-    },
+      }
+    }
   },
   methods: {
     jump(router) {
       this.$router.push(router);
     },
     loadUserInfo() {
-      let userInfo = localStorage.getItem("p_userInfo");
+      let userInfo = localStorage.getItem("userInfo");
       if (userInfo == null) {
         return;
       }
@@ -108,10 +96,10 @@ export default {
       this.sport = {
         userName: userInfo.user_name,
         cardNo: userInfo.user_id,
-        dpt: [userInfo.user_dpt],
+        dpt: [userInfo.user_dpt]
       };
     },
-    login: async function () {
+    login: async function() {
       let params = {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
@@ -119,10 +107,10 @@ export default {
         dept_name: this.sport.dpt[0],
         nickname: this.userInfo.nickname,
         openid: this.userInfo.openid,
-        headimgurl: this.userInfo.headimgurl,
+        headimgurl: this.userInfo.headimgurl
       };
 
-      let { data } = await db.getCbpmPurchaseUser(params);
+      let { data } = await db.login(params);
 
       if (data.length === 0 || data[0].uid == null) {
         this.toast.show = true;
@@ -140,12 +128,12 @@ export default {
       this.sport.curTimeLength = obj.time_length;
 
       localStorage.setItem(
-        "p_userInfo",
+        " userInfo",
         JSON.stringify({
           user_name: params.username,
           user_id: params.card_no,
           user_dpt: params.dept_name,
-          uid: obj.uid,
+          uid: obj.uid
         })
       );
 
@@ -168,29 +156,29 @@ export default {
     // 更新头像信息
     updateUserInfo(uid, userInfo) {
       userInfo.is_update = true;
-      localStorage.setItem("p_userInfo", JSON.stringify(userInfo));
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
       if (this.userInfo.nickname) {
         db.setCbpcUserList({
           nickname: this.userInfo.nickname,
           openid: this.userInfo.openid,
           sex: this.userInfo.sex,
           headimgurl: this.userInfo.headimgurl,
-          uid,
-        }).then((res) => {
+          uid
+        }).then(res => {
           userInfo.is_update = true;
           // localStorage.setItem("userInfo", JSON.stringify(userInfo));
         });
       }
     },
     getSportDate() {
-      db.getCbpcSportListCfg(this.sport.id).then((res) => {
+      db.getCbpcSportListCfg(this.sport.id).then(res => {
         this.sport.startDate = res.start_time;
         this.sport.endDate = res.end_time;
         this.notStart = now() < res.start_time;
         this.isEnd = now() > res.end_time;
       });
     },
-    init: async function () {
+    init: async function() {
       this.getSportDate();
 
       if (!this.sport.useDept) {
@@ -198,11 +186,11 @@ export default {
         return;
       }
       this.sport.useDept = false;
-      let { data } = await db.getCbpmDeptList(this.sport.id);
+      let { data } = await db.getCbpcDeptList(this.sport.id);
       this.dptList[0] = data;
       this.sport.useDept = true;
       this.loadUserInfo();
-    },
+    }
   },
   mounted() {
     document.title = "登录";
@@ -211,7 +199,7 @@ export default {
     }
 
     console.log(now(), this.sport.endDate, this.isEnd);
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
