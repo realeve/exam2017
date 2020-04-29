@@ -33,7 +33,7 @@ import { Group, Radio, Checklist, XButton } from "vux";
 import { mapState } from "vuex";
 
 import questionJSON from "../assets/data/safe2020.js";
-
+import * as R from "ramda";
 import util from "../lib/common";
 import * as db from "../lib/db";
 
@@ -95,17 +95,19 @@ export default {
 
       let questionList = err_detail.map(i => questionJSON[i]);
 
-      this.questionList = questionList
+      this.questionList = R.clone(questionList)
         .map((item, id) => {
           // console.log(item);
           item.answer =
             typeof item.answer == "number" ? [item.answer] : item.answer;
           item.answerText = item.answer.map(getAnswer);
+          item.option = item.option.map((e, idx) => getAnswer(idx) + "、" + e);
           item.id = id;
           item.err_num = this.error_detail[id].num;
           return item;
         })
         .sort((a, b) => b.err_num - a.err_num);
+      // console.log(this.questionList);
     },
     reload() {
       // window.location.href = window.location.href.split("#")[0] + "#login";

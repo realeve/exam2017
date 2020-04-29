@@ -111,7 +111,15 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
   var alphaArr = ["A", "B", "C", "D", "E", "F", "G"];
 
   if (typeof randomQuestions[0].option[0] != "string") {
-    return randomQuestions;
+    return randomQuestions.map((item) => {
+      item.option = item.option.map((value, key) => {
+        return {
+          key,
+          value: alphaArr[key] + "、" + value,
+        };
+      });
+      return item;
+    });
   }
 
   if (!isSafeTest2020) {
