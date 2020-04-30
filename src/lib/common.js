@@ -186,7 +186,7 @@ function getPaperData2(json) {
   let config = {
     single: [290, 320],
     multiple: [320, 340],
-    judge: [340, 359],
+    judge: [340, 360],
   };
   let result = {
     judge: 5,
