@@ -17,7 +17,7 @@ let isMobile = () => {
 
 // 答题时长，60分钟
 export const maxAnswerLength = 60 * 60;
-export const questionNums = 50; // 抽题数量
+export const questionNums = 60; // 抽题数量
 
 const state = {
   isLoading: false,
@@ -43,7 +43,7 @@ const state = {
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["成钞"],
+    dpt: ["信息技术部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
     maxTimes: 99999,

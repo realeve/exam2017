@@ -2,12 +2,12 @@
   <div>
     <!-- <v-header/> -->
     <div class="content">
-      <h3 v-if="showDept" style="margin-top: 30px;">1.各部门平均得分及参与率</h3>
+      <h3 v-if="showDept" style="margin-top: 30px;">1.各部门参与率</h3>
       <div class="dept-score" :class="{ hideSome: !isShowFull }">
         <ul v-if="showDept" class="dept-rate" :class="{ hideHalf: !isShowFull }">
           <li class="dept-detail" v-for="({ avg_score, rate, user_dpt }, i) in depts" :key="i">
             <span>{{ i + 1 }}.{{ user_dpt }}</span>
-            <span>{{ avg_score }}分</span>
+            <!-- <span>{{ avg_score }}分</span> -->
             <span>{{ rate }}%</span>
           </li>
         </ul>
@@ -37,12 +37,8 @@
               <p>{{ user_dpt }}</p>
             </div>
             <div>
-              <p>
-                总分:{{ score }}分
-                <!-- (<span class="bold">{{answer_times}}</span>次) -->
-              </p>
+              <p>总分:{{ score }}分</p>
               <p>{{ total_time }}</p>
-              <!-- <p>平均耗时:{{Math.floor(time_length/60)}}分{{time_length%60}}秒</p> -->
             </div>
           </div>
         </li>
@@ -73,7 +69,7 @@ export default {
       users: [],
       total: "",
       showDept: !FemaleSport,
-      isShowFull: false
+      isShowFull: true
     };
   },
   computed: {

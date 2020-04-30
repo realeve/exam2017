@@ -29,7 +29,7 @@ import { Group, Radio, Checklist, XButton } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/safe2020.js";
+import questionJSON from "../assets/data/paper.js";
 
 import util from "../lib/common";
 

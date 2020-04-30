@@ -1,6 +1,6 @@
 import * as R from "ramda";
 
-import questionJSON from "../assets/data/safe2020.js";
+import questionJSON from "../assets/data/paper.js";
 
 // 安保测试 2020年
 const isSafeTest2020 = true;
@@ -72,10 +72,21 @@ function randomAnswer(questions) {
   });
 }
 
-// 1.判断题 50-单选 115 -多选 59
-// 10+30+10
+function getPaperData(_json, { randAnswer, randomQuestion }) {
+  let isPioneer = window.localStorage.getItem("pioneer") == "1";
+  let json = R.clone(_json);
 
-function getPaperData(json, { randAnswer, randomQuestion }) {
+  let config = {
+    single: [0, 150],
+    multiple: [150, 200],
+    judge: [200, 290],
+  };
+  let result = {
+    judge: 10,
+    single: 40,
+    multiple: 10,
+  };
+
   if (json.length == 0) {
     return json;
   }
@@ -138,21 +149,69 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     return randomQuestions;
   }
 
-  let judge = randomQuestions.slice(0, 50);
-  let singleChoice = randomQuestions.slice(50, 165);
-  let multiple = randomQuestions.slice(165, 225);
+  let judge = randomQuestions.slice(config.judge[0], config.judge[1]);
+  let singleChoice = randomQuestions.slice(config.single[0], config.single[1]);
+  let multiple = randomQuestions.slice(config.multiple[0], config.multiple[1]);
 
   singleChoice = randomArr(singleChoice);
   multiple = randomArr(multiple);
   judge = randomArr(judge);
 
-  judge = judge.slice(0, 10);
-  singleChoice = singleChoice.slice(0, 30);
-  multiple = multiple.slice(0, 10);
+  judge = judge.slice(0, result.judge);
+  singleChoice = singleChoice.slice(0, result.single);
+  multiple = multiple.slice(0, result.multiple);
 
   let res = R.clone([...judge, ...singleChoice, ...multiple]);
 
-  // console.log(res, randomAnswer(res));
+  let dist = randomAnswer(res).map((item) => {
+    item.option = item.option.map((value, key) => {
+      return {
+        key,
+        value: alphaArr[key] + "、" + value,
+      };
+    });
+    return item;
+  });
+  console.log(isPioneer, dist);
+  if (!isPioneer) {
+    return dist;
+  }
+
+  let dist2 = getPaperData2(questions, { randAnswer, randomQuestion });
+
+  return [...dist, ...dist2];
+}
+
+function getPaperData2(json) {
+  let config = {
+    single: [290, 320],
+    multiple: [320, 340],
+    judge: [340, 359],
+  };
+  let result = {
+    judge: 5,
+    single: 10,
+    multiple: 5,
+  };
+
+  // 用户可选择是否随机选项
+  let randomQuestions = R.clone(json);
+
+  var alphaArr = ["A", "B", "C", "D", "E", "F", "G"];
+
+  let judge = randomQuestions.slice(config.judge[0], config.judge[1]);
+  let singleChoice = randomQuestions.slice(config.single[0], config.single[1]);
+  let multiple = randomQuestions.slice(config.multiple[0], config.multiple[1]);
+
+  singleChoice = randomArr(singleChoice);
+  multiple = randomArr(multiple);
+  judge = randomArr(judge);
+
+  judge = judge.slice(0, result.judge);
+  singleChoice = singleChoice.slice(0, result.single);
+  multiple = multiple.slice(0, result.multiple);
+
+  let res = R.clone([...judge, ...singleChoice, ...multiple]);
 
   return randomAnswer(res).map((item) => {
     item.option = item.option.map((value, key) => {
@@ -170,6 +229,7 @@ export default {
   randomArr,
   randomAnswer,
   getPaperData,
+  getPaperData2,
 };
 
 var handler = (a) => {

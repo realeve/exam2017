@@ -20,9 +20,19 @@
         <x-button
           :disabled="isEnd || notStart || !shouldCommit"
           type="primary"
-          @click.native="login"
+          @click.native="loginNotPioneer"
         >
-          开始答题
+          非党员登录
+          <span v-if="notStart">(活动未开始)</span>
+          <span v-if="isEnd">(活动已结束)</span>
+        </x-button>
+
+        <x-button
+          :disabled="isEnd || notStart || !shouldCommit"
+          type="primary"
+          @click.native="loginPioneer"
+        >
+          党员登录
           <span v-if="notStart">(活动未开始)</span>
           <span v-if="isEnd">(活动已结束)</span>
         </x-button>
@@ -89,15 +99,26 @@ export default {
     },
     loadUserInfo() {
       let userInfo = localStorage.getItem("userInfo");
+
       if (userInfo == null) {
         return;
       }
       userInfo = JSON.parse(userInfo);
+
       this.sport = {
         userName: userInfo.user_name,
         cardNo: userInfo.user_id,
         dpt: [userInfo.user_dpt]
       };
+    },
+    loginPioneer() {
+      // 党员登录
+      window.localStorage.setItem("pioneer", "1");
+      this.login();
+    },
+    loginNotPioneer() {
+      window.localStorage.removeItem("pioneer");
+      this.login();
     },
     login: async function() {
       let params = {
@@ -128,7 +149,7 @@ export default {
       this.sport.curTimeLength = obj.time_length;
 
       localStorage.setItem(
-        " userInfo",
+        "userInfo",
         JSON.stringify({
           user_name: params.username,
           user_id: params.card_no,
@@ -197,8 +218,6 @@ export default {
     this.init();
     if (now() > state.sport.endDate) {
     }
-
-    console.log(now(), this.sport.endDate, this.isEnd);
   }
 };
 </script>

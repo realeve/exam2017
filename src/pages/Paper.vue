@@ -54,7 +54,7 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/safe2020.js";
+import questionJSON from "../assets/data/paper.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";
@@ -62,7 +62,7 @@ import moment from "moment";
 import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
 import * as R from "ramda";
-let prefix = "202005";
+let prefix = "20200430";
 let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",
@@ -81,7 +81,7 @@ let questionList = [];
 let curPaper = window.localStorage.getItem(key.curPaper);
 
 if (curPaper == null) {
-  curPaper = questiones.slice(0, questionNums);
+  curPaper = questiones; //.slice(0, questionNums);
   questionList = curPaper;
   window.localStorage.setItem(key.curPaper, JSON.stringify(curPaper));
 } else {

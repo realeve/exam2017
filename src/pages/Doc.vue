@@ -123,7 +123,7 @@
 </style>
 
 <script>
-import paper from "../assets/data/safe2020.js";
+import paper from "../assets/data/paper.js";
 import util from "../lib/common";
 
 import { XButton, Confirm } from "vux";
@@ -131,6 +131,9 @@ import { XButton, Confirm } from "vux";
 import { mapState } from "vuex";
 import * as db from "../lib/db";
 import * as R from "ramda";
+
+let isPioneer = window.localStorage.getItem("pioneer") == "1";
+console.log(isPioneer);
 
 export default {
   components: {
@@ -140,7 +143,7 @@ export default {
   data() {
     return {
       questions: [],
-      paper: R.clone(paper), //.slice(0, 50),
+      paper: isPioneer ? R.clone(paper) : R.clone(paper).slice(0, 290),
       showConfirm: false,
       score: {}
     };
@@ -234,7 +237,9 @@ export default {
       this.questions =
         // util.randomArr(paper)
         // .slice(0, this.sport.questionNums)
-        R.clone(paper).map(this.handleSrcQuestion);
+        R.clone(isPioneer ? R.clone(paper) : R.clone(paper).slice(0, 290)).map(
+          this.handleSrcQuestion
+        );
     }
   },
   mounted() {
