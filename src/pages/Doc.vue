@@ -218,7 +218,7 @@ export default {
     handleSrcQuestion(item) {
       let options = "ABCDEFGHIJKLMN".split("");
       let answer = item.answer.map(idx => options[idx]).join("、");
-
+      // console.log(item);
       let title = item.title
         .replace(/\(/g, "（")
         .replace(/\)/g, "）")
@@ -237,7 +237,7 @@ export default {
       this.questions =
         // util.randomArr(paper)
         // .slice(0, this.sport.questionNums)
-        R.clone(isPioneer ? R.clone(paper) : R.clone(paper).slice(0, 290)).map(
+        R.clone(isPioneer ? R.clone(paper) : R.clone(paper).slice(0, 240)).map(
           this.handleSrcQuestion
         );
     }

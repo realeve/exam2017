@@ -77,9 +77,9 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
   let json = R.clone(_json);
 
   let config = {
-    single: [0, 150],
-    multiple: [150, 200],
-    judge: [200, 290],
+    single: [0, 90],
+    multiple: [90, 140],
+    judge: [140, 240],
   };
   let result = {
     judge: 10,
@@ -184,9 +184,9 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
 
 function getPaperData2(json) {
   let config = {
-    single: [290, 320],
-    multiple: [320, 340],
-    judge: [340, 360],
+    single: [240, 265],
+    multiple: [265, 285],
+    judge: [285, 300],
   };
   let result = {
     judge: 5,
