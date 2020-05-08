@@ -161,7 +161,7 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
   singleChoice = singleChoice.slice(0, result.single);
   multiple = multiple.slice(0, result.multiple);
 
-  let res = R.clone([...judge, ...singleChoice, ...multiple]);
+  let res = R.clone([...singleChoice, ...multiple, ...judge]);
 
   let dist = randomAnswer(res).map((item) => {
     item.option = item.option.map((value, key) => {
@@ -172,7 +172,7 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
     });
     return item;
   });
-  console.log(isPioneer, dist);
+
   if (!isPioneer) {
     return dist;
   }
@@ -211,7 +211,7 @@ function getPaperData2(json) {
   singleChoice = singleChoice.slice(0, result.single);
   multiple = multiple.slice(0, result.multiple);
 
-  let res = R.clone([...judge, ...singleChoice, ...multiple]);
+  let res = R.clone([...singleChoice, ...multiple, ...judge]);
 
   return randomAnswer(res).map((item) => {
     item.option = item.option.map((value, key) => {

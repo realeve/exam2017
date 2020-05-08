@@ -22,7 +22,7 @@
           type="primary"
           @click.native="loginNotPioneer"
         >
-          非党员登录
+          非党员职工登录
           <span v-if="notStart">(活动未开始)</span>
           <span v-if="isEnd">(活动已结束)</span>
         </x-button>
@@ -32,7 +32,7 @@
           type="primary"
           @click.native="loginPioneer"
         >
-          党员登录
+          党员职工登录
           <span v-if="notStart">(活动未开始)</span>
           <span v-if="isEnd">(活动已结束)</span>
         </x-button>

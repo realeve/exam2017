@@ -232,6 +232,7 @@ export default {
           flag = false;
         }
       }
+      // console.log(flag, this.answerList);
       this.isCompleted = flag;
     },
     getSubmitData(answer_nums) {
