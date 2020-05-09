@@ -54,7 +54,7 @@ import { dateFormat } from "vux";
 
 import { mapState } from "vuex";
 
-import questionJSON from "../assets/data/paper.js";
+import questionJSON from "../assets/data/paperExam.js";
 
 import Tips from "../components/Tips.vue";
 import util from "../lib/common";

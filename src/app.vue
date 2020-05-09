@@ -126,31 +126,33 @@ export default {
           success: function() {},
           cancel: function() {}
         };
-        this.$wechat.hideOptionMenu();
+        if (this.sport.validQR) {
+          this.$wechat.hideOptionMenu();
+
+          // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+          this.$wechat.hideMenuItems({
+            menuList: [
+              "menuItem:editTag",
+              "menuItem:delete",
+              "menuItem:copyUrl",
+              "menuItem:originPage",
+              "menuItem:readMode",
+              "menuItem:openWithQQBrowser",
+              "menuItem:openWithSafari",
+              "menuItem:share:email",
+
+              // 禁止分享朋友圈相关设置
+              "menuItem:share:appMessage",
+              "menuItem:share:timeline"
+            ]
+          });
+        }
 
         this.$wechat.onMenuShareAppMessage(option);
         this.$wechat.onMenuShareTimeline(option);
         // this.$wechat.onMenuShareQQ(option);
         // this.$wechat.onMenuShareWeibo(option);
         // this.$wechat.onMenuShareQZone(option);
-
-        // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-        this.$wechat.hideMenuItems({
-          menuList: [
-            "menuItem:editTag",
-            "menuItem:delete",
-            "menuItem:copyUrl",
-            "menuItem:originPage",
-            "menuItem:readMode",
-            "menuItem:openWithQQBrowser",
-            "menuItem:openWithSafari",
-            "menuItem:share:email",
-
-            // 禁止分享朋友圈相关设置
-            "menuItem:share:appMessage",
-            "menuItem:share:timeline"
-          ]
-        });
       });
     },
     // 获取微信用户信息（昵称，地区）

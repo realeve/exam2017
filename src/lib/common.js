@@ -1,6 +1,6 @@
 import * as R from "ramda";
 
-import questionJSON from "../assets/data/paper.js";
+import questionJSON from "../assets/data/paperExam.js";
 
 // 安保测试 2020年
 const isSafeTest2020 = true;
@@ -77,9 +77,12 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
   let json = R.clone(_json);
 
   let config = {
-    single: [0, 90],
-    multiple: [90, 140],
-    judge: [140, 240],
+    // single: [0, 90],
+    // multiple: [90, 140],
+    // judge: [140, 240],
+    single: [0, 62],
+    multiple: [62, 108],
+    judge: [108, 192],
   };
   let result = {
     judge: 10,
@@ -184,9 +187,12 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
 
 function getPaperData2(json) {
   let config = {
-    single: [240, 265],
-    multiple: [265, 285],
-    judge: [285, 300],
+    // single: [240, 265],
+    // multiple: [265, 285],
+    // judge: [285, 300],
+    single: [192, 217],
+    multiple: [217, 237],
+    judge: [237, 252],
   };
   let result = {
     judge: 5,
