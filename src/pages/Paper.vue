@@ -28,8 +28,9 @@
             </group>
           </div>
         </div>
+        <!-- :disabled="!isCompleted" -->
         <div class="submit" v-if="true || i == questionList.length - 1">
-          <x-button :disabled="!isCompleted" type="primary" @click.native="showModal(true)">提交</x-button>
+          <x-button type="primary" @click.native="showModal(true)">提交</x-button>
         </div>
       </div>
     </div>

@@ -5,8 +5,7 @@
       <x-input
         title="卡号"
         required
-        type="number"
-        :max="7"
+        :max="11"
         name="cardNo"
         v-model="sport.cardNo"
         placeholder="点击此处输入卡号"
