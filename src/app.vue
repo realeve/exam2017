@@ -17,8 +17,8 @@ import { mapState } from "vuex";
 import { axios } from "./lib/axios";
 import * as db from "./lib/db";
 import moment from "moment";
-// import VConsole from "vconsole";
-// var v = new VConsole();
+import VConsole from "vconsole";
+var v = new VConsole();
 
 export default {
   name: "app",
