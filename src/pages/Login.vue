@@ -53,6 +53,7 @@ import { mapState } from "vuex";
 import * as db from "../lib/db";
 import moment from "moment";
 import state from "../store/state";
+import qs from "qs";
 
 let now = () => moment().format("YYYY-MM-DD HH:mm:ss");
 
@@ -209,7 +210,21 @@ export default {
       }
       this.sport.useDept = false;
       let { data } = await db.getCbpcDeptList(this.sport.id);
-      this.dptList[0] = data;
+
+      // http://localhost:8080/?dept=17#/login
+      let params = qs.parse(window.location.search.slice(1));
+      let dept = (params.dept || "0,1,12,13,14,15").split(",");
+
+      let deptList = [];
+      dept.map(idx => {
+        deptList.push(data[idx]);
+      });
+
+      this.dptList[0] = deptList;
+
+      // 合并考试
+      // 0,1,12,13,14,15
+      // console.log(data, "部门列表");
       this.sport.useDept = true;
       this.loadUserInfo();
     }

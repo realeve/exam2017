@@ -46,7 +46,7 @@ const state = {
     dpt: ["信息技术部"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 99999,
+    maxTimes: 1,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
