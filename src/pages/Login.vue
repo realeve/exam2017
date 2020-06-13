@@ -20,6 +20,7 @@
           :disabled="isEnd || notStart || !shouldCommit"
           type="primary"
           @click.native="loginNotPioneer"
+          v-if="sport.id==38"
         >
           非党员职工登录
           <span v-if="notStart">(活动未开始)</span>
@@ -30,6 +31,7 @@
           :disabled="isEnd || notStart || !shouldCommit"
           type="primary"
           @click.native="loginPioneer"
+          v-if="sport.id==37"
         >
           党员职工登录
           <span v-if="notStart">(活动未开始)</span>

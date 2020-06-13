@@ -126,7 +126,7 @@ export default {
           success: function() {},
           cancel: function() {}
         };
-        if (this.sport.validQR) {
+        if (this.sport.validQR || this.sport.antiFake) {
           this.$wechat.hideOptionMenu();
 
           // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
@@ -264,7 +264,7 @@ export default {
       document.querySelector("html").style.filter = "grayscale(1)";
     }
 
-    if (!this.sport.validQR) {
+    if (!this.sport.validQR && !this.sport.antiFake) {
       return;
     }
 

@@ -28,9 +28,8 @@
             </group>
           </div>
         </div>
-        <!-- :disabled="!isCompleted" -->
-        <div class="submit" v-if="true || i == questionList.length - 1">
-          <x-button type="primary" @click.native="showModal(true)">提交</x-button>
+        <div class="submit" v-if="  i == questionList.length - 1">
+          <x-button :disabled="!isCompleted" type="primary" @click.native="showModal(true)">提交</x-button>
         </div>
       </div>
     </div>
@@ -63,7 +62,7 @@ import moment from "moment";
 import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
 import * as R from "ramda";
-let prefix = "20200430";
+let prefix = "20200615";
 let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",
@@ -75,7 +74,7 @@ let key = {
 // 是否需要随机选项数据
 let questiones = util.getPaperData(R.clone(questionJSON), {
   randAnswer: false, // 答题不随机
-  randomQuestion: true // 题目随机
+  randomQuestion: false // 题目随机
 });
 let questionList = [];
 
@@ -189,6 +188,7 @@ export default {
           this.errorQuestion.push(this.questionList[i].questionId);
         }
       });
+      console.log(this.errorQuestion);
       // return this.sport.questionNums - this.errorQuestion.length
       return score;
     },

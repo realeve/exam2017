@@ -25,7 +25,7 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 36,
+    id: 37,
     name: "“学规章、守纪律，严管理、促养成”专题教育培训",
     orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
@@ -37,7 +37,7 @@ const state = {
     perScore: 4, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
-    showDocument: true,
+    showDocument: false, // 考试时不显示文档
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,
@@ -51,9 +51,9 @@ const state = {
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
     minPrizeScore: 80,
-    testMode: false,
-    startDate: "2020-04-04",
-    endDate: "2020-12-29 00:00:00",
+    testMode: false, // 测试模式
+    startDate: "2020-06-13",
+    endDate: "2020-07-29 00:00:00",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分
@@ -62,6 +62,7 @@ const state = {
     readSumScore: true,
     maxAnswerLength, // 最长答题时间，4分钟
     validQR: false, // 校验是否为二维码进入
+    antiFake: true, //防作弊
   },
   paperInit: false,
   peopleCount: 0,

@@ -166,7 +166,8 @@ function getPaperData(_json, { randAnswer, randomQuestion }) {
 
   let res = R.clone([...singleChoice, ...multiple, ...judge]);
 
-  let dist = randomAnswer(res).map((item) => {
+  // randomAnswer(随机答案？)
+  let dist = res.map((item) => {
     item.option = item.option.map((value, key) => {
       return {
         key,
@@ -219,7 +220,8 @@ function getPaperData2(json) {
 
   let res = R.clone([...singleChoice, ...multiple, ...judge]);
 
-  return randomAnswer(res).map((item) => {
+  // randomAnswer
+  return res.map((item) => {
     item.option = item.option.map((value, key) => {
       return {
         key,
