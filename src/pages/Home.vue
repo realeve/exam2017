@@ -28,16 +28,16 @@ import * as db from "../lib/db";
 export default {
   components: {
     XButton,
-    Toast
+    Toast,
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: ""
+        msg: "",
       },
       showLoginfo: false,
-      haveAnswerTimes: true
+      haveAnswerTimes: true,
     };
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      }
+      },
     },
     sportDate() {
       let { startDate, endDate } = this.sport;
@@ -74,7 +74,7 @@ export default {
       } else {
         return `${startInfo[0]}年${startInfo[1]}月${startInfo[2]}日 至 ${endInfo[1]}月${endInfo[2]}日`;
       }
-    }
+    },
   },
   methods: {
     jump(router) {
@@ -89,14 +89,14 @@ export default {
                 x: 0,
                 y: 0.7 * h + bandwidth,
                 v_x: 0,
-                v_y: 0
+                v_y: 0,
               },
               {
                 x: 0,
                 y: 0.7 * h - bandwidth,
                 v_x: 0,
-                v_y: 0
-              }
+                v_y: 0,
+              },
             ],
               verticals.push(q[0]),
               verticals.push(q[1]);
@@ -159,7 +159,7 @@ export default {
             x: i,
             y: a,
             v_x: 0,
-            v_y: 0
+            v_y: 0,
           }),
           verticals.push(q[1]),
           fillStyles.push(ctx.strokeStyle),
@@ -200,11 +200,11 @@ export default {
       this.sport = {
         userName: userInfo.user_name,
         cardNo: userInfo.user_id,
-        dpt: [userInfo.user_dpt]
+        dpt: [userInfo.user_dpt],
       };
       this.login();
     },
-    login: async function() {
+    login: async function () {
       if (this.sport.userName == "" || this.sport.cardNo == "") {
         return;
       }
@@ -213,7 +213,7 @@ export default {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
         username: this.sport.userName,
-        dept_name: "%%"
+        dept_name: "%%",
       };
 
       if (this.sport.useDept) {
@@ -255,14 +255,14 @@ export default {
         this.haveAnswerTimes = false;
         this.jump("info");
       }
-    }
+    },
   },
   mounted() {
     // this.animateCanvas();
     this.loadUserInfo();
     particlesJS("home", particlesSetting);
     document.title = this.sport.name; //+ "微信答题";
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -17,7 +17,7 @@ let isMobile = () => {
 
 // 答题时长，60分钟
 export const maxAnswerLength = 60 * 60;
-export const questionNums = 60; // 抽题数量
+export const questionNums = 20; // 抽题数量
 
 const state = {
   isLoading: false,
@@ -25,16 +25,16 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 34,
-    name: "2020年全员安全履职能力闭卷测试",
-    orgname: "成都印钞有限公司", // 机构名
+    id: 39,
+    name: "印制资质测试",
+    orgname: "金鼎公司", // 机构名
     slogan: "", // 口号
 
     // randAnswer: true, //答案随机化
     // randomQuestion: true, //问题随机
 
     questionNums, // 抽题数量
-    perScore: 4, // 每题得分
+    perScore: 5, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
     showDocument: true,
@@ -43,17 +43,17 @@ const state = {
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["印钞管理部"],
+    dpt: ["金鼎公司"],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 1,
+    maxTimes: 999999,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
     minPrizeScore: 80,
     testMode: false,
-    startDate: "2020-04-04",
-    endDate: "2020-04-29 00:00:00",
+    startDate: "2020-07-04",
+    endDate: "2020-09-29 00:00:00",
     // 得分是否累加
     stackMode: true,
     // 记录每次答题得分

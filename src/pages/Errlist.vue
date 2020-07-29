@@ -45,18 +45,18 @@ export default {
     Group,
     Radio,
     Checklist,
-    XButton
+    XButton,
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: ""
+        msg: "",
       },
       answerList: [],
       isCompleted: false,
       questionList: [],
-      error_detail: []
+      error_detail: [],
     };
   },
   computed: {
@@ -66,7 +66,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setUserinfo", val);
-      }
+      },
     },
     sport: {
       get() {
@@ -74,26 +74,26 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      }
+      },
     },
     url() {
       return window.location.href.split("#")[0];
-    }
+    },
   },
   watch: {
     "sport.uid"(val) {
       this.getErrList();
-    }
+    },
   },
   methods: {
     jump(router) {
       this.$router.push(router);
     },
     prepareData() {
-      let getAnswer = a => ["A", "B", "C", "D", "E", "F", "G"][a];
+      let getAnswer = (a) => ["A", "B", "C", "D", "E", "F", "G"][a];
       let err_detail = this.error_detail.map(({ id }) => id);
 
-      let questionList = err_detail.map(i => questionJSON[i]);
+      let questionList = err_detail.map((i) => questionJSON[i]);
 
       this.questionList = questionList
         .map((item, id) => {
@@ -123,7 +123,7 @@ export default {
           sid: this.sport.id,
           card_no: this.userInfo.user_id,
           username: this.userInfo.user_name,
-          dept_name: "%%"
+          dept_name: "%%",
         };
 
         let { data } = await db[this.sport.readMaxScore ? "login" : "login2"](
@@ -151,26 +151,26 @@ export default {
       }
       db.getErrList({
         sid: this.sport.id,
-        uid: this.sport.uid
+        uid: this.sport.uid,
       }).then(({ data }) => {
         let errs = [];
-        data.forEach(item =>
-          item[0].split(",").forEach(a => {
+        data.forEach((item) =>
+          item[0].split(",").forEach((a) => {
             errs[a] = typeof errs[a] == "undefined" ? 1 : errs[a] + 1;
           })
         );
         this.error_detail = errs
           .map((num, id) => ({ num, id }))
-          .filter(item => item)
+          .filter((item) => item)
           .sort((a, b) => b.num - a.num);
         this.prepareData();
       });
-    }
+    },
   },
   mounted() {
     this.getErrList();
     document.title = "我的错题集";
-  }
+  },
 };
 </script>
 <style scoped lang="less">

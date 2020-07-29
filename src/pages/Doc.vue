@@ -51,11 +51,10 @@
           次，平均得分
           <span>{{score.score.toFixed(2)}}</span>分，平均得分排名第
           <span>{{score.level}}</span>名
-          <!-- <span style="font-weight:600;color:#D30;">特别说明：</span>前期部分用户反馈错题集中题目有误，目前已修复，2020年4月9日0时以前错题集数据已清空。 -->
         </p>
 
         <!-- <p class="item" style="font-size:10pt;">(本部分将每次随机生成{{sport.questionNums}}题以供学习)</p> -->
-        <!-- <p class="subtitle">知识学习</p>
+        <p class="subtitle">知识学习</p>
         <article>
           <p
             class="item"
@@ -63,7 +62,7 @@
             :key="i"
             v-html="`${i + 1}.${question}`"
           ></p>
-        </article>-->
+        </article>
       </div>
       <confirm v-model="showConfirm" title="系统提示" @on-confirm="onConfirm">
         <p style="text-align:center;">是否要清空活动数据?确认后所有人的答题信息都将清除，请谨慎操作</p>
@@ -136,14 +135,14 @@ import * as R from "ramda";
 export default {
   components: {
     XButton,
-    Confirm
+    Confirm,
   },
   data() {
     return {
       questions: [],
       paper: R.clone(paper), //.slice(0, 50),
       showConfirm: false,
-      score: {}
+      score: {},
     };
   },
   computed: {
@@ -155,7 +154,7 @@ export default {
     isAdmin() {
       const name = this.sport.userName;
       return name == "李宾" || name == "徐文庆" || name == "黄夏玢";
-    }
+    },
   },
   methods: {
     jump(router) {
@@ -165,12 +164,12 @@ export default {
       this.showConfirm = true;
     },
     onConfirm() {
-      db.delCbpcSportMain(this.sport.id).then(res => {
+      db.delCbpcSportMain(this.sport.id).then((res) => {
         this.$vux.toast.text("清空完毕", "default");
       });
     },
     onRefresh() {
-      db.getCbpcSport2020Level(this.sport.uid).then(res => {
+      db.getCbpcSport2020Level(this.sport.uid).then((res) => {
         this.score = res.data[0];
         if (this.score.num >= this.sport.maxTimes) {
           this.$router.push("/info");
@@ -182,7 +181,7 @@ export default {
       let answer =
         item.answer.length > 1
           ? item.answer
-              .map(idx => options[idx] + "、" + item.option[idx])
+              .map((idx) => options[idx] + "、" + item.option[idx])
               .join(";")
           : item.option[item.answer[0]];
 
@@ -199,7 +198,7 @@ export default {
       // console.log(item.option, answer, item.answer);
       item.title = item.title.replace(/  /g, " ");
       if (item.title.split("( )").length > 2) {
-        answer.split(";").forEach(answerItem => {
+        answer.split(";").forEach((answerItem) => {
           title = title.replace(
             /( )|(  )/,
             `<span class="right-answer">${answerItem}</span>`
@@ -215,7 +214,7 @@ export default {
     },
     handleSrcQuestion(item) {
       let options = ["A", "B", "C", "D", "E"];
-      let answer = item.answer.map(idx => options[idx]).join("、");
+      let answer = item.answer.map((idx) => options[idx]).join("、");
 
       let title = item.title
         .replace(/\(/g, "（")
@@ -232,15 +231,12 @@ export default {
     },
     init() {
       this.onRefresh();
-      this.questions =
-        // util.randomArr(paper)
-        // .slice(0, this.sport.questionNums)
-        R.clone(paper).map(this.handleSrcQuestion);
-    }
+      this.questions = R.clone(paper).map(this.handleSrcQuestion);
+    },
   },
   mounted() {
     this.init();
     document.title = "知识学习";
-  }
+  },
 };
 </script>

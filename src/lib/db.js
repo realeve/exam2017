@@ -56,6 +56,16 @@ export const login2 = async (params) =>
   });
 
 /**
+ *   @database: { 微信开发 }
+ *   @desc:     { 金鼎登录 }
+ */
+export const getCbpcUser2020Jinding = (params) =>
+  axios({
+    url: "/338/b57d7b7749.json",
+    params,
+  });
+
+/**
 *   @database: { 微信开发 }
 *   @desc:     { 插入数据2020 } 
     const { uid, sid, answer_times, score, error_detail, start_time, answer_nums, time_length } = params;

@@ -50,17 +50,17 @@ export default {
     Group,
     Toast,
     GroupTitle,
-    Picker
+    Picker,
   },
   data() {
     return {
       toast: {
         show: false,
-        msg: ""
+        msg: "",
       },
       dptList: [],
       notStart: now() < state.sport.startDate,
-      isEnd: now() > state.sport.endDate
+      isEnd: now() > state.sport.endDate,
     };
   },
   computed: {
@@ -78,8 +78,8 @@ export default {
       },
       set(val) {
         this.$store.commit("setSport", val);
-      }
-    }
+      },
+    },
   },
   methods: {
     jump(router) {
@@ -94,22 +94,20 @@ export default {
       this.sport = {
         userName: userInfo.user_name,
         cardNo: userInfo.user_id,
-        dpt: [userInfo.user_dpt]
+        dpt: [userInfo.user_dpt],
       };
     },
-    login: async function() {
+    login: async function () {
       let params = {
         sid: this.sport.id,
         card_no: this.sport.cardNo,
         username: this.sport.userName,
-        dept_name: "%%"
+        dept_name: "%%",
       };
       if (this.sport.useDept) {
         params.dept_name = `%${this.sport.dpt[0]}%`;
       }
-      let { data } = await db[this.sport.readMaxScore ? "login" : "login2"](
-        params
-      );
+      let { data } = await db.getCbpcUser2020Jinding(params);
 
       if (data.length === 0 || data[0].uid == null) {
         this.toast.show = true;
@@ -130,7 +128,7 @@ export default {
       var userInfo = {
         user_name: params.username,
         user_id: params.card_no,
-        user_dpt: this.sport.dpt[0]
+        user_dpt: this.sport.dpt[0],
       };
       this.updateUserInfo(obj.uid, userInfo);
       // console.log(obj);
@@ -167,22 +165,22 @@ export default {
           openid: this.userInfo.openid,
           sex: this.userInfo.sex,
           headimgurl: this.userInfo.headimgurl,
-          uid
-        }).then(res => {
+          uid,
+        }).then((res) => {
           userInfo.is_update = true;
           // localStorage.setItem("userInfo", JSON.stringify(userInfo));
         });
       }
     },
     getSportDate() {
-      db.getCbpcSportListCfg(this.sport.id).then(res => {
+      db.getCbpcSportListCfg(this.sport.id).then((res) => {
         this.sport.startDate = res.start_time;
         this.sport.endDate = res.end_time;
         this.notStart = now() < res.start_time;
         this.isEnd = now() > res.end_time;
       });
     },
-    init: async function() {
+    init: async function () {
       this.getSportDate();
 
       if (!this.sport.useDept) {
@@ -190,11 +188,14 @@ export default {
         return;
       }
       this.sport.useDept = false;
-      let { data } = await db.getCbpcDeptList(this.sport.id);
-      this.dptList[0] = data.map(([dept]) => dept);
+
+      // let { data } = await db.getCbpcDeptList(this.sport.id);
+      // this.dptList[0] = data.map(([dept]) => dept);
+
+      this.dptList[0] = ["金鼎公司"];
       this.sport.useDept = true;
       this.loadUserInfo();
-    }
+    },
   },
   mounted() {
     document.title = "登录";
@@ -203,7 +204,7 @@ export default {
     }
 
     console.log(now(), this.sport.endDate, this.isEnd);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

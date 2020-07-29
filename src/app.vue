@@ -23,14 +23,14 @@ import moment from "moment";
 export default {
   name: "app",
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
       code: "",
       apiId: "wx762c9153df774440",
       title: "",
-      shouldShare: false
+      shouldShare: false,
     };
   },
   computed: {
@@ -41,7 +41,7 @@ export default {
       },
       set(val) {
         this.$store.commit("updateLoadingStatus", val);
-      }
+      },
     },
     userInfo: {
       get() {
@@ -49,7 +49,7 @@ export default {
       },
       set(val) {
         this.$store.commit("setUserinfo", val);
-      }
+      },
     },
     // 签名用URL
     url() {
@@ -70,7 +70,7 @@ export default {
     shouldInitShare() {
       // && this.sport.curScore >= this.sport.minPrizeScore
       return this.sport.isLogin && this.shouldShare;
-    }
+    },
   },
   watch: {
     shouldInitShare(val) {
@@ -82,16 +82,16 @@ export default {
       // }分，你也来参与吧`;
       this.title = `${this.sport.name}活动正在进行中，快来参与吧`;
       this.initWxShare();
-    }
+    },
   },
   methods: {
     wxPermissionInit() {
       return axios({
         params: {
           s: "/weixin/signature",
-          url: this.url.split("?")[0]
-        }
-      }).then(data => {
+          url: this.url.split("?")[0],
+        },
+      }).then((data) => {
         this.shouldShare = true;
         this.wxReady(data);
         this.initWxShare();
@@ -109,8 +109,8 @@ export default {
           "onMenuShareAppMessage",
           "onMenuShareTimeline",
           "hideMenuItems",
-          "hideOptionMenu"
-        ]
+          "hideOptionMenu",
+        ],
       };
       this.$wechat.config(config);
     },
@@ -123,8 +123,8 @@ export default {
           imgUrl: "https://www.cbpc.ltd/public/cdn/cbpc.jpg",
           type: "",
           dataUrl: "",
-          success: function() {},
-          cancel: function() {}
+          success: function () {},
+          cancel: function () {},
         };
         this.$wechat.hideOptionMenu();
 
@@ -148,8 +148,8 @@ export default {
 
             // 禁止分享朋友圈相关设置
             "menuItem:share:appMessage",
-            "menuItem:share:timeline"
-          ]
+            "menuItem:share:timeline",
+          ],
         });
       });
     },
@@ -168,9 +168,9 @@ export default {
       axios({
         params: {
           s: "/weixin/user_info",
-          code: this.code
-        }
-      }).then(data => {
+          code: this.code,
+        },
+      }).then((data) => {
         this.userInfo = data;
         if (typeof data.nickname != "undefined") {
           localStorage.setItem("wx_userinfo", JSON.stringify(data));
@@ -201,9 +201,33 @@ export default {
         return;
       }
       db.addCommonVisitCount(window.location.href.split("?")[0]);
-    }
+    },
   },
   created() {
+    // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });
+
+    this.title = this.sport.name + "活动";
+    // 开发模式下，初始化值
+    if (process.env.NODE_ENV == "development") {
+      this.userInfo = {
+        openid: "oW0w1v4qftC8xUP3q-MPIHtXB7hI",
+        nickname: "宾不厌诈",
+        sex: 1,
+        language: "zh_CN",
+        city: "成都",
+        province: "四川",
+        country: "中国",
+        headimgurl:
+          "http://wx.qlogo.cn/mmhead/Q3auHgzwzM7RSAYiaxiaC1lOZYicWic9YZKEFJ2TKEfh3pFJibLvf7IxdLQ/0",
+        privilege: [],
+      };
+    } else {
+      // 正式环境微信载入
+      this.wxInit();
+    }
+
+    return;
+
     let query = window.location.search.slice(1);
     let obj = qs.parse(query);
     // console.log(obj);
@@ -226,34 +250,10 @@ export default {
       return;
     }
 
-    let isValid = moment(Number(obj.timestamp))
-      .add(15, "s")
-      .isAfter(moment());
+    let isValid = moment(Number(obj.timestamp)).add(15, "s").isAfter(moment());
     if (!isValid) {
       this.$router.push("/error?state=1");
       return;
-    }
-
-    // this.$store.commit("setStore", { error_detail: [1, 2, 3, 4, 3, 3] });
-
-    this.title = this.sport.name + "活动";
-    // 开发模式下，初始化值
-    if (process.env.NODE_ENV == "development") {
-      this.userInfo = {
-        openid: "oW0w1v4qftC8xUP3q-MPIHtXB7hI",
-        nickname: "宾不厌诈",
-        sex: 1,
-        language: "zh_CN",
-        city: "成都",
-        province: "四川",
-        country: "中国",
-        headimgurl:
-          "http://wx.qlogo.cn/mmhead/Q3auHgzwzM7RSAYiaxiaC1lOZYicWic9YZKEFJ2TKEfh3pFJibLvf7IxdLQ/0",
-        privilege: []
-      };
-    } else {
-      // 正式环境微信载入
-      this.wxInit();
     }
 
     if (moment().format("YYYYMMDD") == "20200404") {
@@ -272,7 +272,7 @@ export default {
     }
 
     // 监听页面非激活事件；
-    document.addEventListener("visibilitychange", function() {
+    document.addEventListener("visibilitychange", function () {
       // 用户息屏、或者切到后台运行 （离开页面）
       // console.log("切换到后台", moment().format("YYYYMMDD hh:mm:ss"));
       router.push("/error?state=2");
@@ -281,7 +281,7 @@ export default {
     // 返回时关闭微信网页
     window.addEventListener(
       "popstate",
-      function(e) {
+      function (e) {
         weixinClosePage();
       },
       false
@@ -306,7 +306,7 @@ export default {
     function weixin_ClosePage() {
       WeixinJSBridge.call("closeWindow");
     }
-  }
+  },
 };
 </script>
 
