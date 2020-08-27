@@ -62,6 +62,7 @@ const state = {
     readMaxScore: true,
     readSumScore: true,
     maxAnswerLength, // 最长答题时间，4分钟
+    validNoncer:false,
     validQR: true, // 校验是否为二维码进入
   },
   paperInit: false,
