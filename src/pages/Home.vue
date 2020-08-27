@@ -192,7 +192,7 @@ export default {
       requestAnimationFrame(i);
     },
     loadUserInfo() {
-      let userInfo = localStorage.getItem("p_userInfo");
+      let userInfo = localStorage.getItem("cc_p_userInfo");
       if (userInfo == null) {
         return;
       }

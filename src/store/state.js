@@ -18,6 +18,7 @@ let isMobile = () => {
 // 答题时长，60分钟
 export const maxAnswerLength = 60 * 60;
 export const questionNums = 50; // 抽题数量
+// 1 2 3
 
 const state = {
   isLoading: false,
@@ -25,9 +26,9 @@ const state = {
   wxUrl: "//api.cbpc.ltd/",
   tips: "",
   sport: {
-    id: 35,
-    name: "招标与集中采购知识题库",
-    orgname: "中国印钞造币总公司", // 机构名
+    id: 40,
+    name: "招标与集中采购知识测试",
+    orgname: "成都印钞有限公司", // 机构名
     slogan: "", // 口号
 
     // randAnswer: true, //答案随机化
@@ -37,16 +38,16 @@ const state = {
     perScore: 4, // 每题得分
     useDept: true,
     isOnline: false, //实际活动
-    showDocument: true,
+    showDocument: false,
     loadWXInfo: true, // 抽奖活动将载入用户个人信息
     doLottery: false, // 是否参与抽奖
     uid: 0,
     userName: "",
     cardNo: "",
-    dpt: ["成钞"],
+    dpt: [],
     isLogin: false,
     curScore: 0, // 上次答题得分
-    maxTimes: 99999,
+    maxTimes: 1,
     curTimes: 0,
     curTimeLength: 0, //当前答题时间
     // 最小抽奖得分
@@ -61,7 +62,7 @@ const state = {
     readMaxScore: true,
     readSumScore: true,
     maxAnswerLength, // 最长答题时间，4分钟
-    validQR: false, // 校验是否为二维码进入
+    validQR: true, // 校验是否为二维码进入
   },
   paperInit: false,
   peopleCount: 0,

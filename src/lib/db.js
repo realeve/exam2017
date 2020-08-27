@@ -129,7 +129,7 @@ export const getCbpcSportMain = async (params) =>
 */
 export const getCbpcSportMain2 = async (params) =>
   await axios({
-    url: "/280/dada6c94fb.json",
+    url: "/346/7b643498dd.json",
     params,
   });
 
@@ -407,7 +407,7 @@ export const getCbpcSport2020Level = (uid) =>
  */
 export const getCbpmDeptList = () =>
   axios({
-    url: "/319/c016999a1e.array",
+    url: "/344/1f30b7a909.array",
   });
 
 /**
@@ -427,31 +427,31 @@ export const addCbpmPurchaseUser = (params) =>
 /**
 *   @database: { 微信开发 }
 *   @desc:     { 招标采购 登录 } 
-    const { sid, username, dept_name } = params;
+    const { sid, username, dept_name,cardno } = params;
 */
 export const getCbpmPurchaseUser = async (params) => {
   let res = await axios({
-    url: "/320/27132863e2.json",
+    url: "/345/30eaf002b5.json",
     params,
   });
-  if (res.rows > 0) {
-    return res;
-  }
-  // 没有信息，添加
-  let data = {
-    answer_times: 0,
-    score: 0,
-    time_length: 0,
-  };
+  // if (res.rows > 0) {
+  //   return res;
+  // }
+  // // 没有信息，添加
+  // let data = {
+  //   answer_times: 0,
+  //   score: 0,
+  //   time_length: 0,
+  // };
 
-  // 添加信息然后登录
-  res = await addCbpmPurchaseUser(params);
+  // // 添加信息然后登录
+  // res = await addCbpmPurchaseUser(params);
 
-  res.data[0].uid = res.data[0].id;
-  res.data[0] = {
-    ...data,
-    ...res.data[0],
-  };
+  // res.data[0].uid = res.data[0].id;
+  // res.data[0] = {
+  //   ...data,
+  //   ...res.data[0],
+  // };
   return res;
 };
 

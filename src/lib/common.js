@@ -138,9 +138,9 @@ function getPaperData(json, { randAnswer, randomQuestion }) {
     return randomQuestions;
   }
 
-  let judge = randomQuestions.slice(0, 50);
-  let singleChoice = randomQuestions.slice(50, 165);
-  let multiple = randomQuestions.slice(165, 225);
+  let judge = randomQuestions.slice(0, 15);
+  let singleChoice = randomQuestions.slice(15, 55);
+  let multiple = randomQuestions.slice(55, 71);
 
   singleChoice = randomArr(singleChoice);
   multiple = randomArr(multiple);

@@ -8,7 +8,7 @@
         v-model="sport.userName"
         placeholder="点击此处输入姓名"
       ></x-input>
-      <!-- <x-input
+      <x-input
         title="卡号"
         required
         type="number"
@@ -17,7 +17,7 @@
         v-model="sport.cardNo"
         placeholder="点击此处输入卡号"
         keyboard="number"
-      ></x-input>-->
+      ></x-input>
       <template v-if="sport.useDept">
         <x-input
           title="单位"
@@ -100,7 +100,7 @@ export default {
       this.$router.push(router);
     },
     loadUserInfo() {
-      let userInfo = localStorage.getItem("p_userInfo");
+      let userInfo = localStorage.getItem("cc_p_userInfo");
       if (userInfo == null) {
         return;
       }
@@ -140,7 +140,7 @@ export default {
       this.sport.curTimeLength = obj.time_length;
 
       localStorage.setItem(
-        "p_userInfo",
+        "cc_p_userInfo",
         JSON.stringify({
           user_name: params.username,
           user_id: params.card_no,
@@ -168,7 +168,7 @@ export default {
     // 更新头像信息
     updateUserInfo(uid, userInfo) {
       userInfo.is_update = true;
-      localStorage.setItem("p_userInfo", JSON.stringify(userInfo));
+      localStorage.setItem("cc_p_userInfo", JSON.stringify(userInfo));
       if (this.userInfo.nickname) {
         db.setCbpcUserList({
           nickname: this.userInfo.nickname,

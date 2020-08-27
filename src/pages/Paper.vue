@@ -62,7 +62,7 @@ import moment from "moment";
 import * as db from "../lib/db";
 import { maxAnswerLength, questionNums } from "../store/state";
 import * as R from "ramda";
-let prefix = "202005";
+let prefix = "202008";
 let key = {
   curPaper: prefix + "_paper_",
   curAnswer: prefix + "_answer_",

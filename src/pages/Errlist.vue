@@ -114,7 +114,7 @@ export default {
       this.jump("login");
     },
     async getErrList() {
-      let curUser = window.localStorage.getItem("p_userInfo");
+      let curUser = window.localStorage.getItem("cc_p_userInfo");
       if (curUser == null) {
         return;
       }
